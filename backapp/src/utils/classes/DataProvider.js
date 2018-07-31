@@ -1,3 +1,5 @@
+import JsonHelper from './JsonHelper';
+
 /**
  * Provides AJAX data requests
  */
@@ -11,7 +13,8 @@ class DataProvider {
 
 		return new Promise((resolve, reject) => {
 
-			const xhr = new XMLHttpRequest();
+			const xhr  = new XMLHttpRequest();
+			const json = new JsonHelper();
 
 			xhr.open('GET', url, true);
 
@@ -20,7 +23,10 @@ class DataProvider {
 			xhr.onload = function () {
 
 				if (this.status === 200 && this.statusText === 'OK') {
-					resolve(this.responseText);
+
+					const data = json.process(this.responseText);
+					resolve(data);
+					
 				} else {
 					reject(this.responseText);
 				}

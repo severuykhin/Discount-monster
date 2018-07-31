@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { setAddValue } from '../../ducks/Tags';
 
 import './TagsForm.css';
 
 class TagsForm extends Component {
+
+	constructor(props) {
+		super(props);
+		this.addinput = React.createRef();
+	}
+
+	addTag = () => {
+
+		let value = this.addinput.current.value;
+		this.props.setAddValue(value);
+	}
+
 	render() {
 		return (
 			<div className="tags__form">
@@ -13,12 +28,12 @@ class TagsForm extends Component {
 				<div className="tags__form-inner">
 					<div className="field has-addons">
 						<p className="control">
-							<input className="input" type="text" />
+							<input ref={this.addinput} className="input" type="text" />
 						</p>
 						<div className="control">
-							<span className="button is-info">
+							<button onClick={this.addTag} className="button is-info">
 								<i className="fas fa-plus-circle"></i>
-							</span>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -42,4 +57,12 @@ class TagsForm extends Component {
 	}
 }
 
-export default TagsForm;
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => ({
+	setAddValue : (value) => dispatch(setAddValue(value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TagsForm);
