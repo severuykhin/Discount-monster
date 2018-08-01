@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { setAddValue } from '../../ducks/Tags';
+import { 
+		setAddValue, 
+		setAddError, 
+		setItem,
+		setBusyState } from '../../ducks/Tags';
+
+import TagsFormProvider from './TagsFormProvider';
+
+
 
 import './TagsForm.css';
 
@@ -10,15 +18,42 @@ class TagsForm extends Component {
 	constructor(props) {
 		super(props);
 		this.addinput = React.createRef();
+
+		this.provider = new TagsFormProvider();
 	}
 
+	/**
+	 * Add new keyword tag
+	 */
 	addTag = () => {
 
-		let value = this.addinput.current.value;
+		let value = this.addinput.current.value.trim();
 		this.props.setAddValue(value);
+
+		if (value === '') {
+			this.props.setAddInputError(true);
+			return false;
+		}
+
+		this.props.setAddInputError(false);
+		this.props.setBusy(true);
+
+		this.provider.createItem({name : value})
+			.then( data => {
+				this.props.setItem(data);
+				this.props.setBusy(false);
+			})
+			.catch(e => console.log(e))
+		
 	}
 
 	render() {
+
+		const { addInputError, busy } = this.props;
+
+		let addInputClassName  = addInputError ? 'input is-danger' : 'input';
+		let addButtonClassName = busy ? 'button is-info is-loading' : 'button is-info';
+
 		return (
 			<div className="tags__form">
 				<h4 className="title is-5 app__title">Теги фильтрации</h4>
@@ -28,10 +63,10 @@ class TagsForm extends Component {
 				<div className="tags__form-inner">
 					<div className="field has-addons">
 						<p className="control">
-							<input ref={this.addinput} className="input" type="text" />
+							<input ref={this.addinput} className={addInputClassName} type="text" />
 						</p>
 						<div className="control">
-							<button onClick={this.addTag} className="button is-info">
+							<button onClick={this.addTag} className={addButtonClassName}>
 								<i className="fas fa-plus-circle"></i>
 							</button>
 						</div>
@@ -58,11 +93,15 @@ class TagsForm extends Component {
 }
 
 const mapStateToProps = state => ({
-
+	addInputError : state.tags.addError,
+	busy          : state.tags.get('busy')
 });
 
 const mapDispatchToProps = dispatch => ({
-	setAddValue : (value) => dispatch(setAddValue(value))
+	setAddValue      : (value)   => dispatch(setAddValue(value)),
+	setAddInputError : (isError) => dispatch(setAddError(isError)),
+	setItem          : (item)    => dispatch(setItem(item)),
+	setBusy          : (value)   => dispatch(setBusyState(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsForm);

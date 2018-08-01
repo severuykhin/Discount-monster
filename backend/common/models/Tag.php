@@ -29,6 +29,7 @@ class Tag extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+            ['name', 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 200],
         ];

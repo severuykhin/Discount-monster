@@ -21,6 +21,8 @@ const TagsContent = (props) => {
 		});
 	}
 
+	console.log(items);
+
 	return (
 		<div className="tags__content">
 			{ items && generateTagsItems(items) }

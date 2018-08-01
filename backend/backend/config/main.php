@@ -41,7 +41,7 @@ return [
             'showScriptName' => false,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
-                // Backend urk manager
+                // Backend url manager
             ]
         ],
         'frontendUrlManager' => [

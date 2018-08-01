@@ -29,9 +29,22 @@ class TagsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['get'],
+                    'create' => ['post']
                 ],
             ],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeAction($action)
+    {            
+        if ($action->id == 'create') {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
     }
 
     /**
@@ -53,10 +66,27 @@ class TagsController extends Controller
      */
     public function actionIndex(): string
     {
-
 		$tags = Tag::find()->asArray()->all();
-
         return Json::encode($tags);
+    }
+
+    /**
+     * Add a new tag
+     * @return string
+     */
+    public function actionCreate():string
+    {
+        if (Yii::$app->request->isPost) {
+
+            $model = new Tag();
+            $model->name = Yii::$app->request->post('name');
+
+            if ($model->save()) {
+                return Json::encode($model);
+            }
+        }
+
+        throw new NotFoundHttpException('Page not found');
     }
 
 }
