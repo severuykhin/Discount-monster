@@ -29,6 +29,7 @@ class TagsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['get'],
+                    'delete' => ['post'],
                     'create' => ['post']
                 ],
             ],
@@ -40,7 +41,7 @@ class TagsController extends Controller
      */
     public function beforeAction($action)
     {            
-        if ($action->id == 'create') {
+        if ($action->id == 'create' || $action->id == 'delete') {
             $this->enableCsrfValidation = false;
         }
 
@@ -74,7 +75,7 @@ class TagsController extends Controller
      * Add a new tag
      * @return string
      */
-    public function actionCreate():string
+    public function actionCreate(): string
     {
         if (Yii::$app->request->isPost) {
 
@@ -84,6 +85,18 @@ class TagsController extends Controller
             if ($model->save()) {
                 return Json::encode($model);
             }
+        }
+
+        throw new NotFoundHttpException('Page not found');
+    }
+
+    public function actionDelete(): string
+    {   
+        if (Yii::$app->request->isPost) {
+            $model = Tag::findOne(Yii::$app->request->post('id'));
+            $model->delete();
+
+            return Json::encode(['result' => 'ok']);
         }
 
         throw new NotFoundHttpException('Page not found');

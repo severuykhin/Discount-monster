@@ -28,6 +28,11 @@ export default function reducer (state = new InitialState(), action) {
 			const oldItems = state.get('items');
 			const newItems = oldItems.push(payload);
 			return state.set('items', newItems);
+		
+		case ACTION_DELETE_TAG:
+			let oldI = state.get('items').toArray();
+			let newI = oldI.filter( i => Number(i.id) !== payload);
+			return state.set('items', new List(newI));
 
 		case ACTION_SET_ADD_VALUE:
 			return state.set('addValue', payload);
@@ -42,6 +47,8 @@ export default function reducer (state = new InitialState(), action) {
 			return state;
 	}
 }
+
+// Actions with items
 
 /**
  * Dispatch tags items get action
@@ -60,6 +67,17 @@ export const setItem = item => ({
 	type : ACTION_ADD_TAG,
 	payload : item	
 });
+
+/**
+ * Dispatch delete item action
+ * @param {number} id 
+ */
+export const deleteItem = id => ({
+	type : ACTION_DELETE_TAG,
+	payload : id
+});
+
+// Aside actions
 
 /**
  * Dispatch add tag value set action
@@ -87,4 +105,5 @@ export const setBusyState = (value) => ({
 	type : ACTION_SET_BUSY,
 	payload : value
 });
+
 

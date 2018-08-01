@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './TagsContent.css';
+
 const TagsContent = (props) => {
 
 	const { items } = props;
@@ -14,17 +16,20 @@ const TagsContent = (props) => {
 
 		return items.map( item => {
 			return (
-				<div key={`tag-item-${item.id}`} > 
-					{ item.name } 
-				</div>
+				<span	
+					key={`tag-item-${item.id}`} 
+					className="tag is-light is-medium">
+						{item.name}
+					<button
+						onClick={() => { props.deleteItem(Number(item.id)) }} 
+						className="delete is-small"></button>
+				</span>
 			);
 		});
 	}
 
-	console.log(items);
-
 	return (
-		<div className="tags__content">
+		<div className="tags__content field is-grouped is-grouped-multiline">
 			{ items && generateTagsItems(items) }
 		</div>
 	);

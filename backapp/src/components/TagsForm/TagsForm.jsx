@@ -24,8 +24,11 @@ class TagsForm extends Component {
 
 	/**
 	 * Add new keyword tag
+	 * @param {object} e - Event
 	 */
-	addTag = () => {
+	addTag = (e) => {
+
+		e.preventDefault();
 
 		let value = this.addinput.current.value.trim();
 		this.props.setAddValue(value);
@@ -42,6 +45,9 @@ class TagsForm extends Component {
 			.then( data => {
 				this.props.setItem(data);
 				this.props.setBusy(false);
+				// this.props.setAddValue('');
+				this.addinput.current.value = '';
+
 			})
 			.catch(e => console.log(e))
 		
@@ -49,10 +55,12 @@ class TagsForm extends Component {
 
 	render() {
 
-		const { addInputError, busy } = this.props;
+		const { addInputError, busy, addValue } = this.props;
 
 		let addInputClassName  = addInputError ? 'input is-danger' : 'input';
 		let addButtonClassName = busy ? 'button is-info is-loading' : 'button is-info';
+
+		console.log(addValue);
 
 		return (
 			<div className="tags__form">
@@ -61,16 +69,21 @@ class TagsForm extends Component {
 
 				<h6 className="subtitle is-6 app__title">Добавить</h6>
 				<div className="tags__form-inner">
-					<div className="field has-addons">
-						<p className="control">
-							<input ref={this.addinput} className={addInputClassName} type="text" />
-						</p>
-						<div className="control">
-							<button onClick={this.addTag} className={addButtonClassName}>
-								<i className="fas fa-plus-circle"></i>
-							</button>
+					<form onSubmit={this.addTag}>
+						<div className="field has-addons">
+							<p className="control">
+								<input 
+									ref={this.addinput} 
+									className={addInputClassName} 
+									type="text" />
+							</p>
+							<div className="control">
+								<button className={addButtonClassName}>
+									<i className="fas fa-plus-circle"></i>
+								</button>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 				<br/>
 				<br/>
@@ -94,7 +107,8 @@ class TagsForm extends Component {
 
 const mapStateToProps = state => ({
 	addInputError : state.tags.addError,
-	busy          : state.tags.get('busy')
+	busy          : state.tags.get('busy'),
+	addValue      : state.tags.get('addValue')
 });
 
 const mapDispatchToProps = dispatch => ({

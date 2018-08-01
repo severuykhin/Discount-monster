@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Redux stuff
-import { setItems } from '../../ducks/Tags';
+import { setItems, deleteItem } from '../../ducks/Tags';
 
 // Custom componsnets
 import TagsContent from './TagsContent';
@@ -18,6 +18,28 @@ class TagsContentContainer extends Component {
 		super(props);
 		this.provider = new DataProvider();
 		this.url = '/backend/tags/index';
+		this.deleteUrl = '/backend/tags/delete';
+	}
+
+	/**
+	 * Deletes choosen item
+	 * @param { number } id
+	 */
+	deleteItem = (id) => {
+
+		const data = new FormData();
+		data.append('id', id);
+
+		this.provider.post(data, this.deleteUrl)
+			.then( response => {
+				if (response && response.result === 'ok') {
+					this.props.deleteItem(id);
+				} else {
+					throw new Error('Tags Content: ERROR while deleting item');
+				}
+			})
+			.catch( e => console.log(e));
+
 	}
 
 	componentDidMount() {
@@ -38,7 +60,9 @@ class TagsContentContainer extends Component {
 
 		return (
 			<React.Fragment>
-				<TagsContent items={items} />
+				<TagsContent 
+					items={items}
+					deleteItem={this.deleteItem} />
 			</React.Fragment>
 		);
 	}
@@ -49,7 +73,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	setItems : (items) => dispatch(setItems(items))
+	setItems   : (items) => dispatch(setItems(items)),
+	deleteItem : (id)    => dispatch(deleteItem(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsContentContainer);
