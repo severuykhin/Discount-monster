@@ -12,7 +12,7 @@ const Header = () => {
 					<NavLink to="/tags" className="navbar-item">
 						Тэги
 					</NavLink>
-					<NavLink to="/stores" className="navbar-item">
+					<NavLink to="/store" className="navbar-item">
 						Магазины
 					</NavLink>
 				</div>

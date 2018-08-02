@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 import Index from '../Pages/Index/Index';
 import Tags from '../Pages/Tags/Tags';
 import Error from '../Pages/Error/Error';
+import Store from '../Pages/Store/Store';
 
 import './App.css';
 
@@ -23,7 +24,8 @@ class App extends Component {
 
             <Switch>
               <Route path="/" exact component={Index} />      
-              <Route path="/tags" exact component={Tags} />
+              <Route path="/tags" component={Tags} />
+              <Route path="/store" exact component={Store} />
               <Route component={Error}  />      
             </Switch>
 

@@ -1,0 +1,13 @@
+.stores {
+	display: flex;
+}
+
+.stores__nav {
+	width: 250px;
+	padding: 30px;
+}
+
+.stores__content {
+	width: calc(100% - 250px);
+	padding: 30px;
+}
