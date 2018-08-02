@@ -43,7 +43,14 @@ class DataProvider {
 	/**
 	 * Provides POST request
 	 */
-	post(data, url) {
+	post(data, url, convertData = false) {
+
+		if (convertData) {
+			if (typeof data === 'object' && data.hasOwnProperty) {
+				data = this._processObjToData(data);
+			}
+		}
+
 		return new Promise((resolve, reject) => {
 			const xhr  = new XMLHttpRequest();
 			const json = new JsonHelper();
@@ -68,6 +75,16 @@ class DataProvider {
 				reject(this.responseText);
 			}
 		});
+	}
+
+	_processObjToData(obj) {
+		let data = new FormData();
+
+		for (let key in obj) {
+			data.append(key, obj[key]);
+		}
+
+		return data;
 	}
 
 }

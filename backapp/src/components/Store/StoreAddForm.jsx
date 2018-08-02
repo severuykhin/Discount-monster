@@ -102,7 +102,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	addStore : (store) => dispatch(addStore(store))
+	addStore : (store) => dispatch(addStore(store)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreAddForm);

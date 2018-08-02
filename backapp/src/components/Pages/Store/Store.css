@@ -11,3 +11,19 @@
 	width: calc(100% - 250px);
 	padding: 30px;
 }
+
+.stores__nav .menu-list .delete {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+.stores__nav .menu-list li {
+	position: relative;
+}
+
+.stores__nav .menu-list li:hover {
+	background-color: #f5f5f5;
+}
+.stores__nav .menu-list a {
+	/* width: 80%; */
+}

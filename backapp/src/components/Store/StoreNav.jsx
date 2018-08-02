@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DataProvider from '../../utils/classes/DataProvider';
 
-import { setStores } from '../../ducks/Stores';
+import { setStores, deleteStore } from '../../ducks/Stores';
 
 import StoreAddForm from './StoreAddForm';
 import { NavLink } from 'react-router-dom';
@@ -11,6 +11,8 @@ import { NavLink } from 'react-router-dom';
 class StoreNav extends Component {
 
 	url = '/backend/store/index';
+	deleteUrl = '/backend/store/delete';
+
 
 	componentDidMount() {
 		const provider = new DataProvider();
@@ -20,6 +22,25 @@ class StoreNav extends Component {
 				this.props.setItems(data)
 			})
 			.catch(e => console.log(e))
+	}
+
+	/**
+	 * Delete store with given id
+	 * @param {number} id
+ 	 */
+	deleteStore = (id) => {
+		console.log(id);
+
+		// TO DO - Make proper confirm dialog
+		const isAllow = window.confirm('Вы уверены? Удаление магазина удалит все товары');
+		
+		if (isAllow) {
+			const provider = new DataProvider();
+			provider.post({ id }, this.deleteUrl, true)
+				.then( data => { 
+					if (data.result === 'ok') this.props.deleteStore(id);
+				})
+		}
 	}
 
 	/**
@@ -36,7 +57,9 @@ class StoreNav extends Component {
 					<NavLink to={`/store/${item.name}`}>
 						{item.name}
 					</NavLink>
-					<button className="delete is-small"></button>
+					<button
+						onClick={() => {this.deleteStore(Number(item.id))}} 
+						className="delete is-small"></button>
 				</li>
 			);
 		})
@@ -76,7 +99,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	setItems : (items) => dispatch(setStores(items))
+	setItems : (items) => dispatch(setStores(items)),
+	deleteStore : (id) => dispatch(deleteStore(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreNav);

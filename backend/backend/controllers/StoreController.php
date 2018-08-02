@@ -60,7 +60,7 @@ class StoreController extends Controller
     }
 
     /**
-     * Get all tags
+     * Get all store
      * @return string
      */
     public function actionIndex(): string
@@ -68,8 +68,12 @@ class StoreController extends Controller
 		$stores = Store::find()->asArray()->all();
         return Json::encode($stores);
 	}
-	
-	public function actionCreate()
+    
+    /**
+     * Create new store
+     * @return string
+     */
+	public function actionCreate(): string
 	{	
 		if (Yii::$app->request->isPost) {
 			$model = new Store();
@@ -79,6 +83,27 @@ class StoreController extends Controller
 		}
 
         throw new NotFoundHttpException('Page not found');
-	}
+    }
+    
+
+    /**
+     * Delete tag
+     * @return string
+     */
+
+     public function actionDelete(): string
+     {
+		if (Yii::$app->request->isPost) {
+
+            $id = Yii::$app->request->post('id');
+            $model = Store::findOne($id);
+            if ($model->delete()) {
+                return Json::encode(['result' => 'ok']);
+            }
+        }
+
+        throw new NotFoundHttpException('Page not found');
+
+     }
 
 }
