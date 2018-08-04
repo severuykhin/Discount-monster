@@ -54,7 +54,10 @@ class StoreNav extends Component {
 		return items.map( item => {
 			return (
 				<li key={`store-nav-item-${item.id}`}>
-					<NavLink to={`/store/${item.name}`}>
+					<NavLink 
+						key={`store-nav-item-${item.id}-link`}
+						to={`/store/${item.id}`}
+						activeClassName="is-active">
 						{item.name}
 					</NavLink>
 					<button
@@ -103,4 +106,4 @@ const mapDispatchToProps = (dispatch) => ({
 	deleteStore : (id) => dispatch(deleteStore(id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoreNav);
+export default connect(mapStateToProps, mapDispatchToProps, null, {pure : false})(StoreNav);

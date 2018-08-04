@@ -41,7 +41,7 @@ return [
             'showScriptName' => false,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
-                // Backend url manager
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
         'frontendUrlManager' => [

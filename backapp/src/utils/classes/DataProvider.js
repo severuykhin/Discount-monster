@@ -41,7 +41,10 @@ class DataProvider {
 	}
 
 	/**
-	 * Provides POST request
+	 * Provides post request
+	 * @param {void} data 
+	 * @param {string} url 
+	 * @param {boolean} convertData - Automaticly convert data from plain java script object to post data
 	 */
 	post(data, url, convertData = false) {
 

@@ -29,6 +29,7 @@ class StoreController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['get'],
+                    'single' => ['get']
                 ],
             ],
         ];
@@ -87,13 +88,13 @@ class StoreController extends Controller
     
 
     /**
-     * Delete tag
+     * Delete store
      * @return string
      */
 
-     public function actionDelete(): string
-     {
-		if (Yii::$app->request->isPost) {
+    public function actionDelete(): string
+    {
+        if (Yii::$app->request->isPost) {
 
             $id = Yii::$app->request->post('id');
             $model = Store::findOne($id);
@@ -104,6 +105,24 @@ class StoreController extends Controller
 
         throw new NotFoundHttpException('Page not found');
 
-     }
+    }
+
+
+    /**
+     * Get store
+     * @return string
+     */
+    public function actionSingle($id): string
+    {
+        $store = Store::findOne($id);
+        if (!$store) {
+            throw new NotFoundHttpException('Page not found');
+        }
+        
+        return Json::encode([
+            'store' => $store,
+            'items' => []
+        ]);
+    }
 
 }

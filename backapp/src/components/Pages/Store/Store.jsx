@@ -1,8 +1,10 @@
 // React stuff
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 // Custom components
 import StoreNav from '../../Store/StoreNav';
+import StoreContentContainer from '../../Store/StoreContentContainer';
 
 import './Store.css';
 
@@ -15,7 +17,7 @@ const Store = () => {
 					<StoreNav />
 				</div>
 				<div className="stores__content">
-					Store content
+					<Route path="/store/:id" component={StoreContentContainer} />
 				</div>
 			</div>
 					
