@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\Item;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -29,7 +30,8 @@ class StoreController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['get'],
-                    'single' => ['get']
+                    'single' => ['get'],
+                    'update' => ['post']
                 ],
             ],
         ];
@@ -40,7 +42,7 @@ class StoreController extends Controller
      */
     public function beforeAction($action)
     {            
-        if ($action->id == 'create' || $action->id == 'delete') {
+        if ($action->id == 'create' || $action->id == 'delete' || $action->id == 'update') {
             $this->enableCsrfValidation = false;
         }
 
@@ -118,11 +120,25 @@ class StoreController extends Controller
         if (!$store) {
             throw new NotFoundHttpException('Page not found');
         }
+
+        $items = Item::find()
+                    ->where(['store_id' => $id])
+                    ->all();
         
         return Json::encode([
             'store' => $store,
-            'items' => []
+            'items' => $items
         ]);
+    }
+
+    public function actionUpdate($id): string
+    {
+        if (Yii::$app->request->isPost) {
+            return $id;
+        }
+
+        throw new NotFoundHttpException('Page not found');
+
     }
 
 }

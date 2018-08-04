@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import StoreContent from './StoreContent';
 import DataProvider from '../../utils/classes/DataProvider';
-import { setActiveStore } from '../../ducks/Store';
+import { setActiveStore, setStoreItems, changeEditFormState } from '../../ducks/Store';
 
 class StoreContentContainer extends Component {
 
@@ -19,6 +19,26 @@ class StoreContentContainer extends Component {
 	}
 
 	/**
+	 * Parse store
+	 * @param {number} id - Store id
+	 */
+	parseStore = id => {
+		const provider = new DataProvider();
+		provider.post({id}, '/backend/parser/index', true)
+			.then(data => {
+				console.log(data);
+			})
+	}
+
+	/**
+	 * Changes Edit form state
+	 */
+	changeEditFormState = () => {
+		let currentEditFormStatus = this.props.editFormOpened;
+		this.props.changeEditFormState(!currentEditFormStatus);
+	}
+
+	/**
 	 * Get store with containing item by given id
 	 * @param {number} id - Store id
 	 */
@@ -28,16 +48,21 @@ class StoreContentContainer extends Component {
 		provider.get(`/backend/store/single/${id}`)
 			.then(data => {
 				this.props.setActiveStore(data.store);
+				this.props.setStoreItems(data.items);
 			})
 	}
 
 	render() {
 
-		const { store } = this.props;
+		const { store, items, editFormOpened } = this.props;
 
 		return (
 			<div>
-				{store && <StoreContent 
+				{store && <StoreContent
+							parseStore={this.parseStore} 
+							editFormOpened={editFormOpened}
+							changeEditFormState={this.changeEditFormState}
+							items={items}
 							store={store}/>}
 			</div>
 		);
@@ -45,11 +70,15 @@ class StoreContentContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-	store : state.store.get('instance')
+	store : state.store.get('instance'),
+	items : state.store.get('items').toArray(),
+	editFormOpened : state.store.get('editFormOpened')
 });
 
 const mapDispatchToProps = dispatch => ({
-	setActiveStore : (instance) => dispatch(setActiveStore(instance))
+	setActiveStore : (instance) => dispatch(setActiveStore(instance)),
+	setStoreItems  : (items) => dispatch(setStoreItems(items)),
+	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreContentContainer);
