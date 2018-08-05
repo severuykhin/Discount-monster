@@ -1,10 +1,11 @@
 import { List, Record } from 'immutable';
 
-export const MODULE_NAME = 'store';
-export const SET_ACTIVE_STORE = `${MODULE_NAME}/SET_ACTIVE_STORE`;
-export const SET_STORE_ITEMS  = `${MODULE_NAME}/SET_STORE_ITEMS`;
+export const MODULE_NAME            = 'store';
+export const SET_ACTIVE_STORE       = `${MODULE_NAME}/SET_ACTIVE_STORE`;
+export const UPDATE_ACTIVE_STORE    = `${MODULE_NAME}/UPDATE_ACTIVE_STORE`;
+export const SET_STORE_ITEMS        = `${MODULE_NAME}/SET_STORE_ITEMS`;
 export const CHANGE_EDIT_FORM_STATE = `${MODULE_NAME}/CHANGE_EDIT_FORM_STATE`;
-export const CHANGE_BUSY_STATE = `${MODULE_NAME}/CHANGE_BUSY_STATE`;
+export const CHANGE_BUSY_STATE      = `${MODULE_NAME}/CHANGE_BUSY_STATE`;
 
 const InitialState = new Record({
 	instance : null,
@@ -25,6 +26,12 @@ export default function storeReducer(state = new InitialState(), action) {
 			return state.set('editFormOpened', payload);
 		case CHANGE_BUSY_STATE:
 			return state.set('busy', payload);
+		case UPDATE_ACTIVE_STORE:
+			let store = state.get('instance');
+			store.name = payload.name;
+			store.url  = payload.url;
+			return state.set('instance', store);
+
 		default:
 			return state;
 	}
@@ -64,4 +71,9 @@ export const changeEditFormState = isOpened => ({
 export const setBusyState = isBusy => ({
 	type    : CHANGE_BUSY_STATE,
 	payload : isBusy
+});
+
+export const updateStore = config => ({
+	type : UPDATE_ACTIVE_STORE,
+	payload : config
 });

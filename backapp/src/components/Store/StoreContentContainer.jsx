@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import StoreContent from './StoreContent';
+import StoreEditForm from './StoreEditForm';
+import StoreContentTitle from './StoreContentTitle';
 import DataProvider from '../../utils/classes/DataProvider';
-import { setActiveStore, setStoreItems, changeEditFormState, setBusyState } from '../../ducks/Store';
+import { 
+		setActiveStore,
+		updateStore, 
+		setStoreItems, 
+		changeEditFormState, 
+		setBusyState } from '../../ducks/Store';
 
 class StoreContentContainer extends Component {
 
@@ -54,19 +61,48 @@ class StoreContentContainer extends Component {
 			})
 	}
 
+	/**
+	 * Updates values for current store
+	 * @param {object} config - New values for current store
+	 * @param {boolean} sendToServer - Send data to server ans save if true
+	 */
+	updateCurrentStore = (config, sendToServer = false) => {
+		this.props.updateStore(config);
+
+		if (sendToServer) {
+			const provider = new DataProvider();
+			this.props.changeBusyState(true);
+			provider.post(config, `/backend/store/update/${config.id}`, true)
+				.then(data => {
+					this.props.changeBusyState(false);
+				});	
+		}
+	}
+
 	render() {
 
 		const { store, items, editFormOpened, busy } = this.props;
 
+		if (!store) return null;
+
 		return (
 			<div>
-				{store && <StoreContent
-							parseStore={this.parseStore} 
-							editFormOpened={editFormOpened}
-							changeEditFormState={this.changeEditFormState}
-							items={items}
-							busy={busy}
-							store={store}/>}
+				<StoreContentTitle
+					store={store}
+					changeEditFormState={this.changeEditFormState}
+					editFormOpened={editFormOpened}/>
+
+				<StoreEditForm
+					updateCurrentStore={this.updateCurrentStore}
+					active={editFormOpened} 
+					store={store}/>
+
+				<StoreContent
+					parseStore={this.parseStore} 
+					changeEditFormState={this.changeEditFormState}
+					items={items}
+					busy={busy}
+					store={store}/>
 			</div>
 		);
 	}
@@ -81,9 +117,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	setActiveStore : (instance) => dispatch(setActiveStore(instance)),
-	setStoreItems  : (items) => dispatch(setStoreItems(items)),
+	updateStore    : (config)   => dispatch(updateStore(config)),
+	setStoreItems  : (items)    => dispatch(setStoreItems(items)),
 	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened)),
 	changeBusyState : (isBusy) => dispatch(setBusyState(isBusy))  
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoreContentContainer);
+export default connect(mapStateToProps, mapDispatchToProps, null, { pure : false })(StoreContentContainer);

@@ -134,7 +134,12 @@ class StoreController extends Controller
     public function actionUpdate($id): string
     {
         if (Yii::$app->request->isPost) {
-            return $id;
+            $model = Store::findOne($id);
+            $model->name = Yii::$app->request->post('name');
+            $model->url  = Yii::$app->request->post('url');
+            if ($model->save()) {
+                return Json::encode($model);
+            }
         }
 
         throw new NotFoundHttpException('Page not found');
