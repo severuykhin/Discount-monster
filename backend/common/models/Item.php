@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "item".
@@ -32,9 +33,16 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'url'], 'required'],
+            [['title', 'url'], 'required'],
             [['store_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'url', 'price', 'img'], 'string', 'max' => 255],
+            [['title', 'url', 'price', 'img', 'price_sale'], 'string', 'max' => 255],
+        ];
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            TimestampBehavior::className(),
         ];
     }
 
@@ -48,6 +56,7 @@ class Item extends \yii\db\ActiveRecord
             'title' => 'Название',
             'url' => 'Ссылка',
             'price' => 'Цена',
+            'price_sale' => 'Цена со скидкой',
             'img' => 'Изображение',
             'store_id' => 'Магазин',
             'created_at' => 'Created At',

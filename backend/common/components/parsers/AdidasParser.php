@@ -4,6 +4,7 @@ namespace common\components\parsers;
 
 use common\components\parsers\Parser;
 use common\models\Store;
+use common\models\Item;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
@@ -18,20 +19,38 @@ class AdidasParser extends Parser {
 		$cards = $document->find(".product-tile");
 		$items = [];
 
-		foreach($cards as $card) {
+		foreach($cards as $key => $card) {
 
 			$cardLink = pq($card);
+			$item = new Item();
 
-			$name = $cardLink->find('span.title');
-			$salePrice =$cardLink->find('span.salesprice');
+			$name       = $cardLink->find('span.title');
+			$price      = $cardLink->find('span.baseprice');
+			$price_sale = $cardLink->find('span.salesprice');
+			$url        = $cardLink->find('a.product-images-js');
 
-			$items[] = [
-				'name' => $name->html(),
-				'saleprice' => trim($salePrice->html())
-			];
+			$item->title      = $name->html();
+			$item->price      = trim($price->html());
+			$item->price_sale = trim($price_sale->html());
+			$item->url        = 'https://adidas.ru' . $url->attr('href');
+			$item->store_id   = (int) $this->store_id;
+
+			if (self::processFilter($item)) {
+				$item->img = $this->getImg($item->url);
+				$item->save();
+				$items[] = $item;
+			}
 		}
 
 		return $items;
+	}
+
+	protected function getImg(string $url): string
+	{
+		$markup = self::getHtml($url);
+		$document = \phpQuery::newDocumentHTML($markup);
+		$img = $document->find('#main-image img');
+		return $img->attr('src');
 	}
 
 }

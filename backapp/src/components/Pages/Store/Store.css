@@ -71,3 +71,7 @@
 	transition-delay: 200ms;
 	
 }
+
+.store__items-container.columns {
+	flex-wrap: wrap;
+}

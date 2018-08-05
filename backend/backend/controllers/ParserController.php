@@ -33,6 +33,7 @@ class ParserController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['post'],
+                    'text'  => ['get']
                 ],
             ],
         ];
@@ -71,22 +72,28 @@ class ParserController extends Controller
      */
     public function actionIndex()
     {
-		if (Yii::$app->request->isPost && Yii::$app->request->post('id')) {
-			$id = Yii::$app->request->post('id');
-			$store = Store::findOne($id);
 
-			if (!$store) {
-				throw new NotFoundHttpException('Store not found');
-			}
+        if (Yii::$app->request->isPost) {
 
-			$parser = ParserFactory::get($store->name);
-			$parser->load($store);
-			$items = $parser->run();
+            $id = Yii::$app->request->post('id');
 
-			return Json::encode(['result' => $items]);
-		}
+            $store = Store::findOne($id);
+    
+            if (!$store) {
+                throw new NotFoundHttpException('Store not found');
+            }
 
-        throw new NotFoundHttpException('Page not found');
+            Item::deleteAll(['store_id' => $id]);
+
+            $parser = ParserFactory::get($store->name);
+            $parser->load($store);
+            $items = $parser->run();
+
+            return Json::encode($items);
+        }
+
+        throw new NotFoundHttpException('Store not found');
+
     }
 
 }

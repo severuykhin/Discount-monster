@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import StoreContent from './StoreContent';
 import DataProvider from '../../utils/classes/DataProvider';
-import { setActiveStore, setStoreItems, changeEditFormState } from '../../ducks/Store';
+import { setActiveStore, setStoreItems, changeEditFormState, setBusyState } from '../../ducks/Store';
 
 class StoreContentContainer extends Component {
 
@@ -24,10 +24,12 @@ class StoreContentContainer extends Component {
 	 */
 	parseStore = id => {
 		const provider = new DataProvider();
+		this.props.changeBusyState(true);
 		provider.post({id}, '/backend/parser/index', true)
 			.then(data => {
-				console.log(data);
-			})
+				this.props.changeBusyState(false);
+				this.props.setStoreItems(data);
+		});
 	}
 
 	/**
@@ -54,7 +56,7 @@ class StoreContentContainer extends Component {
 
 	render() {
 
-		const { store, items, editFormOpened } = this.props;
+		const { store, items, editFormOpened, busy } = this.props;
 
 		return (
 			<div>
@@ -63,6 +65,7 @@ class StoreContentContainer extends Component {
 							editFormOpened={editFormOpened}
 							changeEditFormState={this.changeEditFormState}
 							items={items}
+							busy={busy}
 							store={store}/>}
 			</div>
 		);
@@ -72,13 +75,15 @@ class StoreContentContainer extends Component {
 const mapStateToProps = state => ({
 	store : state.store.get('instance'),
 	items : state.store.get('items').toArray(),
-	editFormOpened : state.store.get('editFormOpened')
+	editFormOpened : state.store.get('editFormOpened'),
+	busy : state.store.get('busy')
 });
 
 const mapDispatchToProps = dispatch => ({
 	setActiveStore : (instance) => dispatch(setActiveStore(instance)),
 	setStoreItems  : (items) => dispatch(setStoreItems(items)),
-	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened))
+	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened)),
+	changeBusyState : (isBusy) => dispatch(setBusyState(isBusy))  
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreContentContainer);
