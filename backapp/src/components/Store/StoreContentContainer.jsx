@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import StoreContent from './StoreContent';
 import StoreEditForm from './StoreEditForm';
+import StoreFilterForm from './StoreFilterForm';
 import StoreContentTitle from './StoreContentTitle';
 import DataProvider from '../../utils/classes/DataProvider';
 import { 
@@ -9,6 +10,7 @@ import {
 		updateStore, 
 		setStoreItems, 
 		changeEditFormState, 
+		changeFilterFormState,
 		setBusyState } from '../../ducks/Store';
 
 class StoreContentContainer extends Component {
@@ -36,7 +38,11 @@ class StoreContentContainer extends Component {
 			.then(data => {
 				this.props.changeBusyState(false);
 				this.props.setStoreItems(data);
-		});
+			})
+			.catch( e => {
+				this.props.changeBusyState(false);
+				console.log(e)
+			})
 	}
 
 	/**
@@ -46,6 +52,11 @@ class StoreContentContainer extends Component {
 		let currentEditFormStatus = this.props.editFormOpened;
 		this.props.changeEditFormState(!currentEditFormStatus);
 	}
+
+	changeFilterFormState = () => {
+		let status = this.props.filterFormOpened;
+		this.props.changeFilterFormState(!status);
+	};
 
 	/**
 	 * Get store with containing item by given id
@@ -79,6 +90,11 @@ class StoreContentContainer extends Component {
 		}
 	}
 
+	applyFilter = (e) => {
+		let type = e.currentTarget.value;
+		console.log(type);
+	}
+
 	render() {
 
 		const { store, items, editFormOpened, busy } = this.props;
@@ -100,9 +116,16 @@ class StoreContentContainer extends Component {
 				<StoreContent
 					parseStore={this.parseStore} 
 					changeEditFormState={this.changeEditFormState}
+					changeFilterFormState={this.changeFilterFormState}
 					items={items}
 					busy={busy}
-					store={store}/>
+					filterOpened={this.props.filterFormOpened}
+					store={store}>
+					
+					<StoreFilterForm 
+						applyFilter={this.applyFilter}/>
+
+				</StoreContent>
 			</div>
 		);
 	}
@@ -112,6 +135,7 @@ const mapStateToProps = state => ({
 	store : state.store.get('instance'),
 	items : state.store.get('items').toArray(),
 	editFormOpened : state.store.get('editFormOpened'),
+	filterFormOpened : state.store.get('filterFormOpened'),
 	busy : state.store.get('busy')
 });
 
@@ -120,6 +144,7 @@ const mapDispatchToProps = dispatch => ({
 	updateStore    : (config)   => dispatch(updateStore(config)),
 	setStoreItems  : (items)    => dispatch(setStoreItems(items)),
 	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened)),
+	changeFilterFormState : (isOpened) => dispatch(changeFilterFormState(isOpened)),
 	changeBusyState : (isBusy) => dispatch(setBusyState(isBusy))  
 });
 

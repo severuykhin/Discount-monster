@@ -14,7 +14,9 @@
         "yiisoft/yii2-apidoc": "*",
         "aquy/yii2-thumbnail": "*",
         "guzzlehttp/guzzle": "~6.0",
-        "electrolinux/phpquery": "^0.9.6"
+        "electrolinux/phpquery": "^0.9.6",
+        "odannyc/yii2-sse": "^0.1.0",
+        "tonyhhyip/sse": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

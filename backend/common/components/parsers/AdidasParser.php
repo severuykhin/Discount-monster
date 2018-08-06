@@ -5,6 +5,7 @@ namespace common\components\parsers;
 use common\components\parsers\Parser;
 use common\models\Store;
 use common\models\Item;
+use common\models\Tag;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
@@ -18,6 +19,8 @@ class AdidasParser extends Parser {
 		$document = \phpQuery::newDocumentHTML($markup);
 		$cards = $document->find(".product-tile");
 		$items = [];
+
+		$tags = Tag::find()->all();
 
 		foreach($cards as $key => $card) {
 

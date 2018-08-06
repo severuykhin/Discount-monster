@@ -17,6 +17,9 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
+        'sse' => [
+            'class' => \odannyc\Yii2SSE\LibSSE::class
+        ],
         'authManager' => [
 	        'class' => 'yii\rbac\PhpManager',
 	        'defaultRoles' => [

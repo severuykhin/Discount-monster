@@ -5,6 +5,7 @@ namespace common\components\parsers;
 use common\components\parsers\Parser;
 use common\models\Store;
 use common\models\Item;
+use common\models\Tag;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
@@ -19,6 +20,8 @@ class ReebokParser extends Parser {
 		$cards = $document->find(".product-tile");
 		$items = [];
 
+		$tags = Tag::find()->all();
+
 		foreach($cards as $key => $card) {
 
 			$cardLink = pq($card);
@@ -27,7 +30,7 @@ class ReebokParser extends Parser {
 			$name       = $cardLink->find('span.title');
 			$price      = $cardLink->find('span.baseprice');
 			$price_sale = $cardLink->find('span.salesprice');
-			$url        = $cardLink->find('a.product-images-js');
+			$url        = $cardLink->find('a.plp-image-bg-link');
 
 			$item->title      = $name->html();
 			$item->price      = trim($price->html());
@@ -35,7 +38,7 @@ class ReebokParser extends Parser {
 			$item->url        = 'https://reebok.ru' . $url->attr('href');
 			$item->store_id   = (int) $this->store_id;
 
-			if (self::processFilter($item)) {
+			if (self::processFilter($item, $tags)) {
 				$item->img = $this->getImg($item->url);
 				$item->save();
 				$items[] = $item;

@@ -3,7 +3,12 @@ import Item from '../Item/Item';
 
 const StoreContent = (props) => {
 
-	const { store, items, editFormOpened, parseStore, busy } = props;
+	const { 
+			store, 
+			items, 
+			parseStore,
+			filterOpened, 
+			busy } = props;
 
 	let parseButtonState = busy ? 'button is-info is-loading' : 'button is-info';
 		
@@ -20,13 +25,21 @@ const StoreContent = (props) => {
 			<br />
 
 			<div className="store__items-area">
-				<div className="store__items-actions">
+				<div className="store__items-actions buttons">
 					<button
 						onClick={() => { parseStore(store.id) }} 
 						className={parseButtonState}>
 							{isFilled ? 'Спарсить по новой' : 'Спарсить товары'}
-						</button>
+					</button>
+					<button 
+						onClick={() => { props.changeFilterFormState() }}
+						className="button">
+						<span className="icon is-small">
+						<i className="fas fa-filter"></i>
+						</span>
+					</button>
 				</div>
+				{filterOpened && props.children}
 				<br/>
 				<div className="store__items-container columns">
 					{ items && renderItems(items) }

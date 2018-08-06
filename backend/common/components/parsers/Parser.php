@@ -28,16 +28,12 @@ class Parser {
 
 	protected function processFilter(Item $item): bool
 	{
-		$tags = Tag::find()->all();
-
 		foreach($tags as $tag) {
 			$result = stripos(strtolower($item->title), $tag->name);
 			if ($result) {
 				return true;
 			}
 		}
-
-
 		return false;
 	}
 

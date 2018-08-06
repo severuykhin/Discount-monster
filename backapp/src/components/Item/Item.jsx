@@ -19,8 +19,8 @@ const Item = (props) => {
 					<div className="media">
 					<div className="media-content">
 						<p className="title is-4">{config.title}</p>
-						<p className="text-muted">${config.price}</p>
-						<p className="">${config.price_sale}</p>
+						<p className="text-muted">{config.price.replace('.', ' ')} р.</p>
+						<p className="">{config.price_sale.replace('.', ' ')} р.</p>
 					</div>
 					</div>
 

@@ -6,13 +6,14 @@ use common\models\Store;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Json;
 
 use common\components\parsers\ParserFactory;
-
+use common\components\MessageEventHandler;
 use yii\helpers\VarDumper;
 
 /**
@@ -33,7 +34,7 @@ class ParserController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['post'],
-                    'text'  => ['get']
+                    'check'  => ['get']
                 ],
             ],
         ];
@@ -95,5 +96,4 @@ class ParserController extends Controller
         throw new NotFoundHttpException('Store not found');
 
     }
-
 }
