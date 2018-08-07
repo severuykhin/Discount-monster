@@ -7,13 +7,16 @@ export const SET_STORE_ITEMS        = `${MODULE_NAME}/SET_STORE_ITEMS`;
 export const CHANGE_EDIT_FORM_STATE = `${MODULE_NAME}/CHANGE_EDIT_FORM_STATE`;
 export const CHANGE_BUSY_STATE      = `${MODULE_NAME}/CHANGE_BUSY_STATE`;
 export const CHANGE_FILTER_STATE    = `${MODULE_NAME}/CHANGE_FILTER_STATE`;
+export const SET_ACTIVE_SORT        = `${MODULE_NAME}/SET_ACTIVE_SORT`;
+
 
 const InitialState = new Record({
 	instance : null,
 	items : new List([]),
 	editFormOpened : false,
 	busy : false,
-	filterFormOpened : false
+	filterFormOpened : false,
+	activeSort : ''
 });
 
 export default function storeReducer(state = new InitialState(), action) {
@@ -30,6 +33,8 @@ export default function storeReducer(state = new InitialState(), action) {
 			return state.set('busy', payload);
 		case CHANGE_FILTER_STATE:
 			return state.set('filterFormOpened', payload);
+		case SET_ACTIVE_SORT:
+			return state.set('activeSort', payload);
 		case UPDATE_ACTIVE_STORE:
 			let store = state.get('instance');
 			store.name = payload.name;
@@ -96,4 +101,13 @@ export const updateStore = config => ({
 export const changeFilterFormState = isOpened => ({
 	type : CHANGE_FILTER_STATE,
 	payload : isOpened
+});
+
+/**
+ * Creates Active filter set action
+ * @param {string} type 
+ */
+export const setActiveSort = type => ({
+	type : SET_ACTIVE_SORT,
+	payload : type
 });

@@ -5,13 +5,15 @@ import StoreEditForm from './StoreEditForm';
 import StoreFilterForm from './StoreFilterForm';
 import StoreContentTitle from './StoreContentTitle';
 import DataProvider from '../../utils/classes/DataProvider';
+import Filter from '../../utils/classes/Filter';
 import { 
 		setActiveStore,
 		updateStore, 
 		setStoreItems, 
 		changeEditFormState, 
 		changeFilterFormState,
-		setBusyState } from '../../ducks/Store';
+		setBusyState,
+		setActiveSort } from '../../ducks/Store';
 
 class StoreContentContainer extends Component {
 
@@ -92,7 +94,7 @@ class StoreContentContainer extends Component {
 
 	applyFilter = (e) => {
 		let type = e.currentTarget.value;
-		console.log(type);
+		this.props.setActiveSort(type);
 	}
 
 	render() {
@@ -131,10 +133,12 @@ class StoreContentContainer extends Component {
 	}
 }
 
+const filter = new Filter();
+
 const mapStateToProps = state => ({
 	store : state.store.get('instance'),
-	items : state.store.get('items').toArray(),
-	editFormOpened : state.store.get('editFormOpened'),
+	items : filter.sortBy(state.store.get('items').toArray(), state.store.activeSort),
+	editFormOpened   : state.store.get('editFormOpened'),
 	filterFormOpened : state.store.get('filterFormOpened'),
 	busy : state.store.get('busy')
 });
@@ -145,7 +149,8 @@ const mapDispatchToProps = dispatch => ({
 	setStoreItems  : (items)    => dispatch(setStoreItems(items)),
 	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened)),
 	changeFilterFormState : (isOpened) => dispatch(changeFilterFormState(isOpened)),
-	changeBusyState : (isBusy) => dispatch(setBusyState(isBusy))  
+	changeBusyState : (isBusy) => dispatch(setBusyState(isBusy)),
+	setActiveSort   : (type) => dispatch(setActiveSort(type)) 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { pure : false })(StoreContentContainer);

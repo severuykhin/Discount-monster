@@ -33,12 +33,12 @@ class AdidasParser extends Parser {
 			$url        = $cardLink->find('a.product-images-js');
 
 			$item->title      = $name->html();
-			$item->price      = trim($price->html());
-			$item->price_sale = trim($price_sale->html());
+			$item->price      = str_replace( '.' , '' , trim($price->html()));
+			$item->price_sale = str_replace( '.' , '' , trim($price_sale->html()));
 			$item->url        = 'https://adidas.ru' . $url->attr('href');
 			$item->store_id   = (int) $this->store_id;
 
-			if (self::processFilter($item)) {
+			if (self::processFilter($item, $tags)) {
 				$item->img = $this->getImg($item->url);
 				$item->save();
 				$items[] = $item;

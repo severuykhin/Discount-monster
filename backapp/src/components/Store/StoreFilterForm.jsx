@@ -8,6 +8,7 @@ const StoreFilterForm = (props) => {
 				<div className="field">
 					<div className="select is-rounded">
 						<select onChange={(e) => { props.applyFilter(e) }} >
+							<option value="">Сортировать</option>
 							<option value="filter_max">По убыванию цены</option>
 							<option value="filter_min">По возрастанию цены</option>
 							<option value="filter_discount">По наибольшей скидке</option>

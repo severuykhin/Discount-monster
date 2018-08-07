@@ -33,8 +33,8 @@ class ReebokParser extends Parser {
 			$url        = $cardLink->find('a.plp-image-bg-link');
 
 			$item->title      = $name->html();
-			$item->price      = trim($price->html());
-			$item->price_sale = trim($price_sale->html());
+			$item->price      = str_replace( '.' , '' , trim($price->html()));
+			$item->price_sale = str_replace( '.' , '' , trim($price_sale->html()));
 			$item->url        = 'https://reebok.ru' . $url->attr('href');
 			$item->store_id   = (int) $this->store_id;
 

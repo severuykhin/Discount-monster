@@ -26,7 +26,7 @@ class Parser {
 		return $this;
 	}
 
-	protected function processFilter(Item $item): bool
+	protected function processFilter(Item $item, $tags): bool
 	{
 		foreach($tags as $tag) {
 			$result = stripos(strtolower($item->title), $tag->name);
