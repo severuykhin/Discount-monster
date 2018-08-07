@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { setStores } from '../../ducks/Stores';
+
 import { 
 		setAddValue, 
 		setAddError, 
@@ -18,8 +20,18 @@ class TagsForm extends Component {
 	constructor(props) {
 		super(props);
 		this.addinput = React.createRef();
+		this.storeSelect = React.createRef();
 
 		this.provider = new TagsFormProvider();
+	}
+
+	componentDidMount() {
+		if (this.props.activeStores.length <= 0) {
+			this.provider.getStoresArray('/backend/store/index')
+				.then(data => {
+					this.props.setStores(data)
+				});
+		}
 	}
 
 	/**
@@ -30,7 +42,9 @@ class TagsForm extends Component {
 
 		e.preventDefault();
 
-		let value = this.addinput.current.value.trim();
+		let value = this.addinput.current.value.trim(),
+			store_id = this.storeSelect.current.value.trim();
+
 		this.props.setAddValue(value);
 
 		if (value === '') {
@@ -41,7 +55,12 @@ class TagsForm extends Component {
 		this.props.setAddInputError(false);
 		this.props.setBusy(true);
 
-		this.provider.createItem({name : value})
+		const newItem = {
+			name : value,
+			store_id
+		}
+
+		this.provider.createItem(newItem)
 			.then( data => {
 				this.props.setItem(data);
 				this.props.setBusy(false);
@@ -53,14 +72,28 @@ class TagsForm extends Component {
 		
 	}
 
+	/**
+	 * Generates option( value[id] -> name ) for each store in array
+	 * @param {array} stores - Array of available stores
+	 */
+	generateStoreVariants = (stores) => {
+		return stores.map(store => {
+			return (
+				<option 
+					key={`store-option-${store.id}`} 
+					value={store.id}>
+					{store.name}
+				</option>
+			);
+		})
+	}
+
 	render() {
 
-		const { addInputError, busy, addValue } = this.props;
+		const { addInputError, busy, addValue, activeStores } = this.props;
 
 		let addInputClassName  = addInputError ? 'input is-danger' : 'input';
 		let addButtonClassName = busy ? 'button is-info is-loading' : 'button is-info';
-
-		console.log(addValue);
 
 		return (
 			<div className="tags__form">
@@ -70,6 +103,14 @@ class TagsForm extends Component {
 				<h6 className="subtitle is-6 app__title">Добавить</h6>
 				<div className="tags__form-inner">
 					<form onSubmit={this.addTag}>
+						<div className="field">
+						<div className="select">
+							<select ref={this.storeSelect}>
+								<option value="0">Для всех магазинов</option>
+								{ this.generateStoreVariants(activeStores) }
+							</select>
+						</div>
+						</div>
 						<div className="field has-addons">
 							<p className="control">
 								<input 
@@ -108,14 +149,16 @@ class TagsForm extends Component {
 const mapStateToProps = state => ({
 	addInputError : state.tags.addError,
 	busy          : state.tags.get('busy'),
-	addValue      : state.tags.get('addValue')
+	addValue      : state.tags.get('addValue'),
+	activeStores  : state.stores.items.toArray()
 });
 
 const mapDispatchToProps = dispatch => ({
 	setAddValue      : (value)   => dispatch(setAddValue(value)),
 	setAddInputError : (isError) => dispatch(setAddError(isError)),
 	setItem          : (item)    => dispatch(setItem(item)),
-	setBusy          : (value)   => dispatch(setBusyState(value))
+	setBusy          : (value)   => dispatch(setBusyState(value)),
+	setStores        : (stores)  => dispatch(setStores(stores))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsForm);

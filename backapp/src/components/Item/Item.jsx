@@ -15,6 +15,26 @@ const Item = (props) => {
 					</figure>
 				</div>
 
+				<p class="buttons" style={{
+					margin: '15px 0 -10px 23px'
+					}}>
+					<a class="button is-small">
+						<span class="icon is-small">
+						<i class="fas fa-eye"></i>
+						</span>
+					</a>
+					<a class="button  is-small">
+						<span class="icon is-small">
+						<i class="fas fa-thumbtack"></i>
+						</span>
+					</a>
+					<button class="button is-danger is-small">
+						<span class="icon is-small is-danger">
+						<i class="fas fa-trash"></i>
+						</span>
+					</button>
+				</p>
+
 				<div className="card-content">
 					<div className="media">
 					<div className="media-content">

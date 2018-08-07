@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Tag extends \yii\db\ActiveRecord
 {
+    const STATUS_ALL = 0;
     /**
      * @inheritdoc
      */

@@ -9,6 +9,15 @@ class TagsFormProvider {
 	url = '/backend/tags/create';
 
 	/**
+	 * Gets stores as array
+	 * @param {string} url 
+	 */
+	getStoresArray(url) {
+		const request = new DataProvider();
+		return request.get(url);
+	}
+
+	/**
 	 * Creates new tag item
 	 * @param {object} config - Tag content
 	 */

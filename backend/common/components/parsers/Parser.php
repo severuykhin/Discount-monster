@@ -26,6 +26,14 @@ class Parser {
 		return $this;
 	}
 
+	public function getTags(): array
+	{
+		return Tag::find()
+				->where(['store_id' => $this->store_id])
+				->orWhere(['store_id' => Tag::STATUS_ALL])
+				->all();
+	}
+
 	protected function processFilter(Item $item, $tags): bool
 	{
 		foreach($tags as $tag) {
@@ -45,15 +53,5 @@ class Parser {
 		$res = $client->request('GET', $requestUrl);
 		$body = $res->getBody();		
 		return $body;
-	}
-
-	protected function sendMsg($data)
-	{
-		$response = Yii::$app->response;
-        $response->format = Response::FORMAT_RAW;
-        $response->getHeaders()->set('Content-Type', 'text/event-stream');
-        echo "id: test" . PHP_EOL;
-        echo "data: sdf" . PHP_EOL;
-        echo PHP_EOL;
 	}
 }

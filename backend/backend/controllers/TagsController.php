@@ -81,6 +81,7 @@ class TagsController extends Controller
 
             $model = new Tag();
             $model->name = Yii::$app->request->post('name');
+            $model->store_id = Yii::$app->request->post('store_id');
 
             if ($model->save()) {
                 return Json::encode($model);
