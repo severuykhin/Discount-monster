@@ -11,9 +11,7 @@ use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Json;
-
 use common\components\parsers\ParserFactory;
-use common\components\MessageEventHandler;
 use yii\helpers\VarDumper;
 
 /**

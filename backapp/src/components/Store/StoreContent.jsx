@@ -26,11 +26,11 @@ const StoreContent = (props) => {
 
 			<div className="store__items-area">
 				<div className="store__items-actions buttons">
-					<button
+					{/* <button
 						onClick={() => { parseStore(store.id) }} 
 						className={parseButtonState}>
 							{isFilled ? 'Спарсить по новой' : 'Спарсить товары'}
-					</button>
+					</button> */}
 					<button 
 						onClick={() => { props.changeFilterFormState() }}
 						className="button">

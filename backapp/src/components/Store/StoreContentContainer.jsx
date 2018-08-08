@@ -107,6 +107,7 @@ class StoreContentContainer extends Component {
 			<div>
 				<StoreContentTitle
 					store={store}
+					count={items.length}
 					changeEditFormState={this.changeEditFormState}
 					editFormOpened={editFormOpened}/>
 

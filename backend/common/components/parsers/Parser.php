@@ -34,10 +34,10 @@ class Parser {
 				->all();
 	}
 
-	protected function processFilter(Item $item, $tags): bool
+	protected function processFilter(string $name, $tags): bool
 	{
 		foreach($tags as $tag) {
-			$result = stripos(strtolower($item->title), $tag->name);
+			$result = stripos(strtolower($name), $tag->name);
 			if ($result) {
 				return true;
 			}

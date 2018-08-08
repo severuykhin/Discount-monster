@@ -15,22 +15,22 @@ const Item = (props) => {
 					</figure>
 				</div>
 
-				<p class="buttons" style={{
+				<p className="buttons" style={{
 					margin: '15px 0 -10px 23px'
 					}}>
-					<a class="button is-small">
-						<span class="icon is-small">
-						<i class="fas fa-eye"></i>
+					<a className="button is-small">
+						<span className="icon is-small">
+						<i className="fas fa-eye"></i>
 						</span>
 					</a>
-					<a class="button  is-small">
-						<span class="icon is-small">
-						<i class="fas fa-thumbtack"></i>
+					<a className="button  is-small">
+						<span className="icon is-small">
+						<i className="fas fa-thumbtack"></i>
 						</span>
 					</a>
-					<button class="button is-danger is-small">
-						<span class="icon is-small is-danger">
-						<i class="fas fa-trash"></i>
+					<button className="button is-danger is-small">
+						<span className="icon is-small is-danger">
+						<i className="fas fa-trash"></i>
 						</span>
 					</button>
 				</p>

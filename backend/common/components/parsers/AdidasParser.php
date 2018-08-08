@@ -14,34 +14,49 @@ class AdidasParser extends Parser {
 
 	public function run()
 	{
-		$markup = self::getHtml();
-		$document = \phpQuery::newDocumentHTML($markup);
-		$cards = $document->find(".product-tile");
-		$items = [];
+		$start = 0;
+		$step  = 120;
+		$cardsAll = [];
+		
+		do {
+			$markup = self::getHtml($this->url . "?sz=$step&start=$start");
+			$document = \phpQuery::newDocumentHTML($markup);
+			$cardsOnPage = $document->find(".product-tile");
+
+			foreach($cardsOnPage as $card) {
+				$cardsAll[] = $card;
+			}
+
+			$start = $start + $step;
+
+		} while ((int)$cardsOnPage->length() > 0);
 
 		$tags = self::getTags();
+		$items = [];
 
-		foreach($cards as $key => $card) {
+		foreach($cardsAll as $key => $card) {
 
 			$cardLink = pq($card);
 			$item = new Item();
 
-			$name       = $cardLink->find('span.title');
-			$price      = $cardLink->find('span.baseprice');
-			$price_sale = $cardLink->find('span.salesprice');
-			$url        = $cardLink->find('a.product-images-js');
+			$name = $cardLink->find('span.title')->html();
 
-			$item->title      = $name->html();
-			$item->price      = str_replace( '.' , '' , trim($price->html()));
-			$item->price_sale = str_replace( '.' , '' , trim($price_sale->html()));
-			$item->url        = 'https://adidas.ru' . $url->attr('href');
-			$item->store_id   = (int) $this->store_id;
+			if (self::processFilter($name, $tags)) {
+				$price      = $cardLink->find('span.baseprice');
+				$price_sale = $cardLink->find('span.salesprice');
+				$url        = $cardLink->find('.plp-image-bg-link');
 
-			if (self::processFilter($item, $tags)) {
+				$item->title      = $name;
+				$item->price      = str_replace( '.' , '' , trim($price->html()));
+				$item->price_sale = str_replace( '.' , '' , trim($price_sale->html()));
+				$item->url        = 'https://adidas.ru' . $url->attr('href');
+				$item->store_id   = (int) $this->store_id;
 				$item->img = $this->getImg($item->url);
 				$item->save();
 				$items[] = $item;
 			}
+
+			echo 'Model #' . $key . ' with name - ' . $name . 'parsed' . PHP_EOL;
 		}
 
 		return $items;
