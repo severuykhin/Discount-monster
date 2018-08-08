@@ -3,7 +3,7 @@ import './Item.css';
 
 const Item = (props) => {
 
-	const {config, deleteItem} = props;
+	const {config} = props;
 
 	return (
 		<div className="item column is-3">
@@ -11,7 +11,7 @@ const Item = (props) => {
 
 				<div className="card-image">
 					<figure className="image is-4by3">
-					<img src={config.img} alt="alt"/>
+					<img src={config.img} />
 					</figure>
 				</div>
 
@@ -28,9 +28,7 @@ const Item = (props) => {
 						<i className="fas fa-thumbtack"></i>
 						</span>
 					</a>
-					<button
-						onClick={() => { deleteItem(config.id) }} 
-						className="button is-danger is-small">
+					<button className="button is-danger is-small">
 						<span className="icon is-small is-danger">
 						<i className="fas fa-trash"></i>
 						</span>
