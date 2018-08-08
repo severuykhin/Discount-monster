@@ -3,20 +3,19 @@ import Item from '../Item/Item';
 
 const StoreContent = (props) => {
 
-	const { 
-			store, 
-			items, 
-			parseStore,
-			filterOpened, 
-			busy } = props;
+	const { items,
+			deleteItem, 
+			filterOpened } = props;
 
-	let parseButtonState = busy ? 'button is-info is-loading' : 'button is-info';
 		
-	let isFilled = items.length > 0;
 
 	const renderItems = items => {
 		return items.map( item => {
-			return <Item key={item.id} config={item} />
+			return <Item 
+					key={item.id} 
+					config={item}
+					deleteItem={deleteItem} 
+					/>
 		});
 	}
 
@@ -26,11 +25,6 @@ const StoreContent = (props) => {
 
 			<div className="store__items-area">
 				<div className="store__items-actions buttons">
-					{/* <button
-						onClick={() => { parseStore(store.id) }} 
-						className={parseButtonState}>
-							{isFilled ? 'Спарсить по новой' : 'Спарсить товары'}
-					</button> */}
 					<button 
 						onClick={() => { props.changeFilterFormState() }}
 						className="button">

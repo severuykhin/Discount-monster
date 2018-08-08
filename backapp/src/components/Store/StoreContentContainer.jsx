@@ -13,6 +13,7 @@ import {
 		changeEditFormState, 
 		changeFilterFormState,
 		setBusyState,
+		deleteItem,
 		setActiveSort } from '../../ducks/Store';
 
 class StoreContentContainer extends Component {
@@ -92,9 +93,31 @@ class StoreContentContainer extends Component {
 		}
 	}
 
+	/**
+	 * Apply chiisen filter
+	 */
 	applyFilter = (e) => {
 		let type = e.currentTarget.value;
 		this.props.setActiveSort(type);
+	}
+
+	/**
+	 * Deletes item with given id
+	 * @param {number} id - Item id
+	 */
+	deleteItem = (id) => {
+		let allow = window.confirm('Are you sure?');
+		if (allow) {
+			this.props.deleteItem(id);
+			const provider = new DataProvider();
+			provider.post({id}, '/backend/item/delete', true)
+			.then(data => {
+				console.log(data);
+			})
+			.catch(e => {
+				// Handle an error
+			})
+		}
 	}
 
 	render() {
@@ -117,13 +140,14 @@ class StoreContentContainer extends Component {
 					store={store}/>
 
 				<StoreContent
-					parseStore={this.parseStore} 
-					changeEditFormState={this.changeEditFormState}
-					changeFilterFormState={this.changeFilterFormState}
-					items={items}
 					busy={busy}
+					store={store}
+					items={items}
+					parseStore={this.parseStore}
+					deleteItem={this.deleteItem} 
 					filterOpened={this.props.filterFormOpened}
-					store={store}>
+					changeEditFormState={this.changeEditFormState}
+					changeFilterFormState={this.changeFilterFormState}>
 					
 					<StoreFilterForm 
 						applyFilter={this.applyFilter}/>
@@ -137,21 +161,22 @@ class StoreContentContainer extends Component {
 const filter = new Filter();
 
 const mapStateToProps = state => ({
-	store : state.store.get('instance'),
-	items : filter.sortBy(state.store.get('items').toArray(), state.store.activeSort),
+	store            : state.store.get('instance'),
+	items            : filter.sortBy(state.store.get('items').toArray(), state.store.activeSort),
 	editFormOpened   : state.store.get('editFormOpened'),
 	filterFormOpened : state.store.get('filterFormOpened'),
-	busy : state.store.get('busy')
+	busy             : state.store.get('busy')
 });
 
 const mapDispatchToProps = dispatch => ({
-	setActiveStore : (instance) => dispatch(setActiveStore(instance)),
-	updateStore    : (config)   => dispatch(updateStore(config)),
-	setStoreItems  : (items)    => dispatch(setStoreItems(items)),
-	changeEditFormState : (isOpened) => dispatch(changeEditFormState(isOpened)),
+	setActiveStore        : (instance) => dispatch(setActiveStore(instance)),
+	updateStore           : (config)   => dispatch(updateStore(config)),
+	setStoreItems         : (items)    => dispatch(setStoreItems(items)),
+	changeEditFormState   : (isOpened) => dispatch(changeEditFormState(isOpened)),
 	changeFilterFormState : (isOpened) => dispatch(changeFilterFormState(isOpened)),
-	changeBusyState : (isBusy) => dispatch(setBusyState(isBusy)),
-	setActiveSort   : (type) => dispatch(setActiveSort(type)) 
+	changeBusyState       : (isBusy)   => dispatch(setBusyState(isBusy)),
+	setActiveSort         : (type)     => dispatch(setActiveSort(type)),
+	deleteItem            : (id)       => dispatch(deleteItem(id)) 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { pure : false })(StoreContentContainer);

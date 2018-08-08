@@ -90,7 +90,7 @@ class TagsForm extends Component {
 
 	render() {
 
-		const { addInputError, busy, addValue, activeStores } = this.props;
+		const { addInputError, busy, activeStores } = this.props;
 
 		let addInputClassName  = addInputError ? 'input is-danger' : 'input';
 		let addButtonClassName = busy ? 'button is-info is-loading' : 'button is-info';
