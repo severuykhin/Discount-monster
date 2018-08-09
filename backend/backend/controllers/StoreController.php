@@ -121,13 +121,16 @@ class StoreController extends Controller
             throw new NotFoundHttpException('Page not found');
         }
 
-        $items = Item::find()
-                    ->where(['store_id' => $id])
-                    ->all();
+        $query = Item::find()
+                    ->where(['store_id' => $id]);
+
+        $count = $query->count(); 
+        $items = $query->limit(50)->all();
         
         return Json::encode([
             'store' => $store,
-            'items' => $items
+            'items' => $items,
+            'count' => $count
         ]);
     }
 

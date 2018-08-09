@@ -33,11 +33,12 @@ const StoreContent = (props) => {
 						</span>
 					</button>
 				</div>
-				{filterOpened && props.children}
+				{filterOpened && props.children[0]}
 				<br/>
 				<div className="store__items-container columns">
 					{ items && renderItems(items) }
 				</div>
+				{ props.children[1] }
 			</div>
 		</div>
 	);

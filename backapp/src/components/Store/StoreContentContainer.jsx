@@ -4,6 +4,7 @@ import StoreContent from './StoreContent';
 import StoreEditForm from './StoreEditForm';
 import StoreFilterForm from './StoreFilterForm';
 import StoreContentTitle from './StoreContentTitle';
+import Pagination from '../Pagination/Pagination';
 import DataProvider from '../../utils/classes/DataProvider';
 import Filter from '../../utils/classes/Filter';
 import { 
@@ -13,6 +14,7 @@ import {
 		changeEditFormState, 
 		changeFilterFormState,
 		setBusyState,
+		setCount,
 		deleteItem,
 		setActiveSort } from '../../ducks/Store';
 
@@ -70,6 +72,7 @@ class StoreContentContainer extends Component {
 		const provider = new DataProvider();
 		provider.get(`/backend/store/single/${id}`)
 			.then(data => {
+				this.props.setCount(Number(data.count));
 				this.props.setActiveStore(data.store);
 				this.props.setStoreItems(data.items);
 			})
@@ -122,15 +125,22 @@ class StoreContentContainer extends Component {
 
 	render() {
 
-		const { store, items, editFormOpened, busy } = this.props;
+		const { 
+				store, 
+				items, 
+				editFormOpened,
+				count, 
+				busy } = this.props;
 
 		if (!store) return null;
+
+		console.log(this.props);
 
 		return (
 			<div>
 				<StoreContentTitle
 					store={store}
-					count={items.length}
+					count={count}
 					changeEditFormState={this.changeEditFormState}
 					editFormOpened={editFormOpened}/>
 
@@ -152,6 +162,11 @@ class StoreContentContainer extends Component {
 					<StoreFilterForm 
 						applyFilter={this.applyFilter}/>
 
+					<Pagination
+						baseLink={`/store/${store.id}`}
+						total={count}
+						step={50} />
+
 				</StoreContent>
 			</div>
 		);
@@ -165,11 +180,13 @@ const mapStateToProps = state => ({
 	items            : filter.sortBy(state.store.get('items').toArray(), state.store.activeSort),
 	editFormOpened   : state.store.get('editFormOpened'),
 	filterFormOpened : state.store.get('filterFormOpened'),
-	busy             : state.store.get('busy')
+	busy             : state.store.get('busy'),
+	count            : state.store.get('count')
 });
 
 const mapDispatchToProps = dispatch => ({
 	setActiveStore        : (instance) => dispatch(setActiveStore(instance)),
+	setCount              : (count)    => dispatch(setCount(count)),
 	updateStore           : (config)   => dispatch(updateStore(config)),
 	setStoreItems         : (items)    => dispatch(setStoreItems(items)),
 	changeEditFormState   : (isOpened) => dispatch(changeEditFormState(isOpened)),

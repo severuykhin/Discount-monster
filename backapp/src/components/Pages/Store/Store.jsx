@@ -17,7 +17,8 @@ const Store = () => {
 					<StoreNav />
 				</div>
 				<div className="stores__content">
-					<Route path="/store/:id" component={StoreContentContainer} />
+					<Route path="/store/:id" exact component={StoreContentContainer} />
+					<Route path="/store/:id/:page" component={StoreContentContainer} />
 				</div>
 			</div>
 					

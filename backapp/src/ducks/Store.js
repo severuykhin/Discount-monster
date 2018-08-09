@@ -9,6 +9,7 @@ export const CHANGE_BUSY_STATE      = `${MODULE_NAME}/CHANGE_BUSY_STATE`;
 export const CHANGE_FILTER_STATE    = `${MODULE_NAME}/CHANGE_FILTER_STATE`;
 export const SET_ACTIVE_SORT        = `${MODULE_NAME}/SET_ACTIVE_SORT`;
 export const DELETE_ITEM            = `${MODULE_NAME}/DELETE_ITEM`;
+export const SET_COUNT              = `${MODULE_NAME}/SET_COUNT`;  
 
 const InitialState = new Record({
 	instance : null,
@@ -16,7 +17,8 @@ const InitialState = new Record({
 	editFormOpened : false,
 	busy : false,
 	filterFormOpened : false,
-	activeSort : ''
+	activeSort : '',
+	count : 0
 });
 
 export default function storeReducer(state = new InitialState(), action) {
@@ -27,6 +29,8 @@ export default function storeReducer(state = new InitialState(), action) {
 			return state.set('instance', payload);
 		case SET_STORE_ITEMS:
 			return state.set('items', new List(payload));
+		case SET_COUNT:
+			return state.set('count', payload);
 		case CHANGE_EDIT_FORM_STATE:
 			return state.set('editFormOpened', payload);
 		case CHANGE_BUSY_STATE:
@@ -127,4 +131,13 @@ export const setActiveSort = type => ({
 export const deleteItem = id => ({
 	type : DELETE_ITEM,
 	payload : id
+});
+
+/**
+ * Creates "set count" action
+ * @param {number} count 
+ */
+export const setCount = count => ({
+	type : SET_COUNT,
+	payload : count
 });
