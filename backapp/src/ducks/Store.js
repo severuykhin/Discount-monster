@@ -8,7 +8,7 @@ export const CHANGE_EDIT_FORM_STATE = `${MODULE_NAME}/CHANGE_EDIT_FORM_STATE`;
 export const CHANGE_BUSY_STATE      = `${MODULE_NAME}/CHANGE_BUSY_STATE`;
 export const CHANGE_FILTER_STATE    = `${MODULE_NAME}/CHANGE_FILTER_STATE`;
 export const SET_ACTIVE_SORT        = `${MODULE_NAME}/SET_ACTIVE_SORT`;
-
+export const DELETE_ITEM            = `${MODULE_NAME}/DELETE_ITEM`;
 
 const InitialState = new Record({
 	instance : null,
@@ -40,6 +40,14 @@ export default function storeReducer(state = new InitialState(), action) {
 			store.name = payload.name;
 			store.url  = payload.url;
 			return state.set('instance', store);
+		case DELETE_ITEM:
+			let items = [...state.get('items').toArray()];
+			items.forEach((item, index) => {
+				if (item.id === payload) {
+					items = items.slice(0, index).concat(items.slice(index + 1));
+				}
+			});
+			return state.set('items', new List(items));
 
 		default:
 			return state;
@@ -110,4 +118,13 @@ export const changeFilterFormState = isOpened => ({
 export const setActiveSort = type => ({
 	type : SET_ACTIVE_SORT,
 	payload : type
+});
+
+/**
+ * Creates Delet item action
+ * @param {number} id 
+ */
+export const deleteItem = id => ({
+	type : DELETE_ITEM,
+	payload : id
 });
