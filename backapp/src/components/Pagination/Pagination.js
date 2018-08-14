@@ -9,12 +9,11 @@ const Pagination = (props) => {
 		const steps = Math.ceil(total / step);
 		const items = [];
 		for (let i = 1; i <= steps; i++) {
-			let to = i === 1 ? baseLink : `${baseLink}/${i}`;
 			items.push((
 				<li key={`pagination-item-${i}`}>
 					<NavLink
 						exact 
-						to={to}
+						to={`${baseLink}/${i}`}
 						className="pagination-link"
 						activeClassName="pagination-link is-current" >
 						{i}

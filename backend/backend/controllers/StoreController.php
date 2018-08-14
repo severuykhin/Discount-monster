@@ -4,6 +4,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Store;
 use common\models\Item;
+use common\models\search\ItemsSearch;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -125,7 +126,7 @@ class StoreController extends Controller
                     ->where(['store_id' => $id]);
 
         $count = $query->count(); 
-        $items = $query->limit(50)->all();
+        $items = ItemsSearch::findBy(Yii::$app->request->get());
         
         return Json::encode([
             'store' => $store,

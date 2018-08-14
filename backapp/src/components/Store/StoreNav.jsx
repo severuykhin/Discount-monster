@@ -29,8 +29,6 @@ class StoreNav extends Component {
 	 * @param {number} id
  	 */
 	deleteStore = (id) => {
-		console.log(id);
-
 		// TO DO - Make proper confirm dialog
 		const isAllow = window.confirm('Вы уверены? Удаление магазина удалит все товары');
 		
@@ -56,7 +54,7 @@ class StoreNav extends Component {
 				<li key={`store-nav-item-${item.id}`}>
 					<NavLink 
 						key={`store-nav-item-${item.id}-link`}
-						to={`/store/${item.id}`}
+						to={`/store/${item.id}/1`}
 						activeClassName="is-active">
 						{item.name}
 					</NavLink>

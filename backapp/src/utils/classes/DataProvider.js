@@ -9,7 +9,11 @@ class DataProvider {
 	 * Provides GET requests
 	 * @param {string} url - Request url 
 	 */
-	get(url) {
+	get(url, params = null) {
+
+		if (params && params.hasOwnProperty) {
+			url += `?${this._getQueryString(params)}`;
+		}
 
 		return new Promise((resolve, reject) => {
 
@@ -78,6 +82,26 @@ class DataProvider {
 				reject(this.responseText);
 			}
 		});
+	}
+
+	/**
+	 * Builds query string "&prop=value" from given object
+	 * @param {object} params - Dictionary of query params
+	 * @returns {string}
+	 */
+	_getQueryString(params) {
+		let string = '',
+			keys = Object.keys(params),
+			edgeParamIndex = keys.length - 1;
+
+		keys.forEach((key, index) => {
+			string += `${key}=${params[key]}`;
+			if (index !== edgeParamIndex) {
+				string += '&';
+			}	
+		});
+
+		return string;
 	}
 
 	_processObjToData(obj) {

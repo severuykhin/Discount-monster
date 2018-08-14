@@ -20,16 +20,48 @@ import {
 
 class StoreContentContainer extends Component {
 
+	/**
+	 * Collect all query params with sorting and pagination
+	 * @returns { object }
+	 */
+	getQueryParams() {
+
+		let page = this.props.match.params.page ? Number(this.props.match.params.page) : 1;
+
+		const params = {
+			id   : Number(this.props.match.params.id),
+			page : page,
+			step : 50,
+			sort : this.props.activeSort
+		};
+
+		return params; 
+	}
+
 	componentDidMount() {
-		let id = Number(this.props.match.params.id);
-		this.getStoreWithItems(id);
+		console.log('COMPONENT MOUNTED!!');
+		let queryParams = this.getQueryParams();
+		this.getStoreWithItems(queryParams);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		let id = Number(this.props.match.params.id);
-		if (id !== Number(prevProps.match.params.id)) {
-			this.getStoreWithItems(id);	
+		let queryParams = this.getQueryParams();
+
+		console.log(queryParams);
+
+		if (
+			queryParams.id === Number(prevProps.match.params.id) &&
+			queryParams.page !==  Number(prevProps.match.params.page) &&
+			prevProps.match.params.page !== undefined
+		) {
+			this.getStoreWithItems(queryParams);
+			console.log('store page changed');
 		}
+		else if (queryParams.id !== Number(prevProps.match.params.id)) {
+			this.getStoreWithItems(queryParams);
+			console.log('store changed');	
+		}
+		
 	}
 
 	/**
@@ -65,12 +97,14 @@ class StoreContentContainer extends Component {
 
 	/**
 	 * Get store with containing item by given id
-	 * @param {number} id - Store id
+	 * @param {object} params - Store id
 	 */
-	getStoreWithItems(id) {
+	getStoreWithItems(params) {
+
+		// console.log('----------Trigger update--------------');
 
 		const provider = new DataProvider();
-		provider.get(`/backend/store/single/${id}`)
+		provider.get(`/backend/store/single/${params.id}`, params)
 			.then(data => {
 				this.props.setCount(Number(data.count));
 				this.props.setActiveStore(data.store);
@@ -134,8 +168,6 @@ class StoreContentContainer extends Component {
 
 		if (!store) return null;
 
-		console.log(this.props);
-
 		return (
 			<div>
 				<StoreContentTitle
@@ -181,7 +213,8 @@ const mapStateToProps = state => ({
 	editFormOpened   : state.store.get('editFormOpened'),
 	filterFormOpened : state.store.get('filterFormOpened'),
 	busy             : state.store.get('busy'),
-	count            : state.store.get('count')
+	count            : state.store.get('count'),
+	activeSort       : state.store.get('activeSort')
 });
 
 const mapDispatchToProps = dispatch => ({
