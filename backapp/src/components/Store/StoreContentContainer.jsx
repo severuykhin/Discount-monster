@@ -6,7 +6,6 @@ import StoreFilterForm from './StoreFilterForm';
 import StoreContentTitle from './StoreContentTitle';
 import Pagination from '../Pagination/Pagination';
 import DataProvider from '../../utils/classes/DataProvider';
-import Filter from '../../utils/classes/Filter';
 import { 
 		setActiveStore,
 		updateStore, 
@@ -39,7 +38,6 @@ class StoreContentContainer extends Component {
 	}
 
 	componentDidMount() {
-		console.log('COMPONENT MOUNTED!!');
 		let queryParams = this.getQueryParams();
 		this.getStoreWithItems(queryParams);
 	}
@@ -47,19 +45,23 @@ class StoreContentContainer extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		let queryParams = this.getQueryParams();
 
-		console.log(queryParams);
-
 		if (
 			queryParams.id === Number(prevProps.match.params.id) &&
 			queryParams.page !==  Number(prevProps.match.params.page) &&
 			prevProps.match.params.page !== undefined
 		) {
 			this.getStoreWithItems(queryParams);
-			console.log('store page changed');
 		}
+
 		else if (queryParams.id !== Number(prevProps.match.params.id)) {
 			this.getStoreWithItems(queryParams);
-			console.log('store changed');	
+		}
+
+		else if (
+			queryParams.id === Number(prevProps.match.params.id) &&
+			queryParams.sort !==  prevProps.activeSort
+		) {
+			this.getStoreWithItems(queryParams);
 		}
 		
 	}
@@ -101,7 +103,6 @@ class StoreContentContainer extends Component {
 	 */
 	getStoreWithItems(params) {
 
-		// console.log('----------Trigger update--------------');
 
 		const provider = new DataProvider();
 		provider.get(`/backend/store/single/${params.id}`, params)
@@ -205,11 +206,10 @@ class StoreContentContainer extends Component {
 	}
 }
 
-const filter = new Filter();
 
 const mapStateToProps = state => ({
 	store            : state.store.get('instance'),
-	items            : filter.sortBy(state.store.get('items').toArray(), state.store.activeSort),
+	items            : state.store.get('items').toArray(),
 	editFormOpened   : state.store.get('editFormOpened'),
 	filterFormOpened : state.store.get('filterFormOpened'),
 	busy             : state.store.get('busy'),

@@ -16,7 +16,7 @@ class m180804_130256_create_item_table extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->string()->comment('Название'),
             'url' => $this->string()->comment('Ссылка'),
-            'price' => $this->string()->comment('Цена'),
+            'price' => $this->integer()->comment('Цена'),
             'img'   => $this->string()->comment('Изображение'),
             'store_id' => $this->integer()->comment('Магазин'),
             'created_at' => $this->integer(),

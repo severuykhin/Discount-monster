@@ -12,7 +12,7 @@ class m180805_100509_add_saleprice_column_to_items_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('item', 'price_sale', $this->string(30)->comment('Цена со скидкой'));
+        $this->addColumn('item', 'price_sale', $this->integer()->comment('Цена со скидкой'));
     }
 
     /**
