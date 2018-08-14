@@ -28,6 +28,9 @@ class AdidasController extends Controller
 		$parser = ParserFactory::get($store->name);
 		$parser->load($store);
 		$items = $parser->run();
+		$amount = count($items);
+
+		echo "Job is done! Parsed $amount items" . PHP_EOL;
     }
     
 

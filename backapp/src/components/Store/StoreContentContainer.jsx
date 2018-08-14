@@ -50,7 +50,7 @@ class StoreContentContainer extends Component {
 			queryParams.page !==  Number(prevProps.match.params.page) &&
 			prevProps.match.params.page !== undefined
 		) {
-			this.getStoreWithItems(queryParams);
+			this.getItems(queryParams);
 		}
 
 		else if (queryParams.id !== Number(prevProps.match.params.id)) {
@@ -61,7 +61,7 @@ class StoreContentContainer extends Component {
 			queryParams.id === Number(prevProps.match.params.id) &&
 			queryParams.sort !==  prevProps.activeSort
 		) {
-			this.getStoreWithItems(queryParams);
+			this.getItems(queryParams);
 		}
 		
 	}
@@ -103,12 +103,23 @@ class StoreContentContainer extends Component {
 	 */
 	getStoreWithItems(params) {
 
-
 		const provider = new DataProvider();
 		provider.get(`/backend/store/single/${params.id}`, params)
 			.then(data => {
 				this.props.setCount(Number(data.count));
 				this.props.setActiveStore(data.store);
+				this.props.setStoreItems(data.items);
+			})
+	}
+
+	/**
+	 * Gets onlyv store intems and updates them
+	 * @param {object} params 
+	 */
+	getItems(params) {
+		const provider = new DataProvider();
+		provider.get(`/backend/store/items/${params.id}`, params)
+			.then(data => {
 				this.props.setStoreItems(data.items);
 			})
 	}

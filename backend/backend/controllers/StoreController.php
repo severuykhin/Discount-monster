@@ -32,6 +32,7 @@ class StoreController extends Controller
                 'actions' => [
                     'index' => ['get'],
                     'single' => ['get'],
+                    'items'  => ['get'],
                     'update' => ['post']
                 ],
             ],
@@ -132,6 +133,15 @@ class StoreController extends Controller
             'store' => $store,
             'items' => $items,
             'count' => $count
+        ]);
+    }
+
+    public function actionItems($id): string
+    { 
+        $items = ItemsSearch::findBy(Yii::$app->request->get());
+        
+        return Json::encode([
+            'items' => $items,
         ]);
     }
 
