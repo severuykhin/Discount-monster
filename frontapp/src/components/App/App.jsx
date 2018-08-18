@@ -3,7 +3,7 @@ import { BrowserRouter,
          Route, 
          Switch} from 'react-router-dom';
 
-import Header from '../Header/Header';
+import HeaderContainer from '../Header/HeaderContainer';
 import Catalog from '../Pages/Catalog';
 import Error from '../Pages/Error';
 
@@ -18,7 +18,7 @@ class App extends Component {
           <Fragment>
 
             
-            <Header />
+            <HeaderContainer />
 
             <Switch>
               <Route exact path="/" component={Catalog} />

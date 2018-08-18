@@ -34,7 +34,8 @@ class Store extends \yii\db\ActiveRecord
             [['name', 'url'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 200],
-            [['url'], 'string', 'max' => 255],
+            [['url', 'slug'], 'string', 'max' => 255],
+            [['slug'], 'unique']
         ];
     }
 
