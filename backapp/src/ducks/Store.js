@@ -43,6 +43,7 @@ export default function storeReducer(state = new InitialState(), action) {
 			let store = state.get('instance');
 			store.name = payload.name;
 			store.url  = payload.url;
+			store.slug = payload.slug;
 			return state.set('instance', store);
 		case DELETE_ITEM:
 			let items = [...state.get('items').toArray()];

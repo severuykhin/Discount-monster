@@ -151,6 +151,7 @@ class StoreController extends Controller
             $model = Store::findOne($id);
             $model->name = Yii::$app->request->post('name');
             $model->url  = Yii::$app->request->post('url');
+            $model->slug = Yii::$app->request->post('slug');
             if ($model->save()) {
                 return Json::encode($model);
             }

@@ -7,6 +7,7 @@ class StoreEditForm extends Component  {
 
 		this.name = React.createRef();
 		this.url  = React.createRef(); 
+		this.slug = React.createRef(); 
 	}
 
 	storeValues = (e, withSave = false) => {
@@ -16,6 +17,7 @@ class StoreEditForm extends Component  {
 		const config = {
 			id   : this.props.store.id,
 			name : this.name.current.value,
+			slug : this.slug.current.value,
 			url  : this.url.current.value
 		}
 
@@ -38,6 +40,21 @@ class StoreEditForm extends Component  {
 								className="input" 
 								type="text" 
 								placeholder="Название" />
+							<span className="icon is-small is-left">
+							<i className="fas fa-envelope"></i>
+							</span>
+						</p>
+					</div>
+
+					<div className="field store__edit-item store__edit-item-1">
+						<p className="control has-icons-left has-icons-right">
+							<input 
+								value={this.props.store.slug}
+								onChange={this.storeValues}
+								ref={this.slug}
+								className="input" 
+								type="text" 
+								placeholder="slug" />
 							<span className="icon is-small is-left">
 							<i className="fas fa-envelope"></i>
 							</span>

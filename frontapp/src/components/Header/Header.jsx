@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Wishpicker from '../Wishpicker/Wishpicker';
 
@@ -44,22 +45,10 @@ const Header = () => {
 	
 									<ul className="cat_menu">
 										<li className="hassubs">
-											<a href="#">Adidas<i className="fas fa-chevron-right"></i></a>
-											<ul>
-												<li className="hassubs">
-													<a href="#">Обувь</a>
-												</li>
-												<li><a href="#">Одежда</a></li>
-											</ul>
+											<a href="#">Adidas</a>
 										</li>
 										<li className="hassubs">
-											<a href="#">Reebok<i className="fas fa-chevron-right"></i></a>
-											<ul>
-												<li className="hassubs">
-													<a href="#">Обувь</a>
-												</li>
-												<li><a href="#">Одежда</a></li>
-											</ul>
+											<a href="#">Reebok</a>
 										</li>
 									</ul>
 								</div>
