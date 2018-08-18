@@ -26,7 +26,10 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-	            '' => 'site/index',
+                '' => 'site/index',
+                'store/<action>' => 'store/<action>',
+                'items' => 'items/index',
+                'items/<action>' => 'items/<action>'
             ]
         ],
         'errorHandler' => [

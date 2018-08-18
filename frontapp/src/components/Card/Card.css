@@ -1,0 +1,17 @@
+.card {
+	height: 100%;
+}
+
+.card_wrap {
+	margin-bottom: 30px;
+}
+
+.card .bestsellers_image {
+	width: 100%;
+	height: auto;
+	margin-bottom: 20px;
+}
+
+.card .bestsellers_image img {
+	width: 100%;
+}

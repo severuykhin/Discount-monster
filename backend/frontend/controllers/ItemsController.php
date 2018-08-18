@@ -9,13 +9,14 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\VarDumper;
 use yii\helpers\Json;
 
-use common\models\Store;
+use common\models\Item;
+use common\models\search\ItemsSearch;
 
 /**
- * Class SiteController
+ * Class ItemController
  * @package frontend\controllers
  */
-class StoreController extends Controller
+class ItemsController extends Controller
 {
 
     /**
@@ -53,16 +54,13 @@ class StoreController extends Controller
      */
     public function actionIndex()
 	{
-        return $this->render('index');
-	}
 
-	public function actionAll(): string
-	{
-        $stores = Store::find()->asArray()->all();
+        $searchModel = new ItemsSearch();
+        $data        = $searchModel->find(Yii::$app->request->get());
 
-		return Json::encode([
+        return Json::encode([
             'result' => 'ok',
-            'items'  => $stores
+            'data'   => $data
 		]);
 	}
 

@@ -4,7 +4,7 @@ import { BrowserRouter,
          Switch} from 'react-router-dom';
 
 import HeaderContainer from '../Header/HeaderContainer';
-import Catalog from '../Pages/Catalog';
+import CatalogContainer from '../Pages/CatalogContainer';
 import Error from '../Pages/Error';
 
 import './App.css';
@@ -21,10 +21,10 @@ class App extends Component {
             <HeaderContainer />
 
             <Switch>
-              <Route exact path="/" component={Catalog} />
-              <Route exact path="/catalog" component={Catalog} />
-              <Route exact path="/catalog/store/:name" component={Catalog} />
-              <Route exact path="/catalog/:category" component={Catalog} />
+              <Route exact path="/" component={CatalogContainer} />
+              <Route exact path="/catalog" component={CatalogContainer} />
+              <Route exact path="/catalog/store/:slug" component={CatalogContainer} />
+              <Route exact path="/catalog/:category" component={CatalogContainer} />
               <Route component={Error} />
             </Switch>
 

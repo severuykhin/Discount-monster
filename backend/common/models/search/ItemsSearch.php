@@ -3,8 +3,9 @@
 namespace common\models\search;
 
 use Yii;
-use Yii\base\Model;
+use yii\base\Model;
 use common\models\Item;
+use common\models\Store;
 
 class ItemsSearch extends Model
 {
@@ -43,5 +44,24 @@ class ItemsSearch extends Model
 		return $query->asArray()->all();
 
 
+	}
+
+	public function find(array $params): array
+	{
+		$query = Item::find();
+
+		if (isset($params['slug'])) {
+			$slug = $params['slug'];
+			$store = Store::find()->where(['slug' => $slug])->asArray()->one();
+			$query->where(['store_id' => $store['id']]);
+		}
+
+		$query->orderBy('price_sale');
+		$query->limit(50);
+
+		return [
+			'items' => $query->asArray()->all(),
+			'count' => $query->count()
+		];
 	}
 }

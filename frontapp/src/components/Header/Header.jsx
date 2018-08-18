@@ -3,7 +3,26 @@ import { NavLink } from 'react-router-dom';
 
 import Wishpicker from '../Wishpicker/Wishpicker';
 
-const Header = () => {
+const Header = (props) => {
+
+	const { items } = props;
+
+	const buildLinks = items => {
+
+
+		return Object.keys(items).map( elem => {
+			const item = items[elem];
+
+			return (
+				<li key={`header-link-${item.id}`}>
+					<NavLink to={`/catalog/store/${item.slug}`}>
+						{ item.name }
+					</NavLink>
+				</li>
+			);
+		});
+	}
+
 	return (
 		<header className="header">
 	
@@ -13,7 +32,9 @@ const Header = () => {
 	
 						<div className="col-lg-2 col-sm-3 col-3 order-1">
 							<div className="logo_container">
-								<div className="logo"><a href="#">DISCOUNTMONSTER</a></div>
+								<div className="logo">
+									<NavLink to="/catalog">DISCOUNTMONSTER</NavLink>
+								</div>
 							</div>
 						</div>
 	
@@ -44,12 +65,7 @@ const Header = () => {
 									</div>
 	
 									<ul className="cat_menu">
-										<li className="hassubs">
-											<a href="#">Adidas</a>
-										</li>
-										<li className="hassubs">
-											<a href="#">Reebok</a>
-										</li>
+										{ buildLinks(items) }
 									</ul>
 								</div>
 	

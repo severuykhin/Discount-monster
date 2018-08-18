@@ -1,10 +1,11 @@
 import { List, Record } from 'immutable';
+import HashTable from '../utils/classes/HashTable';
 
 export const MODULE_NAME = 'store';
 export const SET_ALL     = `${MODULE_NAME}/SET_ALL`;
 
 const InitialState = new Record({
-	stores : {}
+	stores : new HashTable([])
 });
 
 export default function storeReducer(state = new InitialState(), action) {
@@ -12,7 +13,7 @@ export default function storeReducer(state = new InitialState(), action) {
 
 	switch(type) {
 		case SET_ALL:
-			return state;
+			return state.set('stores', payload);
 		default:
 			return state;
 	}
@@ -26,5 +27,5 @@ export default function storeReducer(state = new InitialState(), action) {
  */
 export const setStores = stores => ({
 	type    : SET_ALL,
-	payload : stores
+	payload : new HashTable(stores, 'id')
 });

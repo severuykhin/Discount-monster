@@ -7,9 +7,6 @@ import store from '../../redux/index';
 
 class Root extends Component {
 	render() {
-
-		console.log(store);
-		
 		return (
 			<Provider store={store}>
 				<ConnectedRouter history={history}>
