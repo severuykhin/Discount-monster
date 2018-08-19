@@ -14,6 +14,8 @@ class ItemsSearch extends Model
 	const PRICE_MAX = 'filter_max';
 	const MAX_DISCOUNT = 'filter_discount';
 
+	const LIMIT = 50;
+
 	protected static function sortTypes(): array
 	{
 		return [
@@ -57,6 +59,11 @@ class ItemsSearch extends Model
 		}
 
 		$query->orderBy('price_sale');
+
+		if (isset($params['page'])) {
+			$query->offset(((int)$params['page'] - 1) * self::LIMIT);
+		}
+		
 		$query->limit(50);
 
 		return [

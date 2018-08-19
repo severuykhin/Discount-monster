@@ -1,6 +1,16 @@
+.pagination .page_nav li {
+	display: inline-block;
+}
+
 .pagination .page_nav li a {
 	width: 50px;
-	height: 50px;
+	height: 49px;
 	text-align: center;
 	line-height: 50px;
+	display: block;
+}
+
+.pagination .page_nav li a.active {
+	color: #fff;
+	background-color: #0e8ce4;
 }

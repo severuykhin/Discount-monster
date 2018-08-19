@@ -4,7 +4,7 @@ import React, { Component, Fragment } from 'react';
 import Catalog from './Catalog';
 import DataProvider from '../../utils/classes/DataProvider';
 
-import { setActive, setTotal } from '../../ducks/Items';
+import { setActive, setTotal, setBusy } from '../../ducks/Items';
 
 class CatalogContainer extends Component {
 
@@ -16,20 +16,7 @@ class CatalogContainer extends Component {
 
 	componentDidMount() {
 		const params = this.props.match.params;
-		this.provider.get('/items', params)
-			.then(response => {
-				if (response.result === 'ok') {
-					this.props.setActive(response.data.items);
-					this.props.setTotal(response.data.count);
-				} 
-				else {
-					alert('При передаче денных произошла ошибка');
-				}
-			})
-			.catch(e => {
-				console.log(e);
-				alert('При передаче денных произошла ошибка');
-			})
+		this.getItems(params);
 	}
 
 	componentDidUpdate(prevProps, preState) {
@@ -54,11 +41,20 @@ class CatalogContainer extends Component {
 	 * @param {object} params - Query params
 	 */
 	getItems = (params) => {
+
+		this.props.setBusy(true);
+
 		this.provider.get('/items', params)
-			.then( response => {
-				this.props.setActive(response.data.items);
-				this.props.setTotal(response.data.count);
-			}) 
+			.then(response => {
+				if (response.result === 'ok') {
+					this.props.setActive(response.data.items);
+					this.props.setTotal(response.data.count);
+					this.props.setBusy(false);
+				} 
+				else {
+					alert('При передаче денных произошла ошибка');
+				}
+			})
 			.catch(e => {
 				console.log(e);
 				alert('При передаче денных произошла ошибка');
@@ -69,9 +65,13 @@ class CatalogContainer extends Component {
 
 		let paginationLink = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog'; 
 
+		let currentPage = this.props.match.params.page ? this.props.match.params.page : 0;
+
 		return (
 			<Fragment>
 				<Catalog 
+					currentPage={Number(currentPage)}
+					busy={this.props.busy}
 					paginationLink={paginationLink}
 					items={this.props.items}
 					total={this.props.total} />
@@ -82,12 +82,14 @@ class CatalogContainer extends Component {
 
 const mapStateToProps = state => ({
 	items : state.items.get('active').toArray(),
-	total : state.items.get('total')
+	total : state.items.get('total'),
+	busy  : state.items.get('busy')
 });
 
 const mapDispatchToProps = dispatch => ({
-	setActive : (items) => dispatch(setActive(items)),
-	setTotal  : (num)   => dispatch(setTotal(num))
+	setActive : (items)  => dispatch(setActive(items)),
+	setTotal  : (num)    => dispatch(setTotal(num)),
+	setBusy   : (isBusy) => dispatch(setBusy(isBusy))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CatalogContainer);

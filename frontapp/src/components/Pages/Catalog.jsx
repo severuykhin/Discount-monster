@@ -6,7 +6,6 @@ import Pagination from '../Pagination/Pagination';
 class Catalog extends Component {
 
 	render() {
-
 		return (
 			<div className="container">
 				<div className="catalog">
@@ -22,13 +21,16 @@ class Catalog extends Component {
 								total={this.props.total}/>
 
 							<Pagination 
+								current={this.props.currentPage}
 								baseLink={this.props.paginationLink}
 								total={this.props.total} />
 							
 							<CatalogItems 
+								busy={this.props.busy}
 								items={this.props.items} />
 
 							<Pagination 
+								current={this.props.currentPage}
 								baseLink={this.props.paginationLink}
 								total={this.props.total} />
 						

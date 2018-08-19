@@ -13,8 +13,10 @@ const CatalogItems = (props) => {
 		});
 	};
 
+	const catalogClass = props.busy ? 'row is-loading' : 'row';
+
 	return (
-		<div className="row">
+		<div className={catalogClass}>
 			{ buildItems(props.items) }		
 		</div>
 	);
