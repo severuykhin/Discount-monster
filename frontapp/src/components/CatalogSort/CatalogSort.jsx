@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import './CatalogSort.css';
+
 
 class CatalogSort extends Component {
 	render() {
 		return (
 			<div className="catalog__sort">
 				<div className="shop_bar clearfix">
-					<div className="shop_product_count"><span>186</span> products found</div>
+					<div className="shop_product_count"><span>{this.props.total}</span> предложений найдено</div>
 					<div className="shop_sorting">
 						<span>Сортировать:</span>
 						<ul>

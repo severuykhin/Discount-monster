@@ -2,9 +2,11 @@ import { Record, List } from 'immutable';
 
 export const MODULE_NAME = 'items';
 export const SET_ACTIVE  = `${MODULE_NAME}/SET_ACTIVE`;
+export const SET_TOTAL   = `${MODULE_NAME}/SET_TOTAL`;
 
 const InitialState = new Record({
-	active : new List([])
+	active : new List([]),
+	total  : 0
 });
 
 export default function itemsReducer(state = new InitialState(), action) {
@@ -13,6 +15,8 @@ export default function itemsReducer(state = new InitialState(), action) {
 	switch(type) {
 		case SET_ACTIVE:
 			return state.set('active', new List(payload));
+		case SET_TOTAL:
+			return state.set('total', payload);
 		default: 
 			return state;
 	}
@@ -26,4 +30,14 @@ export default function itemsReducer(state = new InitialState(), action) {
 export const setActive = items => ({
 	type    : SET_ACTIVE,
 	payload : items
+});
+
+
+/**
+ * Dispatch set total items action
+ * @param {number} num - total item count 
+ */
+export const setTotal = num => ({
+	type    : SET_TOTAL,
+	payload : num
 });

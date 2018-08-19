@@ -16,7 +16,6 @@ const Card = (props) => {
 					<div className="bestsellers_content">
 						<div className="bestsellers_category"><a href="#">Headphones</a></div>
 						<div className="bestsellers_name">{config.title}</div>
-						<div className="rating_r rating_r_4 bestsellers_rating"><i></i><i></i><i></i><i></i><i></i></div>
 						<div className="bestsellers_price discount">
 							<div>
 								<span>{config.price} ₽</span>
