@@ -1,0 +1,8 @@
+.sidebar_categories li a.active {
+	color: #0e8ce4;
+}
+
+.sidebar_categories li a span {
+	color: rgba(158, 158, 158, 0.452);
+	margin-left: 5px;
+}

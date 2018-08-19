@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use common\models\Store;
 
 /**
  * This is the model class for table "item".
@@ -62,5 +63,10 @@ class Item extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getStore() 
+    {
+        return $this->hasOne(Store::className(), ['store_id' => 'id']);
     }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CatalogItems from '../CatalogItems/CatalogItems';
 import CatalogSort from '../CatalogSort/CatalogSort';
 import Pagination from '../Pagination/Pagination';
+import Sidebar from '../Sidebar/Sidebar';
 
 class Catalog extends Component {
 
@@ -12,7 +13,7 @@ class Catalog extends Component {
 					<div className="row">
 					
 						<div className="col-lg-2">
-							Тут фильтры
+							<Sidebar />
 						</div>
 
 						<div className="col-lg-10">

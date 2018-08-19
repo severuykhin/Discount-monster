@@ -10,6 +10,7 @@ use yii\helpers\VarDumper;
 use yii\helpers\Json;
 
 use common\models\Store;
+use common\models\Item;
 
 /**
  * Class SiteController
@@ -54,12 +55,17 @@ class StoreController extends Controller
     public function actionIndex()
 	{
         return $this->render('index');
-	}
+    }
+
 
 	public function actionAll(): string
 	{
         $stores = Store::find()->asArray()->all();
 
+        foreach($stores as $key => $store) {
+            $stores[$key]['count'] = Item::find()->where(['store_id' => $store['id']])->count();
+        }
+        
 		return Json::encode([
             'result' => 'ok',
             'items'  => $stores
