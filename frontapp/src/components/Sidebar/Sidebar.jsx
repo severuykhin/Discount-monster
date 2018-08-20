@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import Range from '../Range/Range';
 import './Sidebar.css';
 
 class Sidebar extends Component {
+
+	handlePriceChange = (values) => {
+		console.log(values);
+	}
 	
 	buildStoresLinks = stores => {
 		return Object.keys(stores).map( i => {
@@ -35,12 +40,11 @@ class Sidebar extends Component {
 						</div>
 						<div className="sidebar_section filter_by_section">
 							<div className="sidebar_title">Фильтры</div>
-							<div className="sidebar_subtitle">Цена</div>
-							<div className="filter_price">
-								<div id="slider-range" className="slider_range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div className="ui-slider-range ui-corner-all ui-widget-header"></div><span className="ui-slider-handle ui-corner-all ui-state-default"></span><span className="ui-slider-handle ui-corner-all ui-state-default"></span></div>
-								<p>Range: </p>
-								<p><input type="text" id="amount" className="amount" /></p>
-							</div>
+							<div className="sidebar_subtitle sidebar_subtitle-filter">Цена</div>
+							<Range
+								min={100}
+								max={20000}
+								onDragEnd={(values) => { this.handlePriceChange(values); }}/>
 						</div>
 						
 						<div className="sidebar_section">

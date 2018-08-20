@@ -6,3 +6,11 @@
 	color: rgba(158, 158, 158, 0.452);
 	margin-left: 5px;
 }
+
+.sidebar_subtitle-filter {
+	margin-bottom: 20px;
+}
+
+.shop_sidebar {
+	transform: translateX(0);
+}
