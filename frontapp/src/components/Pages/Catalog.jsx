@@ -7,13 +7,17 @@ import Sidebar from '../Sidebar/Sidebar';
 class Catalog extends Component {
 
 	render() {
+
 		return (
 			<div className="container">
 				<div className="catalog">
 					<div className="row">
 					
 						<div className="col-lg-2">
-							<Sidebar />
+							<Sidebar
+								minPrice={this.props.minPrice}
+								maxPrice={this.props.maxPrice}
+								setPriceFilters={this.props.setPriceFilters} />
 						</div>
 
 						<div className="col-lg-10">

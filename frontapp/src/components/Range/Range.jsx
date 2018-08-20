@@ -39,6 +39,7 @@ class Range extends Component {
 	 * Sets initial values
 	 */
 	componentDidMount() {
+
 		this.setValues();
 		this.listenMouseEvent();
 
@@ -47,22 +48,18 @@ class Range extends Component {
 		}
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (this.props.min === prevProps.min && this.props.max === prevProps.max) return;
+		this.setValues();
+	}
+
 	setValues = () => {
 		const min = Number(this.props.min);
 		const max = Number(this.props.max);
 		const range = max - min;
 
-		this.setState({
-			min,
-			max,
-			range,
-			start : min,
-			end : max,
-			lineWidth : this.line.current.offsetWidth
-		})
-
 		let lineWidth = this.line.current.offsetWidth;
-		let minPos    = this.min.current.offsetLeft;
+		let minPos    = this.line.current.offsetLeft;
 		let maxPos    = lineWidth - (this.state.pointWidth / 2);
 		let rangePerPixRatio = Math.ceil(range / lineWidth);
 

@@ -6,8 +6,12 @@ import './Sidebar.css';
 
 class Sidebar extends Component {
 
+	/**
+	 * Handles Price filter change and give it to Catalog container
+	 * @param { object } values - Min and max values
+	 */
 	handlePriceChange = (values) => {
-		console.log(values);
+		this.props.setPriceFilters(values);
 	}
 	
 	buildStoresLinks = stores => {
@@ -42,8 +46,8 @@ class Sidebar extends Component {
 							<div className="sidebar_title">Фильтры</div>
 							<div className="sidebar_subtitle sidebar_subtitle-filter">Цена</div>
 							<Range
-								min={100}
-								max={20000}
+								min={this.props.minPrice || 0}
+								max={this.props.maxPrice || 0}
 								onDragEnd={(values) => { this.handlePriceChange(values); }}/>
 						</div>
 						

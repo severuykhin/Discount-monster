@@ -14,6 +14,15 @@ class CatalogContainer extends Component {
 		this.provider = new DataProvider();
 	}
 
+	/**
+	 * Set price filter
+	 * @param { object } values - Min and max price
+	 */
+	setPriceFilters = (values) => {
+		let currentLocation = this.props.history.location.pathname;
+		this.props.history.push(`${currentLocation}?${this.provider._getQueryString(values)}`)		
+	}
+
 	componentDidMount() {
 		const params = this.props.match.params;
 		this.getItems(params);
@@ -22,16 +31,23 @@ class CatalogContainer extends Component {
 	componentDidUpdate(prevProps, preState) {
 		const params = {};
 
+		// console.log('UPDATED', this.props);
+
 		let page = this.props.match.params.page,
 			slug = this.props.match.params.slug;
 		
 		let prevPage = prevProps.match.params.page,
 			prevSlug = prevProps.match.params.slug;
-		
-		if (prevPage === page && prevSlug === slug) return;
 
 		if (page) params.page = page;
 		if (slug) params.slug = slug;
+
+		if (this.props.location.search !== prevProps.location.search) {
+			this.getItems(params);
+			return;
+		}
+
+		if (prevPage === page && prevSlug === slug) return;
 
 		this.getItems(params);
 	}
@@ -48,7 +64,11 @@ class CatalogContainer extends Component {
 			.then(response => {
 				if (response.result === 'ok') {
 					this.props.setActive(response.data.items);
-					this.props.setTotal(response.data.count);
+					this.props.setTotal({
+						count    : response.data.count,
+						minPrice : response.data.minPrice,
+						maxPrice : response.data.maxPrice
+					});
 					this.props.setBusy(false);
 				} 
 				else {
@@ -70,11 +90,14 @@ class CatalogContainer extends Component {
 		return (
 			<Fragment>
 				<Catalog 
+					setPriceFilters={this.setPriceFilters}
 					currentPage={Number(currentPage)}
 					busy={this.props.busy}
 					paginationLink={paginationLink}
 					items={this.props.items}
-					total={this.props.total} />
+					total={this.props.total.count}
+					minPrice={this.props.total.minPrice}
+					maxPrice={this.props.total.maxPrice} />
 			</Fragment>
 		);
 	}
@@ -88,7 +111,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	setActive : (items)  => dispatch(setActive(items)),
-	setTotal  : (num)    => dispatch(setTotal(num)),
+	setTotal  : (config)    => dispatch(setTotal(config)),
 	setBusy   : (isBusy) => dispatch(setBusy(isBusy))
 });
 

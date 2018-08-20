@@ -7,8 +7,8 @@ export const SET_BUSY    = `${MODULE_NAME}/SET_BUSY`;
 
 const InitialState = new Record({
 	active : new List([]),
-	total  : 0,
-	busy   : false
+	total  : {},
+	busy   : false,
 });
 
 export default function itemsReducer(state = new InitialState(), action) {
@@ -39,11 +39,11 @@ export const setActive = items => ({
 
 /**
  * Dispatch set total items action
- * @param {number} num - total item count 
+ * @param {object} config - total item count, min and max price 
  */
-export const setTotal = num => ({
+export const setTotal = config => ({
 	type    : SET_TOTAL,
-	payload : num
+	payload : config
 });
 
 /**

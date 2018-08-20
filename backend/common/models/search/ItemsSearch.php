@@ -56,6 +56,11 @@ class ItemsSearch extends Model
 			$slug = $params['slug'];
 			$store = Store::find()->where(['slug' => $slug])->asArray()->one();
 			$query->where(['store_id' => $store['id']]);
+			$minPrice = Item::find()->where(['store_id' => $store['id']])->min('price');
+			$maxPrice = Item::find()->where(['store_id' => $store['id']])->max('price');
+		} else {
+			$minPrice = Item::find()->min('price');
+			$maxPrice = Item::find()->max('price');
 		}
 
 		$query->orderBy('price_sale');
@@ -63,12 +68,22 @@ class ItemsSearch extends Model
 		if (isset($params['page'])) {
 			$query->offset(((int)$params['page'] - 1) * self::LIMIT);
 		}
+
+		if (isset($params['min'])) {
+			$query->andFilterWhere(['>=', 'price_sale', $params['min']]);
+		}
+
+		if (isset($params['max'])) {
+			$query->andFilterWhere(['<=', 'price_sale', $params['max']]);
+		}
 		
 		$query->limit(50);
 
 		return [
 			'items' => $query->asArray()->all(),
-			'count' => $query->count()
+			'count' => $query->count(),
+			'minPrice' => $minPrice,
+			'maxPrice' => $maxPrice
 		];
 	}
 }
