@@ -48,6 +48,8 @@ class Sidebar extends Component {
 							<Range
 								min={this.props.minPrice || 0}
 								max={this.props.maxPrice || 0}
+								start={this.props.startPrice}
+								end={this.props.endPrice}
 								onDragEnd={(values) => { this.handlePriceChange(values); }}/>
 						</div>
 						

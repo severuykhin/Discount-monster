@@ -12,9 +12,9 @@ class Request {
 	 */
 	parseParams(queryString) {
 
-		if (queryString.trim() === '') return queryString;
-
+		
 		const params = {};
+		if (queryString.trim() === '') return params;
 
 		const arr = queryString.substring(1).split('&');
 		arr.forEach( i => {

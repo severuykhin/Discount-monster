@@ -23,15 +23,21 @@ const Pagination = (props) => {
 			let link = '';
 
 			if (i === 1) {
-				link = `${baseLink}${queryParams}`;
+				link = `${baseLink}`;
 			} else {
-				link = `${baseLink}/${i}${queryParams}`;
+				link = `${baseLink}/${i}`;
 			}
+
+			let isActive = link === window.location.pathname;
+			let activeClass = isActive ? 'active' : '';
+
+			link = link + queryParams;
 
 			links.push((
 				<li key={`pagination-page-${i}`}>
 					<NavLink
 						exact
+						className={activeClass}
 						to={link}>
 						{ i }
 					</NavLink>

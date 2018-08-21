@@ -29,11 +29,11 @@ class Range extends Component {
 			fill : {
 				start : 0,
 				width : 0 
-			} 
+			},
+			positionUpdated : false
 		};
 
 	}
-
 
 	/**
 	 * Sets initial values
@@ -49,26 +49,30 @@ class Range extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+
 		if (this.props.min === prevProps.min && this.props.max === prevProps.max) return;
-		this.setValues();
+			this.setValues();
 	}
 
-	setValues = () => {
+	/**
+	 * Set working values
+	 */
+	setValues = (config = {}) => {
 		const min = Number(this.props.min);
 		const max = Number(this.props.max);
 		const range = max - min;
 
 		let lineWidth = this.line.current.offsetWidth;
-		let minPos    = this.line.current.offsetLeft;
-		let maxPos    = lineWidth - (this.state.pointWidth / 2);
+		let minPos    = config.minPos || this.line.current.offsetLeft;
+		let maxPos    = config.maxPos || lineWidth - (this.state.pointWidth / 2);
 		let rangePerPixRatio = Math.ceil(range / lineWidth);
 
 		this.setState({
 			min,
 			max,
 			range,
-			start : min,
-			end : max,
+			start : config.start || min,
+			end : config.end || max,
 			lineWidth,
 			minPos,
 			maxPos,
@@ -76,7 +80,8 @@ class Range extends Component {
 			fill : {
 				start : minPos,
 				width : lineWidth - minPos - maxPos
-			}
+			},
+			positionUpdated : false
 		});
 	}
 

@@ -22,9 +22,7 @@ class CatalogContainer extends Component {
 	 */
 	setPriceFilters = (values) => {
 
-		console.log(this.props);
-
-		let firstPage = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog/' ;
+		let firstPage = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog' ;
 		this.props.history.push(`${firstPage}?${this.provider._getQueryString(values)}`);
 
 		const params = {...this.props.match.params, ...values};
@@ -72,7 +70,6 @@ class CatalogContainer extends Component {
 		}
 
 		if (prevPage === page && prevSlug === slug) return;
-		// console.log(params, '==================');
 		this.getItems(params);
 	}
 
@@ -107,8 +104,8 @@ class CatalogContainer extends Component {
 
 	render() {
 		let paginationLink = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog'; 
-
 		let currentPage = this.props.match.params.page ? this.props.match.params.page : 0;
+		let params = this.getAllParams();
 
 		return (
 			<Fragment>
@@ -121,7 +118,9 @@ class CatalogContainer extends Component {
 					items={this.props.items}
 					total={this.props.total.count}
 					minPrice={this.props.total.minPrice}
-					maxPrice={this.props.total.maxPrice} />
+					maxPrice={this.props.total.maxPrice}
+					startPrice={params.min || this.props.total.minPrice}
+					endPrice={params.max || this.props.total.maxPrice} />
 			</Fragment>
 		);
 	}
