@@ -1,6 +1,8 @@
 import React from 'react';
 import Card from '../Card/Card';
 
+import './CatalogItems.css';
+
 const CatalogItems = (props) => {
 
 	const buildItems = items => {
@@ -13,7 +15,7 @@ const CatalogItems = (props) => {
 		});
 	};
 
-	const catalogClass = props.busy ? 'row is-loading' : 'row';
+	const catalogClass = props.busy ? 'row row-catalog is-loading' : 'row row-catalog';
 
 	return (
 		<div className={catalogClass}>

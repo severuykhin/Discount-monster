@@ -27,6 +27,7 @@ class Catalog extends Component {
 
 							<Pagination 
 								current={this.props.currentPage}
+								queryParams={this.props.queryParams}
 								baseLink={this.props.paginationLink}
 								total={this.props.total} />
 							
@@ -36,6 +37,7 @@ class Catalog extends Component {
 
 							<Pagination 
 								current={this.props.currentPage}
+								queryParams={this.props.queryParams}
 								baseLink={this.props.paginationLink}
 								total={this.props.total} />
 						

@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 
 import Catalog from './Catalog';
 import DataProvider from '../../utils/classes/DataProvider';
+import Request from '../../utils/classes/Request';
 
 import { setActive, setTotal, setBusy } from '../../ducks/Items';
 
@@ -12,6 +13,7 @@ class CatalogContainer extends Component {
 		super(props);
 
 		this.provider = new DataProvider();
+		this.request  = new Request();
 	}
 
 	/**
@@ -19,19 +21,41 @@ class CatalogContainer extends Component {
 	 * @param { object } values - Min and max price
 	 */
 	setPriceFilters = (values) => {
-		let currentLocation = this.props.history.location.pathname;
-		this.props.history.push(`${currentLocation}?${this.provider._getQueryString(values)}`)		
+
+		console.log(this.props);
+
+		let firstPage = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog/' ;
+		this.props.history.push(`${firstPage}?${this.provider._getQueryString(values)}`);
+
+		const params = {...this.props.match.params, ...values};
+		this.getItems(params);		
+	}
+
+	/**
+	 * Parse params from request url via request helper
+	 * @returns { string } 
+	 */
+	getRequestParams = () => {
+		return this.request.parseParams(this.props.location.search);
+	}
+
+	/**
+	 * Provides params from props and query string
+	 * @returns { object }
+	 */
+	getAllParams = () => {
+		const params = this.props.match.params;
+		const queryParams = this.getRequestParams();
+
+		return {...params, ...queryParams}
 	}
 
 	componentDidMount() {
-		const params = this.props.match.params;
-		this.getItems(params);
+		this.getItems(this.getAllParams());
 	}
 
 	componentDidUpdate(prevProps, preState) {
-		const params = {};
-
-		// console.log('UPDATED', this.props);
+		const params = this.getAllParams();
 
 		let page = this.props.match.params.page,
 			slug = this.props.match.params.slug;
@@ -48,7 +72,7 @@ class CatalogContainer extends Component {
 		}
 
 		if (prevPage === page && prevSlug === slug) return;
-
+		// console.log(params, '==================');
 		this.getItems(params);
 	}
 
@@ -72,17 +96,16 @@ class CatalogContainer extends Component {
 					this.props.setBusy(false);
 				} 
 				else {
-					alert('При передаче денных произошла ошибка');
+					alert('При передаче данных произошла ошибка');
 				}
 			})
 			.catch(e => {
 				console.log(e);
-				alert('При передаче денных произошла ошибка');
+				alert('При передаче данных произошла ошибка');
 			})
 	}
 
 	render() {
-
 		let paginationLink = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog'; 
 
 		let currentPage = this.props.match.params.page ? this.props.match.params.page : 0;
@@ -93,6 +116,7 @@ class CatalogContainer extends Component {
 					setPriceFilters={this.setPriceFilters}
 					currentPage={Number(currentPage)}
 					busy={this.props.busy}
+					queryParams={this.props.location.search}
 					paginationLink={paginationLink}
 					items={this.props.items}
 					total={this.props.total.count}

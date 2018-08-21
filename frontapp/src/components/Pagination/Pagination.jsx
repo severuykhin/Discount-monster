@@ -8,7 +8,13 @@ const Pagination = (props) => {
 	const shift = 50;
 	const pages = Math.ceil(props.total / shift);
 
-	const buildLinks = (pages, baseLink) => {
+	/**
+	 * 
+	 * @param { number } pages - Total number of available pages 
+	 * @param { string } baseLink - canonical
+	 * @param { string } queryParams - all params in query string  
+	 */
+	const buildLinks = (pages, baseLink, queryParams) => {
 
 		const links = [];
 		
@@ -17,9 +23,9 @@ const Pagination = (props) => {
 			let link = '';
 
 			if (i === 1) {
-				link = baseLink;
+				link = `${baseLink}${queryParams}`;
 			} else {
-				link = `${baseLink}/${i}`;
+				link = `${baseLink}/${i}${queryParams}`;
 			}
 
 			links.push((
@@ -42,14 +48,18 @@ const Pagination = (props) => {
 	 * @param {number} pages 
 	 * @param {string} baseLink
 	 */
-	const getNextLink = (currentPage, pages, baseLink) => {
+	const getNextLink = (currentPage, pages, baseLink, queryParams) => {
 
-		if (currentPage === pages) return <i className="fas fa-chevron-right" disabled></i>;
+
+		if (
+			currentPage === pages ||
+			(currentPage === 0 && pages === 1)
+		) return <i className="fas fa-chevron-right" disabled></i>;
 
 		let link = currentPage === 0 ? `${baseLink}/2` : `${baseLink}/${currentPage + 1}`;
 
 		return (
-			<NavLink to={link} > 
+			<NavLink to={link + queryParams} > 
 				<i className="fas fa-chevron-right"></i>
 			</NavLink>);
 	}
@@ -59,15 +69,16 @@ const Pagination = (props) => {
 	 * @param {number} currentPage 
 	 * @param {number} pages 
 	 * @param {string} baseLink
+	 * @param {string} queryParams
 	 */
-	const getPrevLink = (currentPage, pages, baseLink) => {
+	const getPrevLink = (currentPage, pages, baseLink, queryParams) => {
 
 		if (currentPage === 0) return <i className="fas fa-chevron-left" disabled></i>;
 
 		let link = currentPage === 2 ? `${baseLink}` : `${baseLink}/${currentPage - 1}`;
 
 		return (
-			<NavLink to={link}> 
+			<NavLink to={link + queryParams}> 
 				<i className="fas fa-chevron-left"></i>
 			</NavLink>
 		);
@@ -77,13 +88,13 @@ const Pagination = (props) => {
 		<div className="pagination">
 			<div className="shop_page_nav d-flex flex-row">
 				<div className="page_prev d-flex flex-column align-items-center justify-content-center">
-					{ getPrevLink(props.current, pages, props.baseLink) }
+					{ getPrevLink(props.current, pages, props.baseLink, props.queryParams) }
 				</div>
 				<ul className="page_nav d-flex flex-row">
-					{ buildLinks(pages, props.baseLink) }
+					{ buildLinks(pages, props.baseLink, props.queryParams) }
 				</ul>
 				<div className="page_next d-flex flex-column align-items-center justify-content-center">
-					{ getNextLink(props.current, pages, props.baseLink) }
+					{ getNextLink(props.current, pages, props.baseLink, props.queryParams) }
 				</div>
 			</div>
 		</div>
