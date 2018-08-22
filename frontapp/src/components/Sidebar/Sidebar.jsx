@@ -50,7 +50,8 @@ class Sidebar extends Component {
 								max={this.props.maxPrice || 0}
 								start={this.props.startPrice}
 								end={this.props.endPrice}
-								onDragEnd={(values) => { this.handlePriceChange(values); }}/>
+								onDragEnd={(values) => { this.handlePriceChange(values); }}
+								currentStore={this.props.currentStore}/>
 						</div>
 						
 						<div className="sidebar_section">

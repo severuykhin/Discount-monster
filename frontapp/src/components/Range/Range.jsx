@@ -40,7 +40,7 @@ class Range extends Component {
 	 */
 	componentDidMount() {
 
-		this.setValues();
+		// this.setValues();
 		this.listenMouseEvent();
 
 		window.onresize = () => {
@@ -50,29 +50,34 @@ class Range extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 
-		if (this.props.min === prevProps.min && this.props.max === prevProps.max) return;
+		if (
+			(this.props.min === prevProps.min && this.props.max === prevProps.max) &&
+			(this.props.currentStore === prevProps.currentStore)
+		) return;
 			this.setValues();
 	}
 
 	/**
 	 * Set working values
 	 */
-	setValues = (config = {}) => {
+	setValues = () => {
 		const min = Number(this.props.min);
 		const max = Number(this.props.max);
 		const range = max - min;
 
-		let lineWidth = this.line.current.offsetWidth;
-		let minPos    = config.minPos || this.line.current.offsetLeft;
-		let maxPos    = config.maxPos || lineWidth - (this.state.pointWidth / 2);
-		let rangePerPixRatio = Math.ceil(range / lineWidth);
+		let lineWidth = this.line.current.offsetWidth,
+			rangePerPixRatio = Math.ceil(range / lineWidth),
+			start     = Number(this.props.start)  || min,
+			end       = Number(this.props.end)    || max,
+			minPos    = start === min ? this.line.current.offsetLeft : start / rangePerPixRatio,
+			maxPos    = end === max ? lineWidth - (this.state.pointWidth / 2) : end / rangePerPixRatio;
 
 		this.setState({
 			min,
 			max,
 			range,
-			start : config.start || min,
-			end : config.end || max,
+			start,
+			end,
 			lineWidth,
 			minPos,
 			maxPos,
@@ -107,7 +112,7 @@ class Range extends Component {
 
 			if (state.currentActivePoint === 'min') {
 
-				if (shift >= (state.maxPos) - (state.pointWidth / 5)) return;
+				if (shift >= state.maxPos) return;
 				if (shift <= 2) shift = 0;
 
 				this.setState({
@@ -117,13 +122,17 @@ class Range extends Component {
 
 			} else {
 
-				if (shift <= (state.minPos) + (state.pointWidth / 5)) return;
+				if (shift <= state.minPos) return;
 		
-				let maxValue = (shift + state.pointWidth) * state.rangePerPixRatio;
+				let maxValue = shift * state.rangePerPixRatio,
+					treshold = state.pointWidth * state.rangePerPixRatio / 2,
+					newEnd   = maxValue >= (state.max - treshold) ? state.max : maxValue;
+
+					console.log(state.max - treshold);
 
 				this.setState({
 					maxPos : shift,
-					end    : maxValue >= state.max ? state.max : maxValue
+					end    : newEnd
 				});
 			}
 

@@ -19,7 +19,8 @@ class Catalog extends Component {
 								maxPrice={this.props.maxPrice}
 								startPrice={this.props.startPrice}
 								endPrice={this.props.endPrice}
-								setPriceFilters={this.props.setPriceFilters} />
+								setPriceFilters={this.props.setPriceFilters}
+								currentStore={this.props.currentStore} />
 						</div>
 
 						<div className="col-lg-10">

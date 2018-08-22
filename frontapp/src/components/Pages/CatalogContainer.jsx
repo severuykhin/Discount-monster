@@ -120,7 +120,8 @@ class CatalogContainer extends Component {
 					minPrice={this.props.total.minPrice}
 					maxPrice={this.props.total.maxPrice}
 					startPrice={params.min || this.props.total.minPrice}
-					endPrice={params.max || this.props.total.maxPrice} />
+					endPrice={params.max || this.props.total.maxPrice}
+					currentStore={this.props.match.params.slug || ''} />
 			</Fragment>
 		);
 	}
