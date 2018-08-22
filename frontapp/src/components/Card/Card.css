@@ -2,6 +2,24 @@
 	height: 100%;
 }
 
+.card div {
+	position: static;
+}
+
+.card .bestsellers_fav {
+	position: absolute;
+	top: 34px;
+	right: 24px;
+	cursor: pointer;
+	transition: transform 400ms ease;
+	background: transparent;
+	border: none;
+}
+
+.card .bestsellers_fav:focus {
+	outline: none;
+}
+
 .card_wrap {
 	margin-bottom: 30px;
 }
@@ -15,3 +33,78 @@
 .card .bestsellers_image img {
 	width: 100%;
 }
+
+.card .bestsellers_content {
+	padding: 0;
+}
+
+.card .bestsellers_price {
+	font-size: 20px;
+}
+
+.card {
+	position: relative;
+}
+
+.card .bestsellers_item {
+	padding-bottom: 100px;
+	position: static !important;
+}
+
+bestsellers_item_container {
+	position: static !important;
+}
+
+bestsellers_content {
+	position: static;
+}
+
+.card .bestsellers_price {
+	position: absolute;
+	bottom: 20px;
+	padding: 0 30px;
+	left: 0;
+	width: 100%;
+}
+
+.card .bestsellers_mark {
+	width: 45px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 14px;
+}
+
+.card .bestsellers_fav i {
+	font-size: 20px;
+	opacity: .3;
+	color: #e48f0e;
+}
+
+.card .bestsellers_fav:hover {
+	animation: pulsate 2s infinite;
+}
+
+.card .bestsellers_fav:hover i {
+	opacity: .6;
+}
+
+@keyframes pulsate {
+	0% {
+	  	transform:  scale(1);
+	}
+	5% {
+		transform:  scale(0.9);
+	}
+	10% {
+		transform:  scale(0.8);
+	}
+	15% {
+		transform:  scale(1);
+	}
+	50% {
+		transform:  scale(0.8);
+	}
+	100% {
+		transform:  scale(0.8);
+	}
+  }

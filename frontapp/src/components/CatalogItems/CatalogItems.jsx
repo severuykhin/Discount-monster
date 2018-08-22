@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card/Card';
+import CardContainer from '../Card/CardContainer';
 
 import './CatalogItems.css';
 
@@ -9,7 +9,7 @@ const CatalogItems = (props) => {
 		return items.map( item => {
 			return (
 				<div key={`catalog-item-${item.id}`} className="col-lg-4 card_wrap">
-					<Card config={item} />
+					<CardContainer config={item} />
 				</div>
 			);
 		});

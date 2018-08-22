@@ -1,5 +1,5 @@
 import React from 'react';
-import itemsReducer from '../../ducks/Items';
+import { DataApi } from '../../utils/classes/DataApi';
 import './Card.css';
 
 
@@ -24,7 +24,11 @@ const Card = (props) => {
 						</div>
 					</div>
 				</div>
-				<div className="bestsellers_fav active"><i className="fas fa-heart"></i></div>
+				<button 
+					className="bestsellers_fav active"
+					onClick={() => { props.addToFavorite(config.id) }}>
+					<i className="fas fa-heart"></i>
+				</button>
 				<ul className="bestsellers_marks">
 					<li className="bestsellers_mark bestsellers_discount">-25%</li>
 					<li className="bestsellers_mark bestsellers_new">new</li>

@@ -1,5 +1,6 @@
 .pagination .page_nav li {
 	display: inline-block;
+	overflow: hidden;
 }
 
 .pagination .page_nav li a {
