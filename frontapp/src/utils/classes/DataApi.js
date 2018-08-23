@@ -27,7 +27,7 @@ class DataApiContsructor {
 		}
 
 		this.Cookie.set(name, data, 86400 * 365);
-		this.LocalStorage.set(name.data);
+		this.LocalStorage.set(name, data);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class DataApiContsructor {
 		if (!result) return false;
 
 		try {
-			result = JSON.stringify(result);
+			result = JSON.parse(result);
 		} catch(e) {
 			throw e;
 		}

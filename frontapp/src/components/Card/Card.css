@@ -11,7 +11,7 @@
 	top: 34px;
 	right: 24px;
 	cursor: pointer;
-	transition: transform 400ms ease;
+	transition: transform 150ms ease;
 	background: transparent;
 	border: none;
 }
@@ -81,11 +81,25 @@ bestsellers_content {
 }
 
 .card .bestsellers_fav:hover {
-	animation: pulsate 2s infinite;
+	animation: pulsate 1s infinite;
 }
 
 .card .bestsellers_fav:hover i {
 	opacity: .6;
+}
+
+.card .bestsellers_fav:active {
+	animation: none;
+	transform: scale(.7);
+	opacity: .8;
+}
+
+.card .bestsellers_fav_active i {
+	opacity: 1;
+}
+
+.card .bestsellers_fav_active:hover {
+	animation: none;
 }
 
 @keyframes pulsate {

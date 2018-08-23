@@ -34,7 +34,8 @@ class Catalog extends Component {
 								baseLink={this.props.paginationLink}
 								total={this.props.total} />
 							
-							<CatalogItems 
+							<CatalogItems
+								favorites={this.props.favorites} 
 								busy={this.props.busy}
 								items={this.props.items} />
 

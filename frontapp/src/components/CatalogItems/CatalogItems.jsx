@@ -5,11 +5,20 @@ import './CatalogItems.css';
 
 const CatalogItems = (props) => {
 
-	const buildItems = items => {
+	/**
+	 * @param {array} items 
+	 * @param {array} favorites
+	 */
+	const buildItems = (items, favorites) => {
 		return items.map( item => {
+
+			const isFavorite = favorites.indexOf(Number(item.id)) > -1;
+
 			return (
 				<div key={`catalog-item-${item.id}`} className="col-lg-4 card_wrap">
-					<CardContainer config={item} />
+					<CardContainer 
+						config={item} 
+						isFavorite={isFavorite} />
 				</div>
 			);
 		});
@@ -19,7 +28,7 @@ const CatalogItems = (props) => {
 
 	return (
 		<div className={catalogClass}>
-			{ buildItems(props.items) }		
+			{ buildItems(props.items, props.favorites) }		
 		</div>
 	);
 };

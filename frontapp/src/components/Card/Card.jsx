@@ -1,11 +1,10 @@
 import React from 'react';
-import { DataApi } from '../../utils/classes/DataApi';
 import './Card.css';
-
 
 const Card = (props) => {
 
 	const { config } = props;
+	const favoriteClassName = props.isFavorite ? 'bestsellers_fav bestsellers_fav_active active' : 'bestsellers_fav active'; 
 
 	return (
 		<div className="card">
@@ -25,8 +24,8 @@ const Card = (props) => {
 					</div>
 				</div>
 				<button 
-					className="bestsellers_fav active"
-					onClick={() => { props.addToFavorite(config.id) }}>
+					className={favoriteClassName}
+					onClick={() => { props.resolveFavorite(+config.id) }}>
 					<i className="fas fa-heart"></i>
 				</button>
 				<ul className="bestsellers_marks">

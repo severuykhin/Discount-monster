@@ -1,4 +1,4 @@
-import { List, Record } from 'immutable';
+import { Record } from 'immutable';
 import HashTable from '../utils/classes/HashTable';
 
 export const MODULE_NAME = 'store';

@@ -116,6 +116,7 @@ class CatalogContainer extends Component {
 					queryParams={this.props.location.search}
 					paginationLink={paginationLink}
 					items={this.props.items}
+					favorites={this.props.favs}
 					total={this.props.total.count}
 					minPrice={this.props.total.minPrice}
 					maxPrice={this.props.total.maxPrice}
@@ -130,7 +131,8 @@ class CatalogContainer extends Component {
 const mapStateToProps = state => ({
 	items : state.items.get('active').toArray(),
 	total : state.items.get('total'),
-	busy  : state.items.get('busy')
+	busy  : state.items.get('busy'),
+	favs  : state.favorites.get('items').toArray()
 });
 
 const mapDispatchToProps = dispatch => ({

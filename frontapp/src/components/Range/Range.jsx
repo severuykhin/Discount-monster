@@ -39,10 +39,7 @@ class Range extends Component {
 	 * Sets initial values
 	 */
 	componentDidMount() {
-
-		// this.setValues();
 		this.listenMouseEvent();
-
 		window.onresize = () => {
 			this.setValues();
 		}
@@ -95,8 +92,6 @@ class Range extends Component {
 	 * Listening mouse event on sliders
 	 */
 	listenMouseEvent = () => {
-
-		const self = this;
 
 		const listenMove = (e) => {
 
