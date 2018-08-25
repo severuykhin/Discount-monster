@@ -11,7 +11,7 @@ class Sidebar extends Component {
 	 * @param { object } values - Min and max values
 	 */
 	handlePriceChange = (values) => {
-		this.props.setPriceFilters(values);
+		this.props.setFilters(values);
 	}
 	
 	buildStoresLinks = stores => {

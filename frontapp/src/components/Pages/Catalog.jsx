@@ -19,13 +19,15 @@ class Catalog extends Component {
 								maxPrice={this.props.maxPrice}
 								startPrice={this.props.startPrice}
 								endPrice={this.props.endPrice}
-								setPriceFilters={this.props.setPriceFilters}
+								setFilters={this.props.setFilters}
 								currentStore={this.props.currentStore} />
 						</div>
 
 						<div className="col-lg-10">
 
 							<CatalogSort 
+								activeSort={this.props.activeSort}
+								setFilters={this.props.setFilters}
 								total={this.props.total}/>
 
 							<Pagination 

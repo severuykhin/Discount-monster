@@ -20,13 +20,17 @@ class CatalogContainer extends Component {
 	 * Set price filter
 	 * @param { object } values - Min and max price
 	 */
-	setPriceFilters = (values) => {
+	setFilters = (values) => {
+
+		const oldParams = this.getRequestParams();
+		const newParams = {...oldParams, ...values};
 
 		let firstPage = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog' ;
-		this.props.history.push(`${firstPage}?${this.provider._getQueryString(values)}`);
-
-		const params = {...this.props.match.params, ...values};
-		this.getItems(params);		
+		this.props.history.push(`${firstPage}?${this.provider._getQueryString(newParams)}`);
+		
+		// Then Component update itself after location change	
+		
+		return false;
 	}
 
 	/**
@@ -110,7 +114,7 @@ class CatalogContainer extends Component {
 		return (
 			<Fragment>
 				<Catalog 
-					setPriceFilters={this.setPriceFilters}
+					setFilters={this.setFilters}
 					currentPage={Number(currentPage)}
 					busy={this.props.busy}
 					queryParams={this.props.location.search}
@@ -122,6 +126,7 @@ class CatalogContainer extends Component {
 					maxPrice={this.props.total.maxPrice}
 					startPrice={params.min || this.props.total.minPrice}
 					endPrice={params.max || this.props.total.maxPrice}
+					activeSort={params.sort}
 					currentStore={this.props.match.params.slug || ''} />
 			</Fragment>
 		);

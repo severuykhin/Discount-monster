@@ -10,9 +10,9 @@ use common\models\Store;
 class ItemsSearch extends Model
 {
 
-	const PRICE_MIN = 'filter_min';
-	const PRICE_MAX = 'filter_max';
-	const MAX_DISCOUNT = 'filter_discount';
+	const PRICE_MIN = 'priceMin';
+	const PRICE_MAX = 'priceMax';
+	const MAX_DISCOUNT = 'discount';
 
 	const LIMIT = 50;
 
@@ -63,7 +63,6 @@ class ItemsSearch extends Model
 			$maxPrice = Item::find()->max('price');
 		}
 
-		$query->orderBy('price_sale');
 
 		if (isset($params['page'])) {
 			$query->offset(((int)$params['page'] - 1) * self::LIMIT);
@@ -75,7 +74,14 @@ class ItemsSearch extends Model
 
 		if (isset($params['max'])) {
 			$query->andFilterWhere(['<=', 'price_sale', $params['max']]);
+		}	
+
+		if (isset($params['sort'])) {
+			$query->orderBy(self::sortTypes()[$params['sort']]);
+		} else {
+			$query->orderBy('price_sale');
 		}
+
 		
 		$query->limit(50);
 
