@@ -102,6 +102,29 @@ bestsellers_content {
 	animation: none;
 }
 
+.card__away {
+	display: block;
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	bottom: 23px;
+	right: 23px;
+	border-radius: 50%;
+	border: 1px solid #e5e5e5;
+	text-align: center;
+	line-height: 40px;
+}
+
+.card__away:hover {
+	border-color:#0e8ce4;
+	background-color: #0e8ce4;
+	color: #fff; 
+}
+
+.card__away:hover i {
+	color: #fff; 
+}
+
 @keyframes pulsate {
 	0% {
 	  	transform:  scale(1);

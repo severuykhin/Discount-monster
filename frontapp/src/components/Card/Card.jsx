@@ -32,6 +32,13 @@ const Card = (props) => {
 					<li className="bestsellers_mark bestsellers_discount">-25%</li>
 					<li className="bestsellers_mark bestsellers_new">new</li>
 				</ul>
+				<a 
+					className="card__away" 
+					target="_blank" 
+					title="Перейти в магазин" 
+					href={config.url}>
+					<i className="fas fa-link"></i>
+				</a>
 			</div>
 		
 		</div>
