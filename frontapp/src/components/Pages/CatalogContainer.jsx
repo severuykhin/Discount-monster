@@ -18,13 +18,12 @@ class CatalogContainer extends Component {
 
 	/**
 	 * Set price filter
-	 * @param { object } values - Min and max price
+	 * @param { object } values
 	 */
 	setFilters = (values) => {
-
 		const oldParams = this.getRequestParams();
 		const newParams = {...oldParams, ...values};
-
+		console.log(oldParams);
 		let firstPage = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog' ;
 		this.props.history.push(`${firstPage}?${this.provider._getQueryString(newParams)}`);
 		

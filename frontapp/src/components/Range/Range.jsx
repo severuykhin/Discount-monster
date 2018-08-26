@@ -123,8 +123,6 @@ class Range extends Component {
 					treshold = state.pointWidth * state.rangePerPixRatio / 2,
 					newEnd   = maxValue >= (state.max - treshold) ? state.max : maxValue;
 
-					console.log(state.max - treshold);
-
 				this.setState({
 					maxPos : shift,
 					end    : newEnd

@@ -95,7 +95,7 @@ class DataProvider {
 			edgeParamIndex = keys.length - 1;
 
 		keys.forEach((key, index) => {
-			if (typeof params[key] === 'string') {
+			if (typeof params[key] === 'string' || typeof params[key] === 'number') {
 				string += `${key}=${params[key]}`;
 			} else if (Array.isArray(params[key])) {
 				string += this._getArrayString(key, params[key])

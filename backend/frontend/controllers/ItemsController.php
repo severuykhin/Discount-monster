@@ -62,6 +62,20 @@ class ItemsController extends Controller
             'result' => 'ok',
             'data'   => $data
 		]);
-	}
+    }
+    
+    public function actionFavorites()
+    {
+        $items = Item::find()
+                    ->where(['id' => Yii::$app->request->get('items')])
+                    ->with('store')
+                    ->asArray()
+                    ->all();
+        
+        return Json::encode([
+            'result' => 'ok',
+            'data'   => $items
+        ]);
+    }
 
 }

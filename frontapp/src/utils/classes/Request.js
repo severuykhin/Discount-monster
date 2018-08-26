@@ -19,7 +19,9 @@ class Request {
 		const arr = queryString.substring(1).split('&');
 		arr.forEach( i => {
 			let pair = i.split('=');
-			params[pair[0]] = decodeURIComponent(pair[1]);
+			if (pair.length > 1) {
+				params[pair[0]] = decodeURIComponent(pair[1]);
+			}
 		});
 
 		return params;

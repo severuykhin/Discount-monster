@@ -67,6 +67,6 @@ class Item extends \yii\db\ActiveRecord
 
     public function getStore() 
     {
-        return $this->hasOne(Store::className(), ['store_id' => 'id']);
+        return $this->hasOne(Store::className(), ['id' => 'store_id']);
     }
 }
