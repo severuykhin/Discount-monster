@@ -37,26 +37,57 @@ class AdidasParser extends Parser {
 		foreach($cardsAll as $key => $card) {
 
 			$cardLink = pq($card);
-			$item = new Item();
-
 			$name = $cardLink->find('span.title')->html();
-
+			$url  = $cardLink->find('a.plp-image-bg-link');
+			$art  = $url->attr('data-track');
+			
 			if (self::processFilter($name, $tags)) {
+
+				$item = Item::find()->where(['art' => $art])->one();
+				$new = false;
+				if (!$item) {
+					$item = new Item();
+					$new = true;
+					echo 'New item! - ' . $name . ' ' . PHP_EOL;
+				}
+
 				$price      = $cardLink->find('span.baseprice');
 				$price_sale = $cardLink->find('span.salesprice');
-				$url        = $cardLink->find('.plp-image-bg-link');
+				$gender     = mb_strtolower($cardLink->find('a.product-link .subtitle')->html());
+				$ganderVal  = 1; 
 
-				$item->title      = $name;
-				$item->price      = str_replace( '.' , '' , trim($price->html()));
-				$item->price_sale = str_replace( '.' , '' , trim($price_sale->html()));
-				$item->url        = 'https://adidas.ru' . $url->attr('href');
-				$item->store_id   = (int) $this->store_id;
-				$item->img = $this->getImg($item->url);
+				if (strpos($gender, 'муж') !== false) {
+					$genderVal = 1;
+				} else if (strpos($gender, 'жен') !== false) {
+					$genderVal = 2;
+				} else {
+					$genderVal = 3;
+				}
+
+				$config = [
+					'title'       => $name,
+					'price'       => str_replace( '.' , '' , trim($price->html())),
+					'price_sale'  => str_replace( '.' , '' , trim($price_sale->html())),
+					'url'         => 'https://adidas.ru' . $url->attr('href'),
+					'store_id'    => (int) $this->store_id,
+					'gender'      => $genderVal,
+					'art'         => $art,
+					'category_id' => 1
+  				];
+
+				$item->setValues($config);
+
+				if ($new) {
+					$item->img = $this->getImg($item->url);
+				}
+
 				$item->save();
-				$items[] = $item;
-			}
 
-			echo 'Model #' . $key . ' with name - ' . $name . 'parsed' . PHP_EOL;
+				$items[] = $item;
+
+				echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
+
+			}
 		}
 
 		return $items;

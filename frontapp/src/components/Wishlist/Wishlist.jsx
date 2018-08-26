@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import WishlistItem from './WishlistItem';
 import './Wishlist.css';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 
 
 class Wishlist extends Component {
@@ -9,10 +11,11 @@ class Wishlist extends Component {
 		if (items.length <= 0) return 'Ничего не найдено';
 
 		return items.map( item => {
-			return <WishlistItem
+			return (
+					<WishlistItem
 						delete={this.props.delete} 
 						key={`wishlist-item-${item.id}`} 
-						config={item} />
+						config={item} />)
 		});
 
 	}
@@ -29,7 +32,7 @@ class Wishlist extends Component {
 						</button>
 						<div className="wishlist__inner">
 							<ul className="cart_list">
-								{ this.renderItems(this.props.items) }						
+								{ this.renderItems(this.props.items) }
 							</ul>
 						</div>
 					</div>

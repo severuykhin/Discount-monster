@@ -17,13 +17,13 @@ class ReebokController extends Controller
     {
 		$store = Store::findOne(9);
 
-		echo "Reebok parser run";
+		echo "Reebok parser run" . PHP_EOL;
 
 		if (!$store) {
 			throw new NotFoundHttpException('Store not found');
 		}
 
-		Item::deleteAll(['store_id' => 9]);
+		// Item::deleteAll(['store_id' => 9]);
 
 		$parser = ParserFactory::get($store->name);
 		$parser->load($store);

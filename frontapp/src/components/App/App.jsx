@@ -9,9 +9,8 @@ import HeaderContainer from '../Header/HeaderContainer';
 import CatalogContainer from '../Pages/CatalogContainer';
 import Error from '../Pages/Error';
 import WishlistContainer from '../Wishlist/WishlistContainer';
-
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './App.css';
-import { timingSafeEqual } from 'crypto';
 
 class App extends Component {
   render() {
@@ -33,8 +32,24 @@ class App extends Component {
               {/* <Route exact path="/catalog/:category" component={CatalogContainer} /> */}
               <Route component={Error} />
             </Switch>
+            
+            {/* {this.props.favsOpened && (
+                <ReactCSSTransitionGroup 
+                  transitionName="example"
+                  transitionAppearTimeout={300}
+                  transitionEnterTimeout={500}
+                  transitionLeaveTimeout={300}>
+                  <WishlistContainer />
+                </ ReactCSSTransitionGroup>
+            )} */}
+            <ReactCSSTransitionGroup 
+                  transitionName="example"
+                  transitionAppearTimeout={300}
+                  transitionEnterTimeout={300}
+                  transitionLeaveTimeout={300}>
+                  {this.props.favsOpened && <WishlistContainer />}
+            </ ReactCSSTransitionGroup>
 
-            {this.props.favsOpened && <WishlistContainer />}
 
           </ Fragment>
 

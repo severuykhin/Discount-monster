@@ -35,8 +35,8 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'url'], 'required'],
-            [['store_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'url', 'price', 'img', 'price_sale'], 'string', 'max' => 255],
+            [['store_id', 'created_at', 'updated_at', 'gender', 'category_id'], 'integer'],
+            [['title', 'url', 'price', 'img', 'price_sale', 'art'], 'string', 'max' => 255],
         ];
     }
 
@@ -68,5 +68,17 @@ class Item extends \yii\db\ActiveRecord
     public function getStore() 
     {
         return $this->hasOne(Store::className(), ['id' => 'store_id']);
+    }
+
+    public function setValues(array $config)
+    {
+        $this->title = $config['title'];
+        $this->price = $config['price'];
+        $this->price_sale = $config['price_sale'];
+        $this->url = $config['url'];
+        $this->gender = $config['gender'];
+        $this->store_id = $config['store_id'];
+        $this->art = $config['art'];
+        $this->category_id = $config['category_id'];
     }
 }

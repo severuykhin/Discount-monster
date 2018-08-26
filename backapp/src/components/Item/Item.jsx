@@ -41,7 +41,8 @@ const Item = (props) => {
 					<div className="media">
 					<div className="media-content">
 						<p className="title is-4">{config.title}</p>
-						<p className="text-muted">{config.price.replace('.', ' ')} р.</p>
+						<p className="">{ config.gender }</p>
+						<p className="text-muted">{config.price ? config.price.replace('.', ' ') : '0'} р.</p>
 						<p className="">{config.price_sale.replace('.', ' ')} р.</p>
 					</div>
 					</div>

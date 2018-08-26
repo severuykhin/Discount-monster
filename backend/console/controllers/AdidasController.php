@@ -23,7 +23,7 @@ class AdidasController extends Controller
 			throw new NotFoundHttpException('Store not found');
 		}
 
-		Item::deleteAll(['store_id' => 10]);
+		// Item::deleteAll(['store_id' => 10]);
 
 		$parser = ParserFactory::get($store->name);
 		$parser->load($store);
