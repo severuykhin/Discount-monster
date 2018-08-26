@@ -3,11 +3,15 @@ import { BrowserRouter,
          Route, 
          Switch} from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import HeaderContainer from '../Header/HeaderContainer';
 import CatalogContainer from '../Pages/CatalogContainer';
 import Error from '../Pages/Error';
+import WishlistContainer from '../Wishlist/WishlistContainer';
 
 import './App.css';
+import { timingSafeEqual } from 'crypto';
 
 class App extends Component {
   render() {
@@ -30,6 +34,7 @@ class App extends Component {
               <Route component={Error} />
             </Switch>
 
+            {this.props.favsOpened && <WishlistContainer />}
 
           </ Fragment>
 
@@ -39,4 +44,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  favsOpened : state.favorites.get('opened')  
+});
+
+const mapDispatchToProps = dispatch => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

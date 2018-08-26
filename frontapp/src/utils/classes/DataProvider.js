@@ -23,7 +23,7 @@ class DataProvider {
 			xhr.open('GET', url, true);
 
 			xhr.send(null);
-
+			
 			xhr.onload = function () {
 
 				if (this.status === 200 && this.statusText === 'OK') {
@@ -95,13 +95,32 @@ class DataProvider {
 			edgeParamIndex = keys.length - 1;
 
 		keys.forEach((key, index) => {
-			string += `${key}=${params[key]}`;
+			if (typeof params[key] === 'string') {
+				string += `${key}=${params[key]}`;
+			} else if (Array.isArray(params[key])) {
+				string += this._getArrayString(key, params[key])
+			}
 			if (index !== edgeParamIndex) {
 				string += '&';
 			}	
 		});
 
+		// return encodeURIComponent(string);
 		return string;
+	}
+
+	/**
+	 * Converts an array of values to query string array
+	 * @param {string} propName 
+	 * @param {array} array 
+	 */
+	_getArrayString (propName, array) {
+		let res = '';
+		array.forEach( item => {
+			res += `&${propName}[]=${item}`
+		});
+
+		return res;
 	}
 
 	_processObjToData(obj) {
