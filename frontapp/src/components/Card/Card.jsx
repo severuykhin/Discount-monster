@@ -7,6 +7,16 @@ const Card = (props) => {
 	const { config } = props;
 	const favoriteClassName = props.isFavorite ? 'bestsellers_fav bestsellers_fav_active active' : 'bestsellers_fav active'; 
 
+	/**
+	 * Renders discount label
+	 * @param {number} price 
+	 * @param {number} price_sale 
+	 */
+	const renderDiscountLabel = (price, price_sale) => {
+		let discount = 100 - Math.floor(price_sale / Math.floor(price / 100));
+		return <li className="bestsellers_mark bestsellers_discount">{ discount } %</li>
+	}
+
 	return (
 		<div className="card">
 		
@@ -18,7 +28,7 @@ const Card = (props) => {
 						<div className="bestsellers_name">{config.title}</div>
 						<div className="bestsellers_price discount">
 							<div>
-								<span>{config.price} ₽</span>
+								{config.price && <span>{ config.price + ' ₽' }</span>}
 							</div>
 							{config.price_sale} ₽
 						</div>
@@ -30,8 +40,8 @@ const Card = (props) => {
 					<i className="fas fa-heart"></i>
 				</button>
 				<ul className="bestsellers_marks">
-					<li className="bestsellers_mark bestsellers_discount">-25%</li>
-					<li className="bestsellers_mark bestsellers_new">new</li>
+					{config.price && renderDiscountLabel(config.price, config.price_sale)}
+					{/* <li className="bestsellers_mark bestsellers_new">new</li> */}
 				</ul>
 				<a 
 					className="card__away" 
