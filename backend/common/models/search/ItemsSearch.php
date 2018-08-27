@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use common\models\Item;
 use common\models\Store;
+use yii\helpers\VarDumper;
 
 class ItemsSearch extends Model
 {
@@ -56,11 +57,11 @@ class ItemsSearch extends Model
 			$slug = $params['slug'];
 			$store = Store::find()->where(['slug' => $slug])->asArray()->one();
 			$query->where(['store_id' => $store['id']]);
-			$minPrice = Item::find()->where(['store_id' => $store['id']])->min('price');
-			$maxPrice = Item::find()->where(['store_id' => $store['id']])->max('price');
+			$minPrice = Item::find()->where(['store_id' => $store['id']])->min('price_sale');
+			$maxPrice = Item::find()->where(['store_id' => $store['id']])->max('price_sale');
 		} else {
-			$minPrice = Item::find()->min('price');
-			$maxPrice = Item::find()->max('price');
+			$minPrice = Item::find()->min('price_sale');
+			$maxPrice = Item::find()->max('price_sale');
 		}
 
 
@@ -75,6 +76,11 @@ class ItemsSearch extends Model
 		if (isset($params['max'])) {
 			$query->andFilterWhere(['<=', 'price_sale', $params['max']]);
 		}	
+
+		if (isset($params['gender'])) {
+			$genders = explode(',', $params['gender']);
+			$query->andFilterWhere(['in', 'gender', $genders]);
+		}
 
 		if (isset($params['sort'])) {
 			$query->orderBy(self::sortTypes()[$params['sort']]);

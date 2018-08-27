@@ -102,6 +102,11 @@ bestsellers_content {
 	animation: none;
 }
 
+.card .bestsellers_category {
+	font-size: 11px;
+	color: rgb(104, 104, 104);
+}
+
 .card__away {
 	display: block;
 	position: absolute;

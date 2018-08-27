@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import Range from '../Range/Range';
+import { config } from '../../utils/config';
+import Checkbox from '../Checkbox/Checkbox';
+import {addGender, delGender, setGenders} from '../../ducks/Items';
+import Request from '../../utils/classes/Request';
 import './Sidebar.css';
 
 class Sidebar extends Component {
@@ -29,6 +33,49 @@ class Sidebar extends Component {
 			);
 		});
 	}
+
+	resolveGender = (config) => {
+		if (config.checked) {
+			this.props.addGender(Number(config.gender));
+		} else {
+			this.props.delGender(Number(config.gender));
+		}
+		this.props.setFilters({
+			gender : this.props.filters.gender.join(',')
+		});
+	}
+
+	buildCheckBoxes = (variants, checked) => {
+		return Object.keys(variants).map( item => {
+
+			let isChecked = checked.indexOf(variants[item].value) >= 0;
+
+			return (
+				<li 
+					key={`gender-var-${variants[item].value}`}
+					className="brand">
+					<Checkbox
+						isChecked={isChecked}
+						onChange={(config) => { this.resolveGender(config) }}  
+						config={variants[item]} name="gender" />
+				</li>
+			) 
+		});
+	}
+
+	componentDidMount() {
+		if (this.props.activeGender) {
+			const genders = this.props.activeGender.split(',').map( i => parseInt(i));
+			this.props.setGenders(genders);
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		// console.log(prevProps, this.props);
+		if (this.props.currentStore !== prevProps.currentStore) {
+			this.props.setGenders([]);
+		}
+	}
 	
 	
 	render() {
@@ -55,16 +102,9 @@ class Sidebar extends Component {
 						</div>
 						
 						<div className="sidebar_section">
-							<div className="sidebar_subtitle brands_subtitle">Brands</div>
+							<div className="sidebar_subtitle brands_subtitle">Пол</div>
 							<ul className="brands_list">
-								<li className="brand"><a href="#">Apple</a></li>
-								<li className="brand"><a href="#">Beoplay</a></li>
-								<li className="brand"><a href="#">Google</a></li>
-								<li className="brand"><a href="#">Meizu</a></li>
-								<li className="brand"><a href="#">OnePlus</a></li>
-								<li className="brand"><a href="#">Samsung</a></li>
-								<li className="brand"><a href="#">Sony</a></li>
-								<li className="brand"><a href="#">Xiaomi</a></li>
+								{ this.buildCheckBoxes(config.genders, this.props.filters.gender) }
 							</ul>
 						</div>
 					</div>
@@ -74,11 +114,14 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = state => ({
-	stores : state.store.get('stores').getAll()
+	stores  : state.store.get('stores').getAll(),
+	filters : state.items.get('filters')
 });
 
 const mapDispatchToProps = dispatch => ({
-
+	addGender  : (gender)  => dispatch(addGender(gender)),
+	delGender  : (gender)  => dispatch(delGender(gender)),
+	setGenders : (genders) => dispatch(setGenders(genders)) 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { pure : false })(Sidebar);

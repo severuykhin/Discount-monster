@@ -23,7 +23,9 @@ class CatalogContainer extends Component {
 	setFilters = (values) => {
 		const oldParams = this.getRequestParams();
 		const newParams = {...oldParams, ...values};
-		console.log(oldParams);
+
+		if (newParams.hasOwnProperty('gender') && newParams.gender.trim() === "") delete newParams.gender;
+
 		let firstPage = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog' ;
 		this.props.history.push(`${firstPage}?${this.provider._getQueryString(newParams)}`);
 		
@@ -126,6 +128,7 @@ class CatalogContainer extends Component {
 					startPrice={params.min || this.props.total.minPrice}
 					endPrice={params.max || this.props.total.maxPrice}
 					activeSort={params.sort}
+					activeGender={params.gender || null}
 					currentStore={this.props.match.params.slug || ''} />
 			</Fragment>
 		);

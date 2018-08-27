@@ -20,6 +20,7 @@ class Catalog extends Component {
 								startPrice={this.props.startPrice}
 								endPrice={this.props.endPrice}
 								setFilters={this.props.setFilters}
+								activeGender={this.props.activeGender}
 								currentStore={this.props.currentStore} />
 						</div>
 

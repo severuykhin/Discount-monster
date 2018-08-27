@@ -1,4 +1,5 @@
 import React from 'react';
+import { config as mainConfig } from '../../utils/config';
 import './Card.css';
 
 const Card = (props) => {
@@ -13,7 +14,7 @@ const Card = (props) => {
 				<div className="bestsellers_item_container">
 					<div className="bestsellers_image"><img src={config.img} alt={`Скидки на ${config.title}`} /></div>
 					<div className="bestsellers_content">
-						<div className="bestsellers_category"><a href="#">Headphones</a></div>
+						<div className="bestsellers_category">{ mainConfig.genders[config.gender].name }</div>
 						<div className="bestsellers_name">{config.title}</div>
 						<div className="bestsellers_price discount">
 							<div>
