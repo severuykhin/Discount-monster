@@ -1,4 +1,5 @@
 import React from 'react';
+import {config as mainConfig} from '../../utils/config';
 
 const WishlistItem = (props) => {
 
@@ -25,6 +26,7 @@ const WishlistItem = (props) => {
 				<div className="cart_item_color cart_info_col">
 					<div className="cart_item_title">Магазин</div>
 					<div className="cart_item_text">{ config.store.name }</div>
+					<div className="bestsellers_category">{ mainConfig.genders[config.gender].name }</div>
 				</div>
 				<div className="cart_item_price cart_info_col">
 					<div className="cart_item_title">Ссылка</div>

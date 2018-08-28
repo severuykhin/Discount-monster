@@ -50,10 +50,12 @@ class WishlistContainer extends Component {
 	}
 	
 	render() {
+		console.log(this.props);
 		return (
 			<React.Fragment>
 				<Wishlist 
 					items={this.props.items}
+					ids={this.props.ids}
 					close={this.closeWishlist}
 					delete={this.deleteItem}/>
 			</React.Fragment>	

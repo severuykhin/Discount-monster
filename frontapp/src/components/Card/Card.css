@@ -101,8 +101,7 @@ bestsellers_content {
 .card .bestsellers_fav_active:hover {
 	animation: none;
 }
-
-.card .bestsellers_category {
+.bestsellers_category {
 	font-size: 11px;
 	color: rgb(104, 104, 104);
 }

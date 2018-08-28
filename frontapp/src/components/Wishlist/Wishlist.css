@@ -162,3 +162,16 @@
 	opacity: 0.01;
 	transition: opacity 300ms ease-in;
   }
+
+  .wishlist__modal .cart_item_error .cart_item_title {
+	  color: rgba(255, 0, 0, 0.726);
+	  font-size: 16px;
+  }
+
+  .wishlist__modal .cart_item_error .cart_item_info {
+	  padding-top: 45px;
+  }
+
+  .wishlist__modal .cart_item_error .cart_item_text {
+	margin-top: 0;
+  }
