@@ -35,8 +35,9 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'url'], 'required'],
-            [['store_id', 'created_at', 'updated_at', 'gender', 'category_id'], 'integer'],
-            [['title', 'url', 'price', 'img', 'price_sale', 'art'], 'string', 'max' => 255],
+            [['store_id', 'created_at', 'updated_at', 'gender', 'category_id', 'like'], 'integer'],
+            [['title', 'url', 'img', 'art'], 'string', 'max' => 255],
+            [['price', 'price_sale'], 'safe']
         ];
     }
 
@@ -57,6 +58,7 @@ class Item extends \yii\db\ActiveRecord
             'title' => 'Название',
             'url' => 'Ссылка',
             'price' => 'Цена',
+            'like' => 'Добавление в избранное',
             'price_sale' => 'Цена со скидкой',
             'img' => 'Изображение',
             'store_id' => 'Магазин',

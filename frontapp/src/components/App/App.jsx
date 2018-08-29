@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import HeaderContainer from '../Header/HeaderContainer';
 import CatalogContainer from '../Pages/CatalogContainer';
 import Error from '../Pages/Error';
+import Footer from '../Footer/Footer';
 import WishlistContainer from '../Wishlist/WishlistContainer';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './App.css';
@@ -33,15 +34,6 @@ class App extends Component {
               <Route component={Error} />
             </Switch>
             
-            {/* {this.props.favsOpened && (
-                <ReactCSSTransitionGroup 
-                  transitionName="example"
-                  transitionAppearTimeout={300}
-                  transitionEnterTimeout={500}
-                  transitionLeaveTimeout={300}>
-                  <WishlistContainer />
-                </ ReactCSSTransitionGroup>
-            )} */}
             <ReactCSSTransitionGroup 
                   transitionName="example"
                   transitionAppearTimeout={300}
@@ -50,6 +42,7 @@ class App extends Component {
                   {this.props.favsOpened && <WishlistContainer />}
             </ ReactCSSTransitionGroup>
 
+            <Footer />
 
           </ Fragment>
 

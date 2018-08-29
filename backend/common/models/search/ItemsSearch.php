@@ -14,14 +14,16 @@ class ItemsSearch extends Model
 	const PRICE_MIN = 'priceMin';
 	const PRICE_MAX = 'priceMax';
 	const MAX_DISCOUNT = 'discount';
+	const POPULAR = 'popular';
 
-	const LIMIT = 50;
+	const LIMIT = 45;
 
 	protected static function sortTypes(): array
 	{
 		return [
 			self::PRICE_MIN    => ['price_sale' => SORT_ASC],
 			self::PRICE_MAX    => ['price_sale' => SORT_DESC],
+			self::POPULAR      => ['like' => SORT_DESC],
 			self::MAX_DISCOUNT => ['ABS (price - price_sale)' => SORT_DESC]
 		];
 	}
@@ -89,7 +91,7 @@ class ItemsSearch extends Model
 		}
 
 		
-		$query->limit(50);
+		$query->limit(45);
 
 		return [
 			'items' => $query->asArray()->all(),

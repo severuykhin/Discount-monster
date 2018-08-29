@@ -71,7 +71,6 @@ class Sidebar extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		// console.log(prevProps, this.props);
 		if (this.props.currentStore !== prevProps.currentStore) {
 			this.props.setGenders([]);
 		}
@@ -80,12 +79,26 @@ class Sidebar extends Component {
 	
 	render() {
 
+		const { stores } = this.props;
+
+		let totalCount = 0;
+
+		Object.keys(stores).forEach( item => { totalCount += Number(stores[item].count) });
+
 		return (
 			<div className="sidebar">
 				<div className="shop_sidebar">
 						<div className="sidebar_section">
 							<div className="sidebar_title">Магазины</div>
 							<ul className="sidebar_categories">
+								<li key='sidebar-link-main'>
+									<NavLink 
+										to='/catalog' 
+										activeClassName="active">
+										Все
+										<span>{ totalCount }</span>
+									</NavLink>
+								</li>
 								{ this.buildStoresLinks(this.props.stores) }
 							</ul>
 						</div>

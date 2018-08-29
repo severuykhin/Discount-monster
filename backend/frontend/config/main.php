@@ -29,6 +29,7 @@ return [
                 '' => 'site/index',
                 'store/<action>' => 'store/<action>',
                 'items' => 'items/index',
+                'items/like/<id>' => 'items/like',
                 'items/<action>' => 'items/<action>'
             ]
         ],

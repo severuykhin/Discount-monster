@@ -5,7 +5,7 @@ import './Pagination.css';
 
 const Pagination = (props) => {
 
-	const shift = 50;
+	const shift = 45;
 	const pages = Math.ceil(props.total / shift);
 
 	/**

@@ -30,19 +30,16 @@ const Header = (props) => {
 				<div className="container">
 					<div className="row">
 	
-						<div className="col-lg-2 col-sm-3 col-3 order-1">
+						<div className="col-lg-4 col-sm-3 col-3 order-1">
 							<div className="logo_container">
 								<div className="logo">
 									<NavLink to="/catalog">DISCOUNTMONSTER</NavLink>
 								</div>
 							</div>
 						</div>
+
 	
-						<div className="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
-							
-						</div>
-	
-						<div className="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
+						<div className="col-lg-8 col-9 order-lg-3 order-2 text-lg-left text-right">
 							<Wishpicker />
 						</div>
 					</div>
@@ -65,13 +62,18 @@ const Header = (props) => {
 									</div>
 	
 									<ul className="cat_menu">
+										<li key='header-link-main'>
+											<NavLink to='/catalog'>
+												Все
+											</NavLink>
+										</li>
 										{ buildLinks(items) }
 									</ul>
 								</div>
 	
 	
 								<div className="main_nav_menu ml-auto">
-									<ul className="standard_dropdown main_nav_dropdown">
+									{/* <ul className="standard_dropdown main_nav_dropdown">
 										<li><a href="#">Главная<i className="fas fa-chevron-down"></i></a></li>
 										<li className="hassubs">
 											<a href="#">Супер-скидки!</a>
@@ -79,7 +81,7 @@ const Header = (props) => {
 										<li className="hassubs">
 											<a href="#">Хайп</a>
 										</li>
-									</ul>
+									</ul> */}
 								</div>
 	
 	

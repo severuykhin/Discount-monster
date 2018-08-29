@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Card from './Card';
 import { addFav, deleteFav } from '../../ducks/Favorites';
 import { DataApi } from '../../utils/classes/DataApi';
+import  DataProvider from '../../utils/classes/DataProvider';
 
 
 class CardContainer extends Component {
@@ -15,10 +16,27 @@ class CardContainer extends Component {
 		if (!this.props.isFavorite) {
 			this.props.addFav(id);
 			this.addToFavorite(id);
+			this.increaseLike(id);
 		} else {
 			this.props.deleteFav(id);
 			this.deleteFromFavorite(id);
 		}
+	}
+
+	/**
+	 * Increases like count 
+	 * @param {number} id 
+	 */ 
+	increaseLike(id) {
+		const provider = new DataProvider();
+		provider.post(null, `/items/like/${id}`)
+			.then(data => {
+				console.log(data);
+			})
+			.catch(e => {
+				console.log(e);
+				alert('Произошла ошибка. Попробуйте еще раз');
+			});
 	}
 
 	/**

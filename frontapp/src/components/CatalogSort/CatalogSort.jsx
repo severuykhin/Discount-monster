@@ -11,7 +11,8 @@ class CatalogSort extends Component {
 			sorts : {
 				'priceMin' : 'Наименьшая цена',
 				'priceMax' : 'Наибольшая цена',
-				'discount' : 'Наибольшая скидка'
+				'discount' : 'Наибольшая скидка',
+				'popular'  : 'Популярные'
 			},
 			activeSort : 'priceMin'
 		};

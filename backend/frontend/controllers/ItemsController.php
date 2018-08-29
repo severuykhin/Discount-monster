@@ -32,6 +32,16 @@ class ItemsController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {            
+        if ($action->id == 'like') {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
+    }
+
+
     /**
      * Подключенные поведения
      * @return array
@@ -76,6 +86,29 @@ class ItemsController extends Controller
             'result' => 'ok',
             'data'   => $items
         ]);
+    }
+
+    public function actionLike(string $id): string
+    {
+        if (Yii::$app->request->isPost) {
+
+            $model = Item::find()->where(['id' => $id])->one();
+
+            if ($model) {
+                $model->like = $model->like + 1;
+                $model->save();
+            }
+
+            return Json::encode([
+                'result' => 'ok',
+                'id'     => $id,
+                'likes'  => $model->like,
+                'errors' => $model->errors
+            ]); 
+
+        }
+
+        throw new NotFoundHttpException('Page no found');
     }
 
 }
