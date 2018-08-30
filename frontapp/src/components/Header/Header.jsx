@@ -30,16 +30,19 @@ const Header = (props) => {
 				<div className="container">
 					<div className="row">
 	
-						<div className="col-lg-4 col-sm-3 col-3 order-1">
+						<div className="col-lg-3 col-sm-3 col-3">
 							<div className="logo_container">
 								<div className="logo">
-									<NavLink to="/catalog">DISCOUNTMONSTER</NavLink>
+									<NavLink to="/catalog">BETTERDEALS</NavLink>
 								</div>
 							</div>
 						</div>
+						<div className="col-lg-7">
+							<h1 className="app__heading" >Скидки на одужду в интернет-магазинах</h1>
+						</div>
 
 	
-						<div className="col-lg-8 col-9 order-lg-3 order-2 text-lg-left text-right">
+						<div className="col-lg-2 col-9 text-lg-left text-right">
 							<Wishpicker />
 						</div>
 					</div>

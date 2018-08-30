@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import WishlistItem from './WishlistItem';
 import WishlistError from './WishlistError';
 import './Wishlist.css';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 
 
 class Wishlist extends Component {
@@ -29,10 +27,12 @@ class Wishlist extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<div className="wishlist__modal">
 				<div className="wishlist__overlay">
+					<div
+						onClick={() => { this.props.close(false) }} 
+						className="wishlist__overfake"></div>
 					<div className="wishlist__wrap">
 						<button 
 							onClick={() => { this.props.close(false) }}

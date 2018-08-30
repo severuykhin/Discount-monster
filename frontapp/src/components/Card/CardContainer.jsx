@@ -31,7 +31,7 @@ class CardContainer extends Component {
 		const provider = new DataProvider();
 		provider.post(null, `/items/like/${id}`)
 			.then(data => {
-				console.log(data);
+				// console.log(data);
 			})
 			.catch(e => {
 				console.log(e);

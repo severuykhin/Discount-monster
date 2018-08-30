@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, 
-         Route, 
+         Route, Redirect, 
          Switch} from 'react-router-dom';
 
 import { connect } from 'react-redux';
@@ -25,11 +25,12 @@ class App extends Component {
             <HeaderContainer />
 
             <Switch>
-              <Route exact path="/" component={CatalogContainer} />
+              {/* <Route exact path="/" component={CatalogContainer} /> */}
               <Route exact path="/catalog" component={CatalogContainer} />
               <Route exact path="/catalog/:page" component={CatalogContainer} />
               <Route exact path="/catalog/store/:slug/:page" component={CatalogContainer} />
               <Route exact path="/catalog/store/:slug" component={CatalogContainer} />
+              <Redirect from="/" to="/catalog" />
               {/* <Route exact path="/catalog/:category" component={CatalogContainer} /> */}
               <Route component={Error} />
             </Switch>

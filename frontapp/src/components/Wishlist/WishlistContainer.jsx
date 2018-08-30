@@ -50,7 +50,6 @@ class WishlistContainer extends Component {
 	}
 	
 	render() {
-		console.log(this.props);
 		return (
 			<React.Fragment>
 				<Wishlist 

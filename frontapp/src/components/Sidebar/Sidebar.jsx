@@ -5,7 +5,6 @@ import Range from '../Range/Range';
 import { config } from '../../utils/config';
 import Checkbox from '../Checkbox/Checkbox';
 import {addGender, delGender, setGenders} from '../../ducks/Items';
-import Request from '../../utils/classes/Request';
 import './Sidebar.css';
 
 class Sidebar extends Component {
@@ -65,7 +64,7 @@ class Sidebar extends Component {
 
 	componentDidMount() {
 		if (this.props.activeGender) {
-			const genders = this.props.activeGender.split(',').map( i => parseInt(i));
+			const genders = this.props.activeGender.split(',').map( i => parseInt(i, 10));
 			this.props.setGenders(genders);
 		}
 	}
@@ -82,6 +81,7 @@ class Sidebar extends Component {
 		const { stores } = this.props;
 
 		let totalCount = 0;
+		let allActive = this.props.currentStore === '' ? 'active' : '';
 
 		Object.keys(stores).forEach( item => { totalCount += Number(stores[item].count) });
 
@@ -94,7 +94,8 @@ class Sidebar extends Component {
 								<li key='sidebar-link-main'>
 									<NavLink 
 										to='/catalog' 
-										activeClassName="active">
+										exact
+										className={allActive}>
 										Все
 										<span>{ totalCount }</span>
 									</NavLink>
