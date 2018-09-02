@@ -66,8 +66,8 @@ class Range extends Component {
 			rangePerPixRatio = Math.ceil(range / lineWidth),
 			start     = Number(this.props.start)  || min,
 			end       = Number(this.props.end)    || max,
-			minPos    = start === min ? this.line.current.offsetLeft : start / rangePerPixRatio,
-			maxPos    = end === max ? lineWidth - (this.state.pointWidth / 2) : end / rangePerPixRatio;
+			minPos    = start === min ? this.line.current.offsetLeft : (start / rangePerPixRatio - (min / rangePerPixRatio)),
+			maxPos    = end === max ? lineWidth - (this.state.pointWidth / 2) : (end / rangePerPixRatio - (min / rangePerPixRatio));
 
 		this.setState({
 			min,
@@ -112,14 +112,14 @@ class Range extends Component {
 
 				this.setState({
 					minPos : shift,
-					start  : shift === 0 ? (state.min) : (shift * state.rangePerPixRatio) 
+					start  : shift === 0 ? (state.min) : (shift * state.rangePerPixRatio) + this.state.min
 				});
 
 			} else {
 
 				if (shift <= state.minPos) return;
 		
-				let maxValue = shift * state.rangePerPixRatio,
+				let maxValue = shift * state.rangePerPixRatio + state.min,
 					treshold = state.pointWidth * state.rangePerPixRatio / 2,
 					newEnd   = maxValue >= (state.max - treshold) ? state.max : maxValue;
 

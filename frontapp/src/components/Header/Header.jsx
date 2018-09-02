@@ -38,7 +38,7 @@ const Header = (props) => {
 							</div>
 						</div>
 						<div className="col-lg-7">
-							<h1 className="app__heading" >Скидки на одужду в интернет-магазинах</h1>
+							<h1 className="app__heading" >Скидки на одежду в интернет-магазинах</h1>
 						</div>
 
 	

@@ -38,7 +38,7 @@ class Widhpicker extends Component {
 				<div
 					onClick={() => { this.openFavs(true) }} 
 					className="wishlist d-flex flex-row align-items-center justify-content-end">
-					<div className="wishlist_icon"><img src="/images/heart.png" alt="" /></div>
+					<div className="wishlist_icon"><img src="/statics/images/heart.png" alt="" /></div>
 					<div className="wishlist_content">
 						<div className="wishlist_text">Закладки</div>
 						<div className="wishlist_count">{ this.props.count }</div>

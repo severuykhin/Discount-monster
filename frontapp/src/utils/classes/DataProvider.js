@@ -26,7 +26,7 @@ class DataProvider {
 			
 			xhr.onload = function () {
 
-				if (this.status === 200 && this.statusText === 'OK') {
+				if (this.status === 200) {
 
 					const data = json.process(this.responseText);
 					resolve(data);
@@ -68,7 +68,7 @@ class DataProvider {
 
 			xhr.onload = function () {
 
-				if (this.status === 200 && this.statusText === 'OK') {
+				if (this.status === 200) {
 
 					const data = json.process(this.responseText);
 					resolve(data);
