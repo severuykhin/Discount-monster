@@ -27,11 +27,17 @@
 .card .bestsellers_image {
 	width: 100%;
 	height: auto;
+	overflow: hidden;
 	margin-bottom: 20px;
 }
 
 .card .bestsellers_image img {
 	width: 100%;
+}
+.card .bestsellers_image_wide img{
+	height: 243px;
+	width: auto;
+	max-width: initial;
 }
 
 .card .bestsellers_content {

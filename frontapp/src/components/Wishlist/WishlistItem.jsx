@@ -5,9 +5,11 @@ const WishlistItem = (props) => {
 
 	const {config} = props;
 
+	let imgWrapClassName = Number(config.store.id) === 15 ? 'cart_item_image_wide' : ''; 
+
 	return (
 		<li className="cart_item clearfix">
-			<div className="cart_item_image">
+			<div className={`cart_item_image ${imgWrapClassName}`}>
 				<img src={ config.img } alt={ config.title } />
 			</div>
 			<div className="cart_item_info d-flex flex-md-row flex-column justify-content-between">

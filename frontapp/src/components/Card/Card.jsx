@@ -17,12 +17,14 @@ const Card = (props) => {
 		return <li className="bestsellers_mark bestsellers_discount">{ discount } %</li>
 	}
 
+	let imgWrapClass = Number(config.store_id) === 15 ? "bestsellers_image_wide" : '';
+
 	return (
 		<div className="card">
 		
 			<div className="bestsellers_item discount">
 				<div className="bestsellers_item_container">
-					<div className="bestsellers_image"><img src={config.img} alt={`Скидки на ${config.title}`} /></div>
+					<div className={`bestsellers_image ${imgWrapClass}`}><img src={config.img} alt={`Скидки на ${config.title}`} /></div>
 					<div className="bestsellers_content">
 						<div className="bestsellers_category">{ mainConfig.genders[config.gender].name }</div>
 						<div className="bestsellers_name">{config.title}</div>
