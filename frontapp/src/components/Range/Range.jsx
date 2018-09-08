@@ -93,7 +93,8 @@ class Range extends Component {
 	 */
 	listenMouseEvent = () => {
 
-		const listenMove = (e) => {
+		
+		const listenEvent = (e, isClick = false) => {
 
 			const state = this.state;
 
@@ -101,8 +102,9 @@ class Range extends Component {
 			let shift = Math.floor(e.clientX - trackPosition.left) - (state.pointWidth / 2);
 
 			if (
-				shift < 0 || 
-				shift >  (state.lineWidth - (state.pointWidth / 2))
+				(shift < 0 || 
+				shift >  (state.lineWidth - (state.pointWidth / 2))) &&
+				!isClick
 			) return;
 
 			if (state.currentActivePoint === 'min') {
@@ -145,12 +147,34 @@ class Range extends Component {
 			});
 		}
 
+		this.track.current.onclick = (e) => {
+			
+			let clickPoint = e.offsetX,
+				half       = parseInt(this.state.lineWidth / 2, 10),
+				isButton   = e.target.classList.contains('range__track-point');
+
+			if (isButton) return; // If clicked on button
+
+			let currentActivePoint = clickPoint < half ? 'min' : 'max';
+
+			this.setState({ currentActivePoint });
+
+			listenEvent(e, true);
+
+			this.props.onDragEnd({
+				min : this.state.start,
+				max : this.state.end
+			});
+
+		}
+
 		document.onmousemove = (e) => {
 			if (!this.state.sliding) return false;
-			listenMove(e);
+			listenEvent(e);
 		}
 
 		document.onmouseup = () => {
+
 			if (!this.state.sliding) return false;
 
 			this.props.onDragEnd({
