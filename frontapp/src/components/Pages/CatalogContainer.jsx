@@ -3,9 +3,11 @@ import React, { Component, Fragment } from 'react';
 
 import Catalog from './Catalog';
 import DataProvider from '../../utils/classes/DataProvider';
+import { Meta } from '../../utils/classes/Meta';
 import Request from '../../utils/classes/Request';
 
 import { setActive, setTotal, setBusy } from '../../ducks/Items';
+
 
 class CatalogContainer extends Component {
 
@@ -54,7 +56,9 @@ class CatalogContainer extends Component {
 	}
 
 	componentDidMount() {
-		this.getItems(this.getAllParams());
+		const params = this.getAllParams(); 
+		this.getItems(params);
+		Meta.setMeta(params.slug);
 	}
 
 	componentDidUpdate(prevProps, preState) {
@@ -75,6 +79,7 @@ class CatalogContainer extends Component {
 		}
 
 		if (prevPage === page && prevSlug === slug) return;
+		Meta.setMeta(params.slug);
 		this.getItems(params);
 	}
 
@@ -111,10 +116,12 @@ class CatalogContainer extends Component {
 		let paginationLink = this.props.match.params.slug ? `/catalog/store/${this.props.match.params.slug}` : '/catalog'; 
 		let currentPage = this.props.match.params.page ? this.props.match.params.page : 0;
 		let params = this.getAllParams();
+		let titleh1 = Meta.getStoreTitle(params.slug);
 
 		return (
 			<Fragment>
-				<Catalog 
+				<Catalog
+					titleh1={titleh1} 
 					setFilters={this.setFilters}
 					currentPage={Number(currentPage)}
 					busy={this.props.busy}

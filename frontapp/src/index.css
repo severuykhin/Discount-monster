@@ -32,3 +32,9 @@ body {
   background-size: 40px;
   z-index: 3;
 }
+
+.heading {
+  font-size: 28px;
+  color: rgb(85, 85, 85);
+  margin-bottom: 30px;
+}

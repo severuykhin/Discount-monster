@@ -26,6 +26,8 @@ class Catalog extends Component {
 
 						<div className="col-lg-10">
 
+							<h1 className="heading">{ this.props.titleh1 }</h1>
+
 							<CatalogSort 
 								activeSort={this.props.activeSort}
 								setFilters={this.props.setFilters}
