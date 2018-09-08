@@ -1,0 +1,23 @@
+.header .main_nav {
+	background-color: #0e8ce4;
+}
+
+.header .wishlist {
+	margin-right: 0;
+}
+
+.header .wishlist_cart {
+	padding: 0 10px;
+}
+
+.header .wishlist_cart:hover {
+	background-color: rgba(255, 255, 255, 0.068);
+}
+
+.header .wishlist_cart {
+	height: 60px;
+}
+
+.header .wishlist_content {
+	color: #fff;
+}

@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 import Wishpicker from '../Wishpicker/Wishpicker';
 
+import './Header.css';
+
 const Header = (props) => {
 
 	const { items } = props;
@@ -26,7 +28,7 @@ const Header = (props) => {
 	return (
 		<header className="header">
 	
-			<div className="header_main">
+			{/* <div className="header_main">
 				<div className="container">
 					<div className="row">
 	
@@ -47,7 +49,7 @@ const Header = (props) => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> */}
 			
 	
 			<nav className="main_nav">
@@ -76,15 +78,7 @@ const Header = (props) => {
 	
 	
 								<div className="main_nav_menu ml-auto">
-									{/* <ul className="standard_dropdown main_nav_dropdown">
-										<li><a href="#">Главная<i className="fas fa-chevron-down"></i></a></li>
-										<li className="hassubs">
-											<a href="#">Супер-скидки!</a>
-										</li>
-										<li className="hassubs">
-											<a href="#">Хайп</a>
-										</li>
-									</ul> */}
+									<Wishpicker />
 								</div>
 	
 	
