@@ -15,7 +15,7 @@
 .wishlist__overlay {
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.356);
+	background: rgba(0, 0, 0, 0.555);
 	position: relative;
 }
 
@@ -150,16 +150,29 @@
    
   .anim-appear.anim-appear-active{
 	opacity: 2;
-	transition: opacity 5s ease-in;
+	transition: opacity 2s ease-in;
   }
 
   .example-enter {
 	opacity: 0.01;
   }
+
+  /* .wishlist__wrap {
+	  transition: all, .3s;
+	  opacity: 0;
+  }
+
+  .example-enter .wishlist__wrap {
+	animation-name: bouncein;
+	animation-duration: 300ms;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	
+  } */
   
   .example-enter.example-enter-active {
 	opacity: 1;
-	transition: opacity 500ms ease-in;
+	transition: opacity 200ms ease-in;
   }
   
   .example-leave {
@@ -168,7 +181,7 @@
   
   .example-leave.example-leave-active {
 	opacity: 0.01;
-	transition: opacity 300ms ease-in;
+	transition: opacity 200ms ease-in;
   }
 
   .wishlist__modal .cart_item_error .cart_item_title {
@@ -196,6 +209,10 @@
 
   }
 
+  .cart_item-profit {
+	  color: green;
+  }
+
   .wishlist_icon {
 	position: relative;	  
   }
@@ -217,4 +234,23 @@
   .wishlist svg {
 	  width: 24px;
 	  fill: #fff;
+  }
+
+  @keyframes bouncein {
+	  0% {
+		  opacity: 0;
+		  transform: translateY(50px);
+	  }
+
+	  50% {
+		  opacity: 1;
+		  transform: translateY(-10px);
+	  }
+
+	  100% {
+		  opacity: 1;
+		  transform: translateY(0);
+	  }
+
+
   }

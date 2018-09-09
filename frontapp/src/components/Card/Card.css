@@ -87,7 +87,7 @@ bestsellers_content {
 }
 
 .card .bestsellers_fav:hover {
-	animation: pulsate 1s infinite;
+	/* animation: pulsate 1s infinite; */
 }
 
 .card .bestsellers_fav:hover i {

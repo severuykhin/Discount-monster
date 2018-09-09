@@ -23,3 +23,13 @@
     text-align: center;
     line-height: 42px;
 }
+
+.pagination .page_next a, .pagination .page_prev a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+}

@@ -24,6 +24,7 @@ const WishlistItem = (props) => {
 				<div className="cart_item_price cart_info_col">
 					<div className="cart_item_title">Цена со скидкой</div>
 					<div className="cart_item_text cart_item_text_price-discount">{ config.price_sale } ₽</div>
+					{config.price && <div className="cart_item-profit">-{ config.price - config.price_sale } ₽</div>}
 				</div>
 				<div className="cart_item_color cart_info_col">
 					<div className="cart_item_title">Магазин</div>

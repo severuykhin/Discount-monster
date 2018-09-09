@@ -70,7 +70,7 @@ class CatalogSort extends Component {
 		return (
 			<div className="catalog__sort">
 				<div className="shop_bar clearfix">
-					<div className="shop_product_count"><span>{this.props.total}</span> предложений найдено</div>
+					<div className="shop_product_count">Всего : <span>{this.props.total}</span></div>
 					<div className="shop_sorting">
 						<span>Сортировать:</span>
 						<ul>
