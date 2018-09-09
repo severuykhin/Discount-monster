@@ -12,7 +12,6 @@ use yii\widgets\Breadcrumbs;
     <title>Скидки на одежду в интернет магазинах - Betterdeals</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="/statics/main.dbf8c16a.css" rel="stylesheet" type="text/css">
 	<meta name="description" content="Скидки на одежду в интернет магазинах, каталог скидок на одежду в интернет-магазинах">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700" rel="stylesheet">
@@ -31,6 +30,7 @@ use yii\widgets\Breadcrumbs;
 	<link rel="mask-icon" href="/statics/images/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="theme-color" content="#ffffff">
+	<!--!styles--><link href="/statics/main.86f944af.css" rel="stylesheet" type="text/css"><!--/styles-->
 	<!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
     (function (d, w, c) {
@@ -67,7 +67,7 @@ use yii\widgets\Breadcrumbs;
 <body>
     <?php $this->beginBody() ?>
     <?= $content ?>
-    <script src="/statics/main.cfe63372.js"></script>
+    <!--!scripts--><script type="text/javascript" src="/statics/main.1e091c8d.js"></script><!--/scripts-->
     <?php $this->endBody() ?>
 </body>
 </html>

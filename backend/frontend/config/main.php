@@ -28,6 +28,7 @@ return [
             'rules' => [
                 '' => 'site/index',
                 '/catalog' => 'site/index',
+                '/catalog/<page>' => 'site/index',
                 '/catalog/store/<slug>' => 'site/index',
                 '/catalog/store/<slug>/<page>' => 'site/index',
                 'store/<action>' => 'store/<action>',
