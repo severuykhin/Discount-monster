@@ -1,11 +1,11 @@
-.catalog__sort {
+.catalog .catalog__sort {
 	margin-bottom: 30px;
 }
 
-.shop_page_nav {
+.catalog .shop_page_nav {
 	margin-top: 0;
 	margin-bottom: 30px;
 }
-.shop_sorting_button.active {
+.catalog .shop_sorting_button.active {
 	color: #000;
 }

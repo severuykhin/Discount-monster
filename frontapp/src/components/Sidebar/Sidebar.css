@@ -7,10 +7,10 @@
 	margin-left: 5px;
 }
 
-.sidebar_subtitle-filter {
+.sidebar .sidebar_subtitle-filter {
 	margin-bottom: 20px;
 }
 
-.shop_sidebar {
+.sidebar .shop_sidebar {
 	transform: translateX(0);
 }
