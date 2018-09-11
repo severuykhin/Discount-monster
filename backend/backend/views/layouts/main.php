@@ -16,53 +16,16 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&amp;subset=cyrillic" rel="stylesheet">
+	<!--!styles--><link href="/backend/assets/main.906db9a2.css" rel="stylesheet" type="text/css"><!--/styles-->    
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'template',
-        'brandUrl' => '/',
-        'innerContainerOptions' => [
-	        'class' => 'container-fluid'
-        ],
-        'options' => [
-            'class' => 'navbar navbar-default navbar-static-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            [
-                'label' => 'Пользователи',
-                'url' => ['/user/index'],
-                'visible' => Yii::$app->user->can('admin')
-            ],
-            [
-                'label' => 'Выход',
-                'url' => ['/site/logout'],
-                'visible' => !Yii::$app->user->isGuest
-            ],
-            [
-                'label' => 'Языки',
-                'items' => [
-                    [
-                        'label' => 'Русский',
-                        'url' => Yii::$app->request->url
-                    ],
-                    [
-                        'label' => 'Английский',
-                        'url' => '/en' . Yii::$app->request->url
-                    ]
-                ]
-            ]
-        ],
-    ]);
-    NavBar::end();
-    ?>
     <div class="section">
         <div class="container-fluid">
             <div class="row">
@@ -91,6 +54,7 @@ AppAsset::register($this);
         </div>
     </div>
     <?php $this->endBody() ?>
+    <!--!scripts--><script type="text/javascript" src="/backend/assets/main.a0d1a532.js"></script><!--/scripts-->
 </body>
 </html>
 <?php $this->endPage() ?>

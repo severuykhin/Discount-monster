@@ -7,10 +7,13 @@ $this->title = Yii::t('common', 'Login');
 
 ?>
 <div>
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<br>
+<br>
+<br>
+<br>
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4" style="text-align: center;">
             <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($model, 'username') ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
@@ -23,5 +26,6 @@ $this->title = Yii::t('common', 'Login');
                 </div>
             <?php ActiveForm::end(); ?>
         </div>
+        <div class="col-lg-4"></div>
     </div>
 </div>

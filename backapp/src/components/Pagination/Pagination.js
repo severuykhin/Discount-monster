@@ -13,7 +13,7 @@ const Pagination = (props) => {
 				<li key={`pagination-item-${i}`}>
 					<NavLink
 						exact 
-						to={`${baseLink}/${i}`}
+						to={`/backend${baseLink}/${i}`}
 						className="pagination-link"
 						activeClassName="pagination-link is-current" >
 						{i}

@@ -6,13 +6,13 @@ const Header = () => {
 		<div className="header">
 			<nav className="navbar is-light">
 				<div className="navbar-brand">
-					<NavLink to="/" className="navbar-item">
+					<NavLink to="/backend" className="navbar-item">
 						Logo
 					</NavLink>
-					<NavLink to="/tags" className="navbar-item">
+					<NavLink to="/backend/tags" className="navbar-item">
 						Тэги
 					</NavLink>
-					<NavLink to="/store" className="navbar-item">
+					<NavLink to="/backend/store" className="navbar-item">
 						Магазины
 					</NavLink>
 				</div>

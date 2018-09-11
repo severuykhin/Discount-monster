@@ -23,9 +23,9 @@ class App extends Component {
             <Header />
 
             <Switch>
-              <Route path="/" exact component={Index} />      
-              <Route path="/tags" component={Tags} />
-              <Route path="/store" component={Store} />
+              <Route path="/backend" exact component={Index} />      
+              <Route path="/backend/tags" component={Tags} />
+              <Route path="/backend/store" component={Store} />
               <Route component={Error}  />      
             </Switch>
 

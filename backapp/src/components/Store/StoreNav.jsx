@@ -54,7 +54,7 @@ class StoreNav extends Component {
 				<li key={`store-nav-item-${item.id}`}>
 					<NavLink 
 						key={`store-nav-item-${item.id}-link`}
-						to={`/store/${item.id}/1`}
+						to={`/backend/store/${item.id}/1`}
 						activeClassName="is-active">
 						{item.name}
 					</NavLink>
