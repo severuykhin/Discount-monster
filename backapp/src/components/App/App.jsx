@@ -1,39 +1,22 @@
 import React, { Component } from 'react';
-import { Switch,
-         Route, 
-         BrowserRouter } from 'react-router-dom';
-import './App.css';
-import Header from '../Header/Header';
+import PrimarySearchAppBar from '../Header/Header';
+import Menu from '../Menu/Menu';
+import Routes from '../Routes/Routes';
 
-import Index from '../Pages/Index/Index';
-import Tags from '../Pages/Tags/Tags';
-import Error from '../Pages/Error/Error';
-import Store from '../Pages/Store/Store';
-
-import './App.css';
-
-class App extends Component {
-
+export default class App extends Component {
   render() {
     return (
-      <div className="App">
-        <BrowserRouter>
-          <React.Fragment>
-
-            <Header />
-
-            <Switch>
-              <Route path="/backend" exact component={Index} />      
-              <Route path="/backend/tags" component={Tags} />
-              <Route path="/backend/store" component={Store} />
-              <Route component={Error}  />      
-            </Switch>
-
-          </React.Fragment>
-        </BrowserRouter>
+      <div className="app">
+        <PrimarySearchAppBar />
+        <div className="main">
+            <div className="menu">
+                <Menu />
+            </div>
+            <div className="content">
+                <Routes />
+            </div>
+        </div>
       </div>
-    );
+    )
   }
 }
-
-export default App;

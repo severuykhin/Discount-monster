@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.3.1",
+    "@material-ui/icons": "^3.0.1",
     "fs-extra": "^7.0.0",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
@@ -22,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "prod" : "node prod.js"
+    "prod": "node prod.js"
   },
-  "proxy": "http://localhost:5002/"
+  "proxy": "http://localhost:5000/"
 }
