@@ -5,6 +5,7 @@ import Stores from './Stores';
 import StoresForm from  './StoresForm';
 import StoresHead from './StoresHead';
 import StoresApi from '../../utils/api/StoresAPI';
+import { addStore } from '../../ducks/Stores';
 
 import './Stores.css';
 
@@ -21,17 +22,22 @@ class StoresContainer extends Component {
     }
 
     componentDidMount() {
-        this.api.fetchStores();
+        
     }
 
-    sendForm = (formData) => {
+    sendForm = formData => {
         this.api.createStore(formData)
-            .then(data => {
-                console.log(data);
+            .then( response => {
+                this.props.addStore(response.data);
+                this.props.history.push('/stores');        
             })
             .catch(e => {
                 console.log(e);
             })
+    }
+
+    deleteStore = id => {
+        this.api.deleteStore(id);
     }
 
     openEdit = () => {
@@ -44,7 +50,9 @@ class StoresContainer extends Component {
         if (pathname === CREATING_PATH) {
             return <StoresForm formSubmitHandler={this.sendForm}  />
         }
-        else return <Stores collection={storesCollection} />;
+        else return <Stores 
+                        collection={storesCollection} 
+                        deleteStoreHandler={this.deleteStore}/>;
 
     }
 
@@ -65,7 +73,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-
+    addStore : (store) => dispatch(addStore(store))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoresContainer);

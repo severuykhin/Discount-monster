@@ -1,7 +1,7 @@
 import Request from '../classes/Request';
-import JsonHelper from '../classes/JsonHelper';
 import store from '../../redux/index';
-import { setStores } from '../../ducks/Stores'; 
+import { deleteStore } from '../../ducks/Stores';
+import JsonHelper from '../classes/JsonHelper';
 
 class StoresApi {
 
@@ -19,19 +19,29 @@ class StoresApi {
     }
 
     fetchStores() {
-        this.request.send('GET', '/backend/store')
+        return this.request.send('GET', '/backend/store')
             .then( response => {
-
                 let parsed = this.jsonHelper.process(response);
                 
                 if (parsed.result === 'ok') {
-                    store.dispatch(setStores(parsed.data))
+                    return parsed;
                 } else {
                     alert('Ошибка при загрузке данных');
                     console.error(response);
                 }
             })
             .catch(error => { throw error })
+    }
+
+    deleteStore(id) {
+        this.request.send('DELETE', `/backend/store/${id}`)
+            .then( response => {
+                let parsed = this.jsonHelper.process(response);
+                
+                if (parsed.result === 'ok') {
+                    store.dispatch(deleteStore(id));
+                }
+            })   
     }
 
 }
