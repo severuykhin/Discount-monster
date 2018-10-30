@@ -1,11 +1,29 @@
-import JsonHelper from './JsonHelper';
-
 /**
  * Provides AJAX data requests
  */
-class DataProvider {
+class Request {
 
-	
+	send(type, url, data = null) {
+		return new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+
+			xhr.open(type, url, true);
+
+			xhr.onload = function () {
+				if (this.status === 200) {
+					resolve(this.responseText);
+				} else {
+					reject(this.responseText);
+				}
+			}
+
+			xhr.onerror = function (error) {
+				reject(error);
+			}
+
+			xhr.send(data);
+		});
+	}
 
 	/**
 	 * Builds query string "&prop=value" from given object
@@ -27,16 +45,6 @@ class DataProvider {
 		return string;
 	}
 
-	_processObjToData(obj) {
-		let data = new FormData();
-
-		for (let key in obj) {
-			data.append(key, obj[key]);
-		}
-
-		return data;
-	}
-
 }
 
-export default DataProvider;
+export default Request;

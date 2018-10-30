@@ -11,7 +11,7 @@ class JsonHelper {
 		try {
 			data = JSON.parse(data);
 		} catch (e) {
-			throw new Error('JSON HELPER: Error while processing data. Wrong format');
+			throw new Error(`JSON HELPER: Error while processing data. Wrong format. DATA: ${data}`);
 		}
 
 		return data;
