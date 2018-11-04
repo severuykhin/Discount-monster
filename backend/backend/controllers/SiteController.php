@@ -30,15 +30,21 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'index' => ['get'],
-                    'test'  => ['get'],
-                    'logout' => ['get','post'],
-                    'add' => ['get','post'],
-                    'login' => ['get','post'],
-                    'delete' => ['get', 'post']
+                    'index' => ['post'],
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if ($action->id == 'login') {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
     }
 
     /**
@@ -60,17 +66,23 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
-		if (!Yii::$app->user->isGuest) {
-			return $this->goHome();
-		}
-
+        
 		$model = new Login();
 		if ($model->load(Yii::$app->request->post()) && $model->login()) {
-			return $this->goBack();
+            $user = $model->getUser();
+            return [
+                'result' => 'ok',
+                'data' => [
+                    'username' => $user->username,
+                    'auth_key' => $user->auth_key,
+                    'id'       => $user->id
+                ]
+                ];
 		} else {
-			return $this->render('login', [
-				'model' => $model,
-			]);
+            return [
+                'result' => 'error',
+                'error'  => 'Invalid username or password'
+            ];
 		}
 	}
 

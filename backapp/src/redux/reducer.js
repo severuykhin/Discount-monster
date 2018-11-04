@@ -6,6 +6,7 @@ import {
 	} from "react-router-redux";
 	
 import { storesReducer, moduleName as storesModule } from '../ducks/Stores';
+import { userReducer, moduleName as userModule } from '../ducks/User';
 
 export const history = createHistory();
 
@@ -13,5 +14,6 @@ export const browserRouterMiddleware = routerMiddleware(history);
 
 export default combineReducers({
 	router,
-	[storesModule] : storesReducer
+	[storesModule]: storesReducer,
+	[userModule]: userReducer,
 });

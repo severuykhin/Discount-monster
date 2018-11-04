@@ -1,13 +1,11 @@
 <?php
 namespace common\models;
-
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\VarDumper;
 use yii\web\IdentityInterface;
-
 /**
  * Модель для таблицы "user"
  * Class Category
@@ -15,16 +13,12 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-
     public $password;
-
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_BANNED = 2;
     const STATUS_DELETED = 3;
-
     const ROLE_DEFAULT = 'user';
-
     /**
      * @return string имя таблицы
      */
@@ -32,7 +26,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return '{{%user}}';
     }
-
     /**
      * Правила валидации
      * @return array
@@ -50,7 +43,6 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_INACTIVE, self::STATUS_ACTIVE, self::STATUS_BANNED, self::STATUS_DELETED]],
         ];
     }
-
     /**
      * Расшифровка атрибутов
      * @return array
@@ -68,7 +60,6 @@ class User extends ActiveRecord implements IdentityInterface
             'password' => 'пароль'
         ];
     }
-
     /**
      * Поиск идентифицированного и активного пользователя
      * @param int|string $id
@@ -78,7 +69,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
-
     /**
      * Поиск по токену пользователя
      * @param mixed $token
@@ -90,7 +80,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
-
     /**
      * Поиск по имени пользователя
      * @param $username имя пользователя
@@ -100,7 +89,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
-
     /**
      * Поиск по пароль-токену
      * @param $token
@@ -111,13 +99,11 @@ class User extends ActiveRecord implements IdentityInterface
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
         ]);
     }
-
     /**
      * Проверка токена на правильность
      * @param $token
@@ -133,7 +119,6 @@ class User extends ActiveRecord implements IdentityInterface
         $timestamp = (int) end($parts);
         return $timestamp + $expire >= time();
     }
-
     /**
      * Получить id пользователя
      * @return int|mixed|string
@@ -142,7 +127,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
-
     /**
      * получить ключ авторизации
      * @return mixed|string
@@ -151,7 +135,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->auth_key;
     }
-
     /**
      * проверка ключа авторизации
      * @param string $authKey
@@ -161,7 +144,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
-
     /**
      * Проверка пароля
      * @param $password
@@ -171,7 +153,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
-
     /**
      * Установка пароля
      * @param $password
@@ -180,7 +161,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
-
     /**
      * Генерация ключа авторизации
      */
@@ -188,7 +168,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
-
     /**
      * Генерация токена сброса пароля
      */
@@ -196,7 +175,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
-
     /**
      * Удаление токена сброса пароля
      */
@@ -204,7 +182,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-
     /**
      * Получение текстового статуса пользователя
      * @return string
@@ -221,7 +198,6 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $statusName;
     }
-
     /**
      * Удаление пользователя
      * @return false|int|void
@@ -233,7 +209,6 @@ class User extends ActiveRecord implements IdentityInterface
             $this->save();
         }
     }
-
     /**
      * Активация пользователя
      */
@@ -244,7 +219,6 @@ class User extends ActiveRecord implements IdentityInterface
             $this->save();
         }
     }
-
     /**
      * Бан пользователя
      */
@@ -255,5 +229,4 @@ class User extends ActiveRecord implements IdentityInterface
             $this->save();
         }
     }
-
 }

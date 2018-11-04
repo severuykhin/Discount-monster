@@ -3,18 +3,20 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `tag`.
+ * Handles the creation of table `store`.
  */
-class m180731_190147_create_tag_table extends Migration
+class m181027_115855_create_store_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('tag', [
+        $this->createTable('store', [
             'id' => $this->primaryKey(),
             'name' => $this->string(200)->comment('Имя'),
+            'status' => $this->string()->comment('Статус'),
+            'slug'       => $this->string()->comment('Слаг'),
             'created_at' => $this->integer()->comment('Дата создания'),
             'updated_at' => $this->integer()->comment('Дата обновления')
         ]);
@@ -25,6 +27,6 @@ class m180731_190147_create_tag_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('tag');
+        $this->dropTable('store');
     }
 }

@@ -2,24 +2,20 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Store;
-use common\models\Item;
-use common\models\search\ItemsSearch;
 use yii\web\Controller;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
+use common\models\Store;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\helpers\Json;
+use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
+use yii\helpers\Json;
 
 /**
- * Главный контроллер админки
+ * Контроллер магазинов
  * @package backend\controllers
  */
 class StoreController extends Controller
 {
-
     /**
      * Подключенные поведения
      * @return array
@@ -30,21 +26,15 @@ class StoreController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'index' => ['get'],
-                    'single' => ['get'],
-                    'items'  => ['get'],
-                    'update' => ['post']
+                    'index' => ['get', 'post', 'put', 'patch', 'delete'],
                 ],
             ],
         ];
-	}
-	
-	/**
-     * @inheritdoc
-     */
+    }
+
     public function beforeAction($action)
     {            
-        if ($action->id == 'create' || $action->id == 'delete' || $action->id == 'update') {
+        if ($action->id == 'index') {
             $this->enableCsrfValidation = false;
         }
 
@@ -64,101 +54,69 @@ class StoreController extends Controller
         ];
     }
 
-    /**
-     * Get all store
-     * @return string
-     */
-    public function actionIndex(): string
+    public function actionIndex()
     {
-		$stores = Store::find()->asArray()->all();
-        return Json::encode($stores);
-	}
-    
-    /**
-     * Create new store
-     * @return string
-     */
-	public function actionCreate(): string
-	{	
-		if (Yii::$app->request->isPost) {
-			$model = new Store();
-			if ($model->load(Yii::$app->request->post()) && $model->save()) {
-				return Json::encode($model);
-			}
-		}
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        throw new NotFoundHttpException('Page not found');
-    }
-    
-
-    /**
-     * Delete store
-     * @return string
-     */
-
-    public function actionDelete(): string
-    {
         if (Yii::$app->request->isPost) {
-
-            $id = Yii::$app->request->post('id');
-            $model = Store::findOne($id);
-            if ($model->delete()) {
-                return Json::encode(['result' => 'ok']);
-            }
+            return $this->createStore(Yii::$app->request);
         }
 
-        throw new NotFoundHttpException('Page not found');
+        if (Yii::$app->request->isGet) {
+            return $this->getStores(Yii::$app->request);
+        }
 
+        if (Yii::$app->request->isDelete) {
+            return $this->deleteStore(Yii::$app->request->get('id'));
+        }
     }
 
-
-    /**
-     * Get store
-     * @return string
-     */
-    public function actionSingle($id): string
+    private function getStores() 
     {
-        $store = Store::findOne($id);
-        if (!$store) {
+        $stores = Store::find()->all();
+        return [
+            'result' => 'ok',
+            'data'   => $stores
+        ];
+    }
+
+    private function createStore($request)
+    {
+
+        $model = new Store();
+        $model->load($request->post());
+        if ($model->save()) {
+            return [
+                'result' => 'ok',
+                'data' => $model
+            ];
+        } else {
+            return [
+                'result' => 'error',
+                'errors' => $model->errors
+            ];
+        }
+    }
+
+    private function deleteStore($id)
+    {
+        $model  = Store::find()->where(['id' => $id])->one();
+
+        if (!$model) {
             throw new NotFoundHttpException('Page not found');
         }
 
-        $query = Item::find()
-                    ->where(['store_id' => $id]);
-
-        $count = $query->count(); 
-        $items = ItemsSearch::findBy(Yii::$app->request->get());
-        
-        return Json::encode([
-            'store' => $store,
-            'items' => $items,
-            'count' => $count
-        ]);
-    }
-
-    public function actionItems($id): string
-    { 
-        $items = ItemsSearch::findBy(Yii::$app->request->get());
-        
-        return Json::encode([
-            'items' => $items,
-        ]);
-    }
-
-    public function actionUpdate($id): string
-    {
-        if (Yii::$app->request->isPost) {
-            $model = Store::findOne($id);
-            $model->name = Yii::$app->request->post('name');
-            $model->url  = Yii::$app->request->post('url');
-            $model->slug = Yii::$app->request->post('slug');
-            if ($model->save()) {
-                return Json::encode($model);
-            }
+        if ($model->delete()) {
+            return [
+                'result' => 'ok',
+            ];
+        } else {
+            return [
+                'result'  => 'error',
+                'message' => 'Could not delete model id-' . $id,
+                'errors'  => $model->errors
+            ];
         }
-
-        throw new NotFoundHttpException('Page not found');
-
     }
 
 }

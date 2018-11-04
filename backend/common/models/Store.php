@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\SluggableBehavior;
 use common\models\Item;
 
 
@@ -33,10 +34,10 @@ class Store extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'url'], 'required'],
+            [['name', 'status'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 200],
-            [['url', 'slug'], 'string', 'max' => 255],
+            [['status', 'slug'], 'string', 'max' => 255],
             [['slug'], 'unique']
         ];
     }
@@ -45,6 +46,10 @@ class Store extends \yii\db\ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+            ],
         ];
     }
 
@@ -56,14 +61,10 @@ class Store extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'url' => 'Url',
+            'status' => 'Статус',
+            'slug' => 'Слаг',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-
-    public function getItems() 
-    {
-        return $this->hasMany(Item::className(), ['store_id' => 'id']);
     }
 }

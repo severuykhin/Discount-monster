@@ -12,19 +12,19 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
-    'as access' => [
-        'class' => 'yii\filters\AccessControl',
-        'rules' => [
-            [
-                'actions' => ['login', 'error'],
-                'allow' => true,
-            ],
-            [
-                'roles' => ['@'],
-                'allow' => true,
-            ],
-        ],
-    ],
+    // 'as access' => [
+    //     'class' => 'yii\filters\AccessControl',
+    //     'rules' => [
+    //         [
+    //             'actions' => ['login', 'error'],
+    //             'allow' => true,
+    //         ],
+    //         [
+    //             'roles' => ['@'],
+    //             'allow' => true,
+    //         ],
+    //     ],
+    // ],
     'components' => [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -41,6 +41,8 @@ return [
             'showScriptName' => false,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
+                'site/login' => 'site/login',
+                '<controller:\w+>/<id>' => '<controller>/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
