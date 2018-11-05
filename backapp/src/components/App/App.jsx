@@ -22,6 +22,8 @@ class App extends Component {
       storesApi.fetchStores()
     ]).then( dataCollection => {
         store.dispatch(setStores(dataCollection[0].data))
+    }).catch( (e) => {
+      console.log(e);
     }); 
 
   }

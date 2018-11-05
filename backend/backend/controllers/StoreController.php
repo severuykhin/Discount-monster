@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
 use yii\helpers\Json;
+use common\behaviors\AccessBehavior;
 
 /**
  * Контроллер магазинов
@@ -16,6 +17,9 @@ use yii\helpers\Json;
  */
 class StoreController extends Controller
 {
+
+    public $enableCsrfValidation = false;
+
     /**
      * Подключенные поведения
      * @return array
@@ -23,6 +27,9 @@ class StoreController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessBehavior::className()
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,15 +37,6 @@ class StoreController extends Controller
                 ],
             ],
         ];
-    }
-
-    public function beforeAction($action)
-    {            
-        if ($action->id == 'index') {
-            $this->enableCsrfValidation = false;
-        }
-
-        return parent::beforeAction($action);
     }
 
     /**

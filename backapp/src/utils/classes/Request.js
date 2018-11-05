@@ -4,25 +4,38 @@
 class Request {
 
 	send(type, url, data = null) {
+
+		const request = this;
+
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
 
 			xhr.open(type, url, true);
 
+			xhr.setRequestHeader('token', localStorage.getItem('auth_key'));
+
 			xhr.onload = function () {
 				if (this.status === 200) {
 					resolve(this.responseText);
 				} else {
-					reject(this.responseText);
+					reject(request.formatError(this));
 				}
 			}
 
 			xhr.onerror = function (error) {
-				reject(error);
+				reject(request.formatError(this));
 			}
 
 			xhr.send(data);
 		});
+	}
+
+	formatError(xhrInstance) {
+		return {
+			'result': 'error',
+			'status': xhrInstance.status,
+			'message': xhrInstance.responseText
+		}
 	}
 
 	/**

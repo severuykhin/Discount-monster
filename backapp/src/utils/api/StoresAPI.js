@@ -29,8 +29,7 @@ class StoresApi {
                     alert('Ошибка при загрузке данных');
                     console.error(response);
                 }
-            })
-            .catch(error => { throw error })
+            });
     }
 
     deleteStore(id) {
