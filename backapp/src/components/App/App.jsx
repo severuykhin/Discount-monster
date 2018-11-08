@@ -5,7 +5,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Routes from "../Routes/Routes";
 import store from "../../redux/index";
 import { setStores } from "../../ducks/Stores";
+import { setTags } from '../../ducks/Tags'; 
 import StoresApi from "../../utils/api/StoresAPI";
+import TagsApi from "../../utils/api/TagsAPI";
 import Login from "../Pages/Login";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -75,10 +77,14 @@ class App extends Component {
   componentDidMount() {
     // Fetching init app data
     const storesApi = new StoresApi();
+    const tagsApi = new TagsApi();
 
-    Promise.all([storesApi.fetchStores()])
+    Promise.all([
+      storesApi.fetchStores(), 
+      tagsApi.fetchAll()])
       .then(dataCollection => {
         store.dispatch(setStores(dataCollection[0].data));
+        store.dispatch(setTags(dataCollection[1].data));
       })
       .catch(e => {
         console.log(e);
@@ -120,9 +126,7 @@ class App extends Component {
               </Toolbar>
             </AppBar>
 
-            <Menu 
-              open={this.state.open} 
-              toggle={this.toggleMenu} />
+            <Menu open={this.state.open} toggle={this.toggleMenu} />
 
             <main className={classes.content}>
               <div className={classes.toolbar} />
