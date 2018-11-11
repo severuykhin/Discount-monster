@@ -7,24 +7,11 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
+    'id' => 'app-api',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
-    // 'as access' => [
-    //     'class' => 'yii\filters\AccessControl',
-    //     'rules' => [
-    //         [
-    //             'actions' => ['login', 'error'],
-    //             'allow' => true,
-    //         ],
-    //         [
-    //             'roles' => ['@'],
-    //             'allow' => true,
-    //         ],
-    //     ],
-    // ],
     'components' => [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -51,8 +38,8 @@ return [
             'showScriptName' => false,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
-                '<controller:\w+>/<id>' => '<controller>/index',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                'v1/<controller:\w+>/<id>' => '<controller>/index',
+                'v1/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
         'frontendUrlManager' => [
@@ -62,8 +49,8 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'site/index',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                'v1/' => 'site/index',
+                'v1/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
         'errorHandler' => [

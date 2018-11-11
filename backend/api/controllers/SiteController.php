@@ -81,7 +81,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return 'index page';
+        return 'indesdfx page';
     }
 
     /**

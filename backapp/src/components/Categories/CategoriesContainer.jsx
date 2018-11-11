@@ -2,8 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Categories from "./Categories";
 import CategoriesHead from './CategoriesHead';
+import CategoryApi from '../../utils/api/CategoryAPI';
 
 class CategoriesContainer extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.api = new CategoryApi();
+  }
+
+  createCategory = (categoryData) => {
+    this.api.create(categoryData);
+  }
+
   render() {
     return (
       <div>
@@ -12,7 +24,7 @@ class CategoriesContainer extends Component {
             <span>Категории</span>
           </h1>
         </div>
-        <CategoriesHead />
+        <CategoriesHead createCategory={this.createCategory} />
         <Categories />
       </div>
     );
