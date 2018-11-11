@@ -10,6 +10,10 @@ use yii\web\ForbiddenHttpException;
 
 class AccessBehavior extends Behavior
 {
+
+    public $header = 'Authorization';
+    public $pattern = '/^Bearer\s+(.*?)$/';
+
     public function events()
     {
         return [
@@ -19,14 +23,17 @@ class AccessBehavior extends Behavior
 
     public function beforeAction($action)
     {            
-        $headers = Yii::$app->request->headers;
-        if (!empty($headers->get('token'))) {
-            $token = $headers->get('token');
-            $tokenIsActive = User::find()->where(['auth_key' => $token])->one();
-            if (!$tokenIsActive) {
-                throw new ForbiddenHttpException('Not allowed');
-            }
 
+        $authHeader = Yii::$app->request->headers->get($this->header);
+        if ($authHeader) {
+            if (preg_match($this->pattern, $authHeader, $matches)) {
+                $token = $matches[1];
+                $tokenIsActive = User::find()->where(['auth_key' => $token])->exists();
+                if ($tokenIsActive) {
+                    return $token;
+                }
+            } 
+            throw new ForbiddenHttpException('Not allowed');
         } else {
             throw new ForbiddenHttpException('Not allowed');
         }

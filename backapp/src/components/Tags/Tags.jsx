@@ -59,7 +59,6 @@ class Tags extends React.Component {
         key={ tag.id }
         label={ tag.name }
         style={{
-          // 'transitionDelay': `${index*50}ms`,
           'opacity': 1
         }}
         onDelete={() => { this.props.handleDelete(tag.id) }}

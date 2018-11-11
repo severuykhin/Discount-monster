@@ -12,7 +12,7 @@ class Request {
 
 			xhr.open(type, url, true);
 
-			xhr.setRequestHeader('token', localStorage.getItem('auth_key'));
+			xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('auth_key')}`);
 
 			xhr.onload = function () {
 				if (this.status === 200) {

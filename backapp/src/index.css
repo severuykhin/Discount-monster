@@ -4,6 +4,10 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+main {
+  overflow: hidden;
+}
+
 body * {
   font-family: 'Montserrat', sans-serif !important;
 }
