@@ -34,12 +34,13 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'enableStrictParsing' => false,
-            'showScriptName' => false,
+            'enableStrictParsing' => true,
+            'showScriptName' => true,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
-                'v1/<controller:\w+>/<id>' => '<controller>/index',
-                'v1/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                'v1/<controller:\w+>' => 'v1/<controller>/index',
+                // 'v1/<controller:\w+>/<id>' => '<controller>/index',
+                // 'v1/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
         'frontendUrlManager' => [
@@ -49,8 +50,8 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                'v1/' => 'site/index',
-                'v1/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                // '' => 'site/index',
+                // '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
         'errorHandler' => [

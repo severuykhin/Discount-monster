@@ -1,5 +1,5 @@
 <?php
-namespace api\controllers;
+namespace api\controllers\v1;
 
 use Yii;
 use yii\web\Controller;
@@ -12,7 +12,7 @@ use common\behaviors\AccessBehavior;
 
 /**
  * Контроллер категорий
- * @package backend\controllers
+ * @package api\v1\controllers
  */
 class CategoryController extends Controller
 {
