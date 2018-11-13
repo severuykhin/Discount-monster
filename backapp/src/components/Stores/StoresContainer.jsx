@@ -26,7 +26,7 @@ class StoresContainer extends Component {
     }
 
     sendForm = formData => {
-        this.api.createStore(formData)
+        this.api.create(formData)
             .then( response => {
                 this.props.addStore(response.data);
                 this.props.history.push('/stores');        
@@ -37,7 +37,7 @@ class StoresContainer extends Component {
     }
 
     deleteStore = id => {
-        this.api.deleteStore(id);
+        this.api.remove(id);
     }
 
     openEdit = () => {

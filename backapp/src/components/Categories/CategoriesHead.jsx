@@ -39,7 +39,7 @@ class CategoriesHead extends Component {
     this.state = {
       hasError: false,
       labelWidth: 0,
-      status: 'inactive'
+      status: 'active'
     }
   }
 

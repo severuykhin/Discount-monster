@@ -83,7 +83,7 @@ class App extends Component {
     const categoriesApi = new CategoriesApi();
 
     Promise.all([
-      storesApi.fetchStores(), 
+      storesApi.fetchAll(), 
       tagsApi.fetchAll(),
       categoriesApi.fetchAll()])
       .then(dataCollection => {
