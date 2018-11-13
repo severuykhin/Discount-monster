@@ -35,12 +35,10 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
-            'showScriptName' => true,
+            'showScriptName' => false,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
                 'v1/<controller:\w+>' => 'v1/<controller>/index',
-                // 'v1/<controller:\w+>/<id>' => '<controller>/index',
-                // 'v1/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ]
         ],
         'frontendUrlManager' => [

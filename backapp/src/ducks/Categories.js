@@ -1,4 +1,4 @@
-export const moduleName = 'CATEGORIES';
+export const moduleName = 'categories';
 export const ADD_CATEGORY = `${moduleName}/ADD_CATEGORY`;
 export const REMOVE_CATEGORY = `${moduleName}/REMOVE_CATEGORY`;
 export const SET_CATEGORIES = `${moduleName}/SET_CATEGORIES`;

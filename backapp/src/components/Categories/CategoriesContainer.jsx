@@ -17,6 +17,9 @@ class CategoriesContainer extends Component {
   }
 
   render() {
+
+    const { collection } = this.props;
+
     return (
       <div>
         <div className="stores__head">
@@ -25,13 +28,15 @@ class CategoriesContainer extends Component {
           </h1>
         </div>
         <CategoriesHead createCategory={this.createCategory} />
-        <Categories />
+        <Categories collection={collection} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  collection: state.categories.collection
+});
 
 const mapDisaptchToProps = dispatch => ({});
 

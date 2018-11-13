@@ -6,8 +6,10 @@ import Routes from "../Routes/Routes";
 import store from "../../redux/index";
 import { setStores } from "../../ducks/Stores";
 import { setTags } from '../../ducks/Tags'; 
+import { setCategories } from '../../ducks/Categories';
 import StoresApi from "../../utils/api/StoresAPI";
 import TagsApi from "../../utils/api/TagsAPI";
+import CategoriesApi from '../../utils/api/CategoryAPI';
 import Login from "../Pages/Login";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -78,13 +80,16 @@ class App extends Component {
     // Fetching init app data
     const storesApi = new StoresApi();
     const tagsApi = new TagsApi();
+    const categoriesApi = new CategoriesApi();
 
     Promise.all([
       storesApi.fetchStores(), 
-      tagsApi.fetchAll()])
+      tagsApi.fetchAll(),
+      categoriesApi.fetchAll()])
       .then(dataCollection => {
         store.dispatch(setStores(dataCollection[0].data));
         store.dispatch(setTags(dataCollection[1].data));
+        store.dispatch(setCategories(dataCollection[2].data));
       })
       .catch(e => {
         console.log(e);
