@@ -1,26 +1,28 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
+    overflowX: "auto"
   },
   table: {
-    minWidth: 700,
-  },
+    minWidth: 700
+  }
 });
 
-const Categories = (props) => {
-  const { classes, collection } = props;
+const Categories = props => {
+  const { classes, collection, deleteHandler } = props;
 
   return (
     <Paper className={classes.root}>
@@ -28,9 +30,9 @@ const Categories = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell >Название</TableCell>
-            <TableCell >Статус</TableCell>
-            <TableCell >Действия</TableCell>
+            <TableCell>Название</TableCell>
+            <TableCell>Статус</TableCell>
+            <TableCell>Действия</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -42,7 +44,14 @@ const Categories = (props) => {
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.status}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => { deleteHandler(item.id) }} 
+                    aria-label="Delete" 
+                    className={classes.button}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             );
           })}
@@ -50,10 +59,10 @@ const Categories = (props) => {
       </Table>
     </Paper>
   );
-}
+};
 
 Categories.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Categories);

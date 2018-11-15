@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
+import LinkIcon from "@material-ui/icons/Link";
 import FilterList from "@material-ui/icons/FilterList";
 import ShopTwo from "@material-ui/icons/ShopTwo";
 import ViewModule from "@material-ui/icons/ViewModule";
@@ -112,6 +113,18 @@ class Menu extends React.Component {
                 classes={{ primary: classes.primary }}
                 inset
                 primary="Категории"
+              />
+            </MenuItem>
+          </NavLink>
+          <NavLink to="/links">
+            <MenuItem className={classes.menuItem}>
+              <ListItemIcon className={classes.icon}>
+                <LinkIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.primary }}
+                inset
+                primary="Ссылки"
               />
             </MenuItem>
           </NavLink>

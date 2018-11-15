@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import StoresContainer from '../Stores/StoresContainer';
 import TagsContainer from '../Tags/TagsContainer';
+import LinkContainer from '../Link/LinkContainer';
 import CategoriesContainer from '../Categories/CategoriesContainer';
 import Login from '../Pages/Login';
 
@@ -20,6 +21,9 @@ export default function Routes() {
 
             <Route path="/tags" component={TagsContainer} />
             <Route path="/categories" component={CategoriesContainer} />
+
+            <Route path="/links" component={LinkContainer} />
+            <Route path="/links/create" component={LinkContainer} />
 
             <Route render={ () => <div>Error 404</div> }  />
         </Switch>

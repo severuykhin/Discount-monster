@@ -16,6 +16,10 @@ class CategoriesContainer extends Component {
     this.api.create(categoryData);
   }
 
+  deleteCategory = id => {
+    this.api.remove(id);
+  }
+
   render() {
 
     const { collection } = this.props;
@@ -28,7 +32,9 @@ class CategoriesContainer extends Component {
           </h1>
         </div>
         <CategoriesHead createCategory={this.createCategory} />
-        <Categories collection={collection} />
+        <Categories
+          deleteHandler={this.deleteCategory} 
+          collection={collection} />
       </div>
     );
   }
