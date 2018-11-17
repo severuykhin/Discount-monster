@@ -37,7 +37,7 @@ class SingleSelect extends Component {
 
   render() {
 
-    const { classes, title, value, name, variants, handleChange } = this.props;
+    const { classes, title, value, name, variants, handleChange, error } = this.props;
 
     return (
       <FormControl variant="outlined" className={classes.formControl}>
@@ -54,6 +54,7 @@ class SingleSelect extends Component {
           value={ value }
           onChange={ handleChange }
           width={200}
+          error={error}
           input={
             <OutlinedInput
               name={ name }

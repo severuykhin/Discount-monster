@@ -13,7 +13,10 @@ class LinkContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.api = new LinksApi()
+    this.api = new LinksApi();
+    this.state = {
+      errors: {}
+    };
   }
 
   openEdit = () => {
@@ -21,7 +24,14 @@ class LinkContainer extends Component {
   };
 
   createLink = (linkData) => {
-    this.api.create(linkData);    
+    this.api.create(linkData)
+      .then(data => {
+        if (data.result === 'error') { this.setState( { errors:data.errors } ) }
+        else if(data.result === 'ok') {
+          this.props.history.push('/links');
+        }
+      })
+      .catch(e => alert(e));    
   };
 
   deleteLink = () => {};
@@ -32,7 +42,9 @@ class LinkContainer extends Component {
     } = this.props;
 
     if (pathname === LINK_CREATE_PATH) {
-      return <LinkForm formSubmitHandler={this.createLink} />;
+      return <LinkForm
+                errors={this.state.errors} 
+                formSubmitHandler={this.createLink} />;
     } else return <Link deleteStoreHandler={this.deleteLink} />;
   };
 

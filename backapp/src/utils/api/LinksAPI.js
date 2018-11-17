@@ -9,12 +9,10 @@ class LinksApi extends BaseApi {
   }
 
   create(data) {
-    return this.request
-            .as('application/json')
+    return this.request.as('application/json')
             .send("POST", this.url, data)
-            .then(data => {
-              console.log(data);
-      // return this.jsonHelper.process(data);
+            .then(response => {
+              return this.jsonHelper.process(response);
             });
   }
 }

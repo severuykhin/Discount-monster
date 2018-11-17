@@ -43,11 +43,17 @@ class LinkForm extends Component {
         category: '',
         store: ''
       },
-      errors: {},
+      errors: this.props.errors,
       labelWidth: 0,
       categoryLabelWidth: 0,
       storeLabelWidth: 0
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      errors: newProps.errors
+    });
   }
 
   handleSubmit = e => {
@@ -67,6 +73,7 @@ class LinkForm extends Component {
 
   render() {
     const { classes } = this.props;
+    const { errors } = this.state;
 
     return (
       <div className="stores__form">
@@ -83,6 +90,7 @@ class LinkForm extends Component {
                 label="Название"
                 value={this.state.values.name}
                 onChange={this.handleInputChange}
+                error={errors.name}
                 name="name"
                 className={classes.textField}
                 margin="normal"
@@ -97,6 +105,7 @@ class LinkForm extends Component {
                 value={this.state.values.href}
                 onChange={this.handleInputChange}
                 name="href"
+                error={!!errors.href}
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
@@ -107,6 +116,7 @@ class LinkForm extends Component {
               <SingleSelect
                 variants={this.props.stores}
                 name="store"
+                error={!!errors.store}
                 handleChange={this.handleInputChange}
                 value={this.state.values.store} 
                 title="Для магазина" />
@@ -125,6 +135,7 @@ class LinkForm extends Component {
               <SingleSelect
                 variants={formattedStatues}
                 name="status"
+                error={!!errors.status}
                 handleChange={this.handleInputChange}
                 value={this.state.values.status} 
                 title="Статус" />

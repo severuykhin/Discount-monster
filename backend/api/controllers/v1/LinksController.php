@@ -3,12 +3,14 @@ namespace api\controllers\v1;
 
 use Yii;
 use yii\web\Controller;
-// use common\models\Category;
+use common\models\Link;
+use common\models\bindings\LinkStore;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
 use common\behaviors\AccessBehavior;
+
 
 /**
  * Контроллер ссылок
@@ -80,23 +82,40 @@ class LinksController extends Controller
 
     private function create($request)
     {
-        return [
-            'result' => $request->getBodyParams()
-        ];
 
-        // $model = new Category();
-        // $model->load($request->post());
-        // if ($model->save()) {
-        //     return [
-        //         'result' => 'ok',
-        //         'data' => $model
-        //     ];
-        // } else {
-        //     return [
-        //         'result' => 'error',
-        //         'errors' => $model->errors
-        //     ];
-        // }
+        $data = $request->getBodyParams();
+        $linkModel = new Link();
+
+        $linkModel->name = $data['name'];
+        $linkModel->category_id = $data['category'];
+        $linkModel->status = $data['status'];
+        $linkModel->href = $data['href'];
+        $linkModel->store = $data['store'];
+
+        if ($linkModel->save()) {
+
+            $storeBinding = $this->createLinkToStoreBinding($linkModel);
+
+            if (empty($storeBinding->errors)) {
+                return [ 'result' => 'ok', 'model' => $linkModel ];
+            } else {
+                return [ 'result' => 'error', 'errors' => $storeBinding->errors ];
+            }
+
+        } else {
+            return [ 'result' => 'error', 'errors' => $linkModel->errors ];
+        }
+    }
+
+    private function createLinkToStoreBinding(Link $linkModel)
+    {
+        $linkToStoreModel = new LinkStore();
+        $linkToStoreModel->link_id = $linkModel->id;
+        $linkToStoreModel->store_id = $linkModel->store;
+
+        if ($linkToStoreModel->save()) {
+            return true;
+        } else return $linkToStoreModel;
     }
 
     private function delete($id)
