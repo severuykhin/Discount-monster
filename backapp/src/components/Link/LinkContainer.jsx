@@ -34,7 +34,9 @@ class LinkContainer extends Component {
       .catch(e => alert(e));    
   };
 
-  deleteLink = () => {};
+  deleteLink = (id) => {
+    this.api.remove(id);
+  };
 
   renderContent = () => {
     let {
@@ -45,7 +47,9 @@ class LinkContainer extends Component {
       return <LinkForm
                 errors={this.state.errors} 
                 formSubmitHandler={this.createLink} />;
-    } else return <Link deleteStoreHandler={this.deleteLink} />;
+    } else return <Link 
+                    collection={this.props.collection}
+                    deleteHandler={this.deleteLink} />;
   };
 
   render() {
@@ -59,7 +63,9 @@ class LinkContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  collection: state.links.collection
+});
 
 const mapDispatchToProps = dispatch => ({});
 

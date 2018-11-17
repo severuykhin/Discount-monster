@@ -9,6 +9,7 @@ import { storesReducer, moduleName as storesModule } from '../ducks/Stores';
 import { userReducer, moduleName as userModule } from '../ducks/User';
 import tagsReducer, { moduleName as tagsModule } from '../ducks/Tags';
 import categoriesReducer, { moduleName as categoriesModule } from '../ducks/Categories';
+import linksReducer, { moduleName as linksModule } from '../ducks/Links';
 
 export const history = createHistory();
 
@@ -20,4 +21,5 @@ export default combineReducers({
 	[userModule]: userReducer,
 	[tagsModule]: tagsReducer,
 	[categoriesModule]: categoriesReducer,
+	[linksModule]: linksReducer,
 });

@@ -71,12 +71,18 @@ class LinksController extends Controller
         }
     }
 
-    private function get() 
+    private function get($request) 
     {
-        // $categories = Category::find()->all();
+        $links = Link::find();
+
+        if ($request->get('expand')) {
+            $expandValues = explode(',', $request->get('expand'));
+            $links->with($expandValues);
+        }
+
         return [
             'result' => 'ok',
-            // 'data'   => $categories
+            'data'   => $links->asArray()->all()
         ];
     }
 
@@ -120,22 +126,22 @@ class LinksController extends Controller
 
     private function delete($id)
     {
-        // $model  = Category::find()->where(['id' => $id])->one();
+        $model  = Link::find()->where(['id' => $id])->one();
 
-        // if (!$model) {
-        //     throw new NotFoundHttpException('Page not found');
-        // }
+        if (!$model) {
+            throw new NotFoundHttpException('Page not found');
+        }
 
-        // if ($model->delete()) {
-        //     return [
-        //         'result' => 'ok',
-        //     ];
-        // } else {
-        //     return [
-        //         'result'  => 'error',
-        //         'message' => 'CATEGORY: Could not delete model id-' . $id,
-        //         'errors'  => $model->errors
-        //     ];
-        // }
+        if ($model->delete()) {
+            return [
+                'result' => 'ok',
+            ];
+        } else {
+            return [
+                'result'  => 'error',
+                'message' => 'LINK: Could not delete model id-' . $id,
+                'errors'  => $model->errors
+            ];
+        }
     }
 }

@@ -7,9 +7,11 @@ import store from "../../redux/index";
 import { setStores } from "../../ducks/Stores";
 import { setTags } from '../../ducks/Tags'; 
 import { setCategories } from '../../ducks/Categories';
+import { setLinks } from '../../ducks/Links';
 import StoresApi from "../../utils/api/StoresAPI";
 import TagsApi from "../../utils/api/TagsAPI";
 import CategoriesApi from '../../utils/api/CategoryAPI';
+import LinksApi from '../../utils/api/LinksAPI';
 import Login from "../Pages/Login";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -81,15 +83,19 @@ class App extends Component {
     const storesApi = new StoresApi();
     const tagsApi = new TagsApi();
     const categoriesApi = new CategoriesApi();
+    const linksApi = new LinksApi();
 
     Promise.all([
       storesApi.fetchAll(), 
       tagsApi.fetchAll(),
-      categoriesApi.fetchAll()])
+      categoriesApi.fetchAll(),
+      linksApi.expand(['categories', 'store']).fetchAll()
+    ])
       .then(dataCollection => {
         store.dispatch(setStores(dataCollection[0].data));
         store.dispatch(setTags(dataCollection[1].data));
         store.dispatch(setCategories(dataCollection[2].data));
+        store.dispatch(setLinks(dataCollection[3].data))
       })
       .catch(e => {
         console.log(e);

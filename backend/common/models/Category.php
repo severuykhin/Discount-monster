@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Link;
 
 
 
@@ -48,5 +49,10 @@ class Category extends \yii\db\ActiveRecord
             'name' => 'Name',
             'status' => 'Статус',
         ];
+    }
+
+    public function getLinks()
+    {
+        return $this->hasMany(Link::className, ['id' => 'category_id']);
     }
 }

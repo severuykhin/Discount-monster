@@ -7,8 +7,14 @@ class BaseApi {
     this.request = new Request();
     this.jsonHelper = new JsonHelper();
     this.url = "";
+    this.expandValues = [];
     this.removeAction = () => {};
     this.addAction = () => {};
+  }
+
+  expand(values) {
+    this.expandValues = values;
+    return this;
   }
 
   create(formData) {
@@ -24,7 +30,14 @@ class BaseApi {
   }
 
   fetchAll() {
-    return this.request.send("GET", this.url).then(response => {
+
+    let url = this.url;
+
+    if (this.expandValues.length) {
+      url = `${url}?expand=${ this.expandValues.join(',') }`
+    }
+
+    return this.request.send("GET", url).then(response => {
       let parsed = this.jsonHelper.process(response);
       if (parsed.result === "ok") {
         return parsed;

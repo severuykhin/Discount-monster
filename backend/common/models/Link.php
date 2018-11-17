@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use common\models\Store;
+use common\models\Category;
 use yii\behaviors\TimestampBehavior;
 
 
@@ -60,5 +62,16 @@ class Link extends \yii\db\ActiveRecord
         return [
             TimestampBehavior::className()
         ];
+    }
+
+    public function getStore()
+    {
+        return $this->hasOne(Store::className(), ['id' => 'store_id'])
+                ->viaTable('link_via_store', ['link_id' => 'id']);
+    }
+
+    public function getCategories()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 }
