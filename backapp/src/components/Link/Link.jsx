@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 const styles = theme => ({
   root: {
@@ -22,7 +23,7 @@ const styles = theme => ({
 });
 
 const Links = props => {
-  const { classes, collection, deleteHandler } = props;
+  const { classes, collection, deleteHandler, editHandler } = props;
 
   return (
     <Paper className={classes.root}>
@@ -32,6 +33,9 @@ const Links = props => {
             <TableCell>ID</TableCell>
             <TableCell>Название</TableCell>
             <TableCell>Статус</TableCell>
+            <TableCell>href</TableCell>
+            <TableCell>Категория</TableCell>
+            <TableCell>Магазин</TableCell>
             <TableCell>Действия</TableCell>
           </TableRow>
         </TableHead>
@@ -44,7 +48,16 @@ const Links = props => {
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.status}</TableCell>
+                <TableCell>{item.href}</TableCell>
+                <TableCell>{item.categories && item.categories.name}</TableCell>
+                <TableCell>{item.store.name}</TableCell>
                 <TableCell>
+                  <IconButton
+                    onClick={() => { editHandler(item.id) }} 
+                    aria-label="Edit" 
+                    className={classes.button}>
+                    <EditIcon fontSize="small" />
+                  </IconButton>
                   <IconButton
                     onClick={() => { deleteHandler(item.id) }} 
                     aria-label="Delete" 

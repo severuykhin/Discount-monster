@@ -22,8 +22,9 @@ export default function Routes() {
             <Route path="/tags" component={TagsContainer} />
             <Route path="/categories" component={CategoriesContainer} />
 
-            <Route path="/links" component={LinkContainer} />
+            <Route path="/links/edit/:id" component={LinkContainer} />
             <Route path="/links/create" component={LinkContainer} />
+            <Route path="/links" component={LinkContainer} />
 
             <Route render={ () => <div>Error 404</div> }  />
         </Switch>

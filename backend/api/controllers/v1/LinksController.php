@@ -66,6 +66,10 @@ class LinksController extends Controller
             return $this->get(Yii::$app->request);
         }
 
+        if (Yii::$app->request->isPatch) {
+            return $this->update(Yii::$app->request);
+        }
+
         if (Yii::$app->request->isDelete) {
             return $this->delete(Yii::$app->request->get('id'));
         }
@@ -103,7 +107,39 @@ class LinksController extends Controller
             $storeBinding = $this->createLinkToStoreBinding($linkModel);
 
             if (empty($storeBinding->errors)) {
-                return [ 'result' => 'ok', 'model' => $linkModel ];
+                return [ 
+                    'result' => 'ok', 
+                    'model' => Link::find()->where(['id' => $linkModel->id])->with(['categories', 'store'])->asArray()->one() 
+                ];
+            } else {
+                return [ 'result' => 'error', 'errors' => $storeBinding->errors ];
+            }
+
+        } else {
+            return [ 'result' => 'error', 'errors' => $linkModel->errors ];
+        }
+    }
+
+    private function update($request) 
+    {
+        $linkModel = Link::find()->where(['id' => $request->get('id')])->one();
+        $data = $request->getBodyParams();
+
+        $linkModel->name = $data['name'];
+        $linkModel->category_id = $data['category'];
+        $linkModel->status = $data['status'];
+        $linkModel->href = $data['href'];
+        $linkModel->store = $data['store'];
+
+        if ($linkModel->save()) {
+
+            $storeBinding = $this->createLinkToStoreBinding($linkModel);
+
+            if (empty($storeBinding->errors)) {
+                return [ 
+                    'result' => 'ok', 
+                    'model' => Link::find()->where(['id' => $linkModel->id])->with(['categories', 'store'])->asArray()->one() 
+                ];
             } else {
                 return [ 'result' => 'error', 'errors' => $storeBinding->errors ];
             }
@@ -115,6 +151,8 @@ class LinksController extends Controller
 
     private function createLinkToStoreBinding(Link $linkModel)
     {
+        LinkStore::deleteAll(['link_id' => $linkModel->id]);
+
         $linkToStoreModel = new LinkStore();
         $linkToStoreModel->link_id = $linkModel->id;
         $linkToStoreModel->store_id = $linkModel->store;

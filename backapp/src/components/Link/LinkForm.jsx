@@ -6,9 +6,12 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { main } from "../../utils/config/main";
-import SingleSelect from '../Reusable/SingleSelect';
+import SingleSelect from "../Reusable/SingleSelect";
 
-const formattedStatues = main.statuses.map(i => ({ name: i.name, id: i.value }));
+const formattedStatues = main.statuses.map(i => ({
+  name: i.name,
+  id: i.value
+}));
 
 const styles = theme => ({
   root: {
@@ -29,7 +32,6 @@ const styles = theme => ({
 });
 
 class LinkForm extends Component {
-
   constructor(props) {
     super(props);
 
@@ -37,22 +39,63 @@ class LinkForm extends Component {
 
     this.state = {
       values: {
-        name: '',
-        href: '',
-        status: '',
-        category: '',
-        store: ''
+        name: "",
+        href: "",
+        status: "",
+        category: "",
+        store: ""
       },
       errors: this.props.errors,
       labelWidth: 0,
       categoryLabelWidth: 0,
       storeLabelWidth: 0
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.itemToEdit) {
+      let item = this.props.itemToEdit;
+      this.setValues(item);
     }
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
       errors: newProps.errors
+    });
+
+    if (newProps.itemToEdit && newProps.action === 'edit') {
+      let item = newProps.itemToEdit;
+      this.setValues(item, newProps.errors);
+    }
+
+    if (newProps.action === 'create') {
+      this.resetValues();
+    }
+  }
+
+  setValues = (values, errors) => {
+    this.setState({
+      errors: errors ? errors : {},
+      values: {
+        name: values.name,
+        href: values.href,
+        status: values.status,
+        category: Number(values.category_id),
+        store: Number(values.store.id)
+      }
+    });
+  }
+
+  resetValues = () => {
+    this.setState({
+      values: {
+        name: "",
+        href: "",
+        status: "",
+        category: "",
+        store: ""
+      }
     });
   }
 
@@ -61,15 +104,14 @@ class LinkForm extends Component {
     this.props.formSubmitHandler(this.state.values);
   };
 
-  handleInputChange = (e) => {
+  handleInputChange = e => {
+    let values = {
+      ...this.state.values,
+      [e.target.name]: e.target.value
+    };
 
-      let values = {
-        ...this.state.values,
-        [e.target.name]: e.target.value
-      };
-
-      this.setState({ values });
-  }
+    this.setState({ values });
+  };
 
   render() {
     const { classes } = this.props;
@@ -83,7 +125,6 @@ class LinkForm extends Component {
           </Typography>
 
           <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
-
             <div className="form-item">
               <TextField
                 id="outlined-uncontrolled"
@@ -118,17 +159,20 @@ class LinkForm extends Component {
                 name="store"
                 error={!!errors.store}
                 handleChange={this.handleInputChange}
-                value={this.state.values.store} 
-                title="Для магазина" />
+                value={this.state.values.store}
+                title="Для магазина"
+              />
             </div>
 
             <div className="form-item">
               <SingleSelect
                 variants={this.props.categories}
                 name="category"
+                error={!!errors.category_id}
                 handleChange={this.handleInputChange}
-                value={this.state.values.category} 
-                title="Категория" />
+                value={this.state.values.category}
+                title="Категория"
+              />
             </div>
 
             <div className="form-item">
@@ -137,8 +181,9 @@ class LinkForm extends Component {
                 name="status"
                 error={!!errors.status}
                 handleChange={this.handleInputChange}
-                value={this.state.values.status} 
-                title="Статус" />
+                value={this.state.values.status}
+                title="Статус"
+              />
             </div>
 
             <div className="stores__form-item">

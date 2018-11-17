@@ -29,6 +29,22 @@ class BaseApi {
     });
   }
 
+  update(id, formData) {
+
+    let url = `${this.url}/${id}`;
+
+    return this.request.send("PATCH", url, formData).then(response => {
+      let parsed = this.jsonHelper.process(response);
+      if (parsed.result === "ok") {
+        store.dispatch(this.addAction(parsed.data));
+      } else {
+        alert(`${this.constructor.name}: Error while creating new model`);
+        console.error(response);
+      }
+    });
+  }
+
+
   fetchAll() {
 
     let url = this.url;
