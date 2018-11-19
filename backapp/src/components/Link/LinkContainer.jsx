@@ -4,6 +4,7 @@ import Link from "./Link";
 import LinkHead from "./LinkHead";
 import LinkForm from './LinkForm';
 import LinksApi from '../../utils/api/LinksAPI';
+import { setLinks } from '../../ducks/Links';
 
 
 const LINK_CREATE_PATH = "/links/create";
@@ -19,6 +20,29 @@ class LinkContainer extends Component {
       errors: {},
       editItem: false
     };
+  }
+
+  fetchDataCollection() {
+    let {
+      location: { pathname },
+      match: { params: { id } }
+    } = this.props;
+
+    if (pathname === LINK_BASE_PATH) {
+      this.api.expand(['store', 'categories']).fetchAll()
+        .then( response => {
+          this.props.setLinks(response.data);
+        });
+    }
+  }
+
+  componentDidMount() {
+    this.fetchDataCollection();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.location.pathname === this.props.location.pathname) return;
+    this.fetchDataCollection();
   }
 
   openCreateForm = () => {
@@ -98,7 +122,9 @@ const mapStateToProps = state => ({
   collection: state.links.collection
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  setLinks: (data) => dispatch(setLinks(data))
+});
 
 export default connect(
   mapStateToProps,

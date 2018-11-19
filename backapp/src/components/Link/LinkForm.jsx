@@ -60,9 +60,6 @@ class LinkForm extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({
-      errors: newProps.errors
-    });
 
     if (newProps.itemToEdit && newProps.action === 'edit') {
       let item = newProps.itemToEdit;
@@ -89,6 +86,7 @@ class LinkForm extends Component {
 
   resetValues = () => {
     this.setState({
+      errors: {},
       values: {
         name: "",
         href: "",

@@ -109,7 +109,7 @@ class LinksController extends Controller
             if (empty($storeBinding->errors)) {
                 return [ 
                     'result' => 'ok', 
-                    'model' => Link::find()->where(['id' => $linkModel->id])->with(['categories', 'store'])->asArray()->one() 
+                    'model' => $linkModel 
                 ];
             } else {
                 return [ 'result' => 'error', 'errors' => $storeBinding->errors ];
@@ -138,7 +138,7 @@ class LinksController extends Controller
             if (empty($storeBinding->errors)) {
                 return [ 
                     'result' => 'ok', 
-                    'model' => Link::find()->where(['id' => $linkModel->id])->with(['categories', 'store'])->asArray()->one() 
+                    'model' => $linkModel 
                 ];
             } else {
                 return [ 'result' => 'error', 'errors' => $storeBinding->errors ];
