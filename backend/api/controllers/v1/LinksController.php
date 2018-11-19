@@ -96,13 +96,7 @@ class LinksController extends Controller
         $data = $request->getBodyParams();
         $linkModel = new Link();
 
-        // REFACTOR ME - SET VALUES METHOD OR SOMTH
-        $linkModel->name = $data['name'];
-        $linkModel->category_id = $data['category'];
-        $linkModel->status = $data['status'];
-        $linkModel->href = $data['href'];
-        $linkModel->store = $data['store'];
-        $linkModel->gender = $data['gender'];
+        $linkModel->setValues($data);
 
         if ($linkModel->save()) {
 
@@ -125,15 +119,10 @@ class LinksController extends Controller
     private function update($request) 
     {
         $linkModel = Link::find()->where(['id' => $request->get('id')])->one();
+        
         $data = $request->getBodyParams();
 
-        // REFACTOR ME - SET VALUES METHOD OR SOMTH
-        $linkModel->name = $data['name'];
-        $linkModel->category_id = $data['category'];
-        $linkModel->status = $data['status'];
-        $linkModel->href = $data['href'];
-        $linkModel->store = $data['store'];
-        $linkModel->gender = $data['gender'];
+        $linkModel->setValues($data);
 
         if ($linkModel->save()) {
 

@@ -74,4 +74,16 @@ class Link extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
+
+    public function setValues($data)
+    {
+        $this->name = $data['name'];
+        $this->category_id = $data['category'];
+        $this->status = $data['status'];
+        $this->href = $data['href'];
+        $this->store = $data['store'];
+        $this->gender = $data['gender'];
+        
+        return $this;
+    }
 }

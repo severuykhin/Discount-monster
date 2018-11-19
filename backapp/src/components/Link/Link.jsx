@@ -24,8 +24,6 @@ const styles = theme => ({
 });
 
 function getGender(id) {
-  console.log(Number(id));
-  console.log(main.genders);
   let gender = main.genders.filter(item => Number(item.id) === Number(id));
   return gender[0] ? gender[0].short : 'N/A';
 }
