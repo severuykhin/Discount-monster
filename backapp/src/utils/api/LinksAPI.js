@@ -18,7 +18,7 @@ class LinksApi extends BaseApi {
             .then(response => {
               let convertedResponse = this.jsonHelper.process(response);
               if (convertedResponse.result === 'ok') {
-                store.dispatch(this.addAction(convertedResponse.model));
+                return convertedResponse;
               }
               return convertedResponse;
             });

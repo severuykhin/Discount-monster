@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { main } from '../../utils/config/main';
 
 const styles = theme => ({
   root: {
@@ -21,6 +22,13 @@ const styles = theme => ({
     minWidth: 700
   }
 });
+
+function getGender(id) {
+  console.log(Number(id));
+  console.log(main.genders);
+  let gender = main.genders.filter(item => Number(item.id) === Number(id));
+  return gender[0] ? gender[0].short : 'N/A';
+}
 
 const Links = props => {
   const { classes, collection, deleteHandler, editHandler } = props;
@@ -36,6 +44,7 @@ const Links = props => {
             <TableCell>href</TableCell>
             <TableCell>Категория</TableCell>
             <TableCell>Магазин</TableCell>
+            <TableCell>Пол</TableCell>
             <TableCell>Действия</TableCell>
           </TableRow>
         </TableHead>
@@ -46,11 +55,12 @@ const Links = props => {
                 <TableCell component="th" scope="row">
                   {item.id}
                 </TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.status}</TableCell>
-                <TableCell>{item.href}</TableCell>
-                <TableCell>{item.categories && item.categories.name}</TableCell>
-                <TableCell>{item.store.name}</TableCell>
+                <TableCell>{ item.name }</TableCell>
+                <TableCell>{ item.status }</TableCell>
+                <TableCell>{ item.href }</TableCell>
+                <TableCell>{ item.categories && item.categories.name }</TableCell>
+                <TableCell>{ item.store.name }</TableCell>
+                <TableCell>{ getGender(item.gender) }</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => { editHandler(item.id) }} 

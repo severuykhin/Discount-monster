@@ -6,6 +6,7 @@ use Yii;
 use common\models\Store;
 use common\models\Item;
 use common\models\Tag;
+use common\models\Link;
 use GuzzleHttp\Client;
 use yii\helpers\VarDumper;
 use yii\web\Response;
@@ -13,9 +14,8 @@ use yii\web\Response;
 
 class Parser {
 
-	protected $name;
-	protected $url;
-
+	protected $links;
+	protected $store;
 
 	public function load(Store $store): self
 	{	
@@ -53,5 +53,48 @@ class Parser {
 		$res = $client->request('GET', $requestUrl);
 		$body = $res->getBody();		
 		return $body;
+	}
+
+	public function parse()
+	{
+		$this->setStore();
+		if (!$this->store) return;
+
+		$this->setLinks();
+		if (count($this->links) <= 0) return;
+		
+		$this->parseLinks();
+	}
+
+	public function getName()
+	{
+		$path = explode('\\', get_class($this));
+    	return strtolower(array_pop($path));
+	}
+
+	private function setStore()
+	{	
+		$store = Store::find()->where(['slug' => $this->getName()])->one();
+		if (!$store) {
+			echo PHP_EOL;
+			echo 'WARNING!: ' . $this->getName() . ' : parser. Not find related store';
+			echo PHP_EOL;
+			return null;
+		}
+
+		$this->store = $store;
+		return $store;
+	}
+
+	private function setLinks()
+	{
+		$this->links = $this->store->getActiveLinks();
+	}
+
+	private function parseLinks()
+	{
+		foreach($this->links as $link) {
+			echo $link->href;
+		}
 	}
 }

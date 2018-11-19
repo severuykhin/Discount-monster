@@ -6,7 +6,7 @@ use common\components\parsers\Parser;
 use common\models\Store;
 use common\models\Item;
 
-class AsosParser extends Parser {
+class Asos extends Parser {
 
 
 	public function run(array $config)

@@ -9,8 +9,7 @@ use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
 
-class AdidasParser extends Parser {
-
+class Reebok extends Parser {
 
 	public function run()
 	{
@@ -68,7 +67,7 @@ class AdidasParser extends Parser {
 					'title'       => $name,
 					'price'       => str_replace( '.' , '' , trim($price->html())),
 					'price_sale'  => str_replace( '.' , '' , trim($price_sale->html())),
-					'url'         => 'https://adidas.ru' . $url->attr('href'),
+					'url'         => 'https://reebok.ru' . $url->attr('href'),
 					'store_id'    => (int) $this->store_id,
 					'gender'      => $genderVal,
 					'art'         => $art,

@@ -43,7 +43,8 @@ class LinkForm extends Component {
         href: "",
         status: "",
         category: "",
-        store: ""
+        store: "",
+        gender: ""
       },
       errors: this.props.errors,
       labelWidth: 0,
@@ -79,7 +80,8 @@ class LinkForm extends Component {
         href: values.href,
         status: values.status,
         category: Number(values.category_id),
-        store: Number(values.store.id)
+        store: Number(values.store.id),
+        gender: Number(values.gender)
       }
     });
   }
@@ -92,7 +94,8 @@ class LinkForm extends Component {
         href: "",
         status: "",
         category: "",
-        store: ""
+        store: "",
+        gender: ""
       }
     });
   }
@@ -181,6 +184,17 @@ class LinkForm extends Component {
                 handleChange={this.handleInputChange}
                 value={this.state.values.status}
                 title="Статус"
+              />
+            </div>
+
+            <div className="form-item">
+              <SingleSelect
+                variants={main.genders}
+                name="gender"
+                error={!!errors.gender}
+                handleChange={this.handleInputChange}
+                value={this.state.values.gender}
+                title="Пол"
               />
             </div>
 

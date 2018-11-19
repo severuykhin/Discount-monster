@@ -38,9 +38,9 @@ class Link extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'href', 'store', 'category_id'], 'required'],
+            [['status', 'href', 'store', 'category_id', 'gender'], 'required'],
             [['status', 'name', 'href'], 'string', 'max' => 255],
-            [['category_id'], 'integer']
+            [['category_id', 'gender'], 'integer']
         ];
     }
 

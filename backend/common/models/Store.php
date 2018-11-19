@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
 use common\models\Item;
+use common\models\Link;
 
 
 
@@ -66,5 +67,16 @@ class Store extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getLinks()
+    {
+        return $this->hasMany(Link::className(), ['id' => 'link_id'])
+        ->viaTable('link_via_store', ['store_id' => 'id']);
+    }
+
+    public function getActiveLinks()
+    {
+        return $this->getLinks()->where(['status' => Link::STATUS_ACTIVE])->all();
     }
 }
