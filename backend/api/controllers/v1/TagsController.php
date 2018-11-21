@@ -81,7 +81,15 @@ class TagsController extends Controller
 
         if ($request->get('expand')) {
             $expandValues = explode(',', $request->get('expand'));
-            $links->with($expandValues);
+            $tags->with($expandValues);
+        }
+
+        if ($request->get('expandShort')) {
+            $expandShortValues = explode(',', $request->get('expandShort'));
+            $expandShortValues = array_map(function ($item) {
+                return $item . 'short';
+            }, $expandShortValues);
+            $tags->with($expandShortValues);
         }
 
         return [

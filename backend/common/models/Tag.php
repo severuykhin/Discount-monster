@@ -5,6 +5,8 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
+use common\models\bindings\TagStore;
+use common\models\Store;
 
 
 
@@ -64,5 +66,12 @@ class Tag extends \yii\db\ActiveRecord
         $this->name = $data['name'];
         $this->status = $data['status'];
         return $this;
+    }
+
+    public function getStoresshort()
+    {
+        return $this->hasMany(Store::className(), ['id' => 'store_id'])
+                ->viaTable('tag_via_store', ['tag_id' => 'id'])
+                ->select(['id']);
     }
 }

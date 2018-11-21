@@ -8,12 +8,18 @@ class BaseApi {
     this.jsonHelper = new JsonHelper();
     this.url = "";
     this.expandValues = [];
+    this.expandShortValues = [];
     this.removeAction = () => {};
     this.addAction = () => {};
   }
 
   expand(values) {
     this.expandValues = values;
+    return this;
+  }
+
+  expandShort(values) {
+    this.expandShortValues = values;
     return this;
   }
 
@@ -51,6 +57,10 @@ class BaseApi {
 
     if (this.expandValues.length) {
       url = `${url}?expand=${ this.expandValues.join(',') }`
+    }
+
+    if (this.expandShortValues.length) {
+      url = `${url}?expandShort=${ this.expandShortValues.join(',') }`
     }
 
     return this.request.send("GET", url).then(response => {
