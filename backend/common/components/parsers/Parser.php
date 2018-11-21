@@ -47,10 +47,8 @@ class Parser {
 
 	protected function getHtml($url = null): string
 	{
-
 		$client = new Client();
-		$requestUrl = $url ? $url : $this->url;
-		$res = $client->request('GET', $requestUrl);
+		$res = $client->request('GET', $url);
 		$body = $res->getBody();		
 		return $body;
 	}
@@ -94,7 +92,7 @@ class Parser {
 	private function parseLinks()
 	{
 		foreach($this->links as $link) {
-			echo $link->href;
+			$this->parseLink($link);
 		}
 	}
 }

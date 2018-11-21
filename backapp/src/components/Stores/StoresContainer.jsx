@@ -44,6 +44,10 @@ class StoresContainer extends Component {
         this.props.history.push('/stores/create');
     }
 
+    openTagsRedactor = () => {
+        
+    }
+
     renderContent = () => {
         let {storesCollection, location : { pathname }} = this.props;
 

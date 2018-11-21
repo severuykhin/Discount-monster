@@ -9,6 +9,9 @@ import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import FilterList from "@material-ui/icons/FilterList";
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const styles = theme => ({
   root: {
@@ -48,6 +51,11 @@ export default function Stores(props) {
               <IconButton aria-label="Add to favorites">
                 <Edit />
               </IconButton>
+              <Tooltip title="Редактировать теги фильтрации" placement="top">
+                  <IconButton onClick={ props.openTagsRedactor } aria-label="Manage tags">
+                      <FilterList />
+                  </IconButton>
+              </Tooltip>
               <IconButton aria-label="Share">
                 <Delete onClick={() => { props.deleteStoreHandler(store.id) }} />
               </IconButton>              

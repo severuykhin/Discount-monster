@@ -5,20 +5,21 @@ namespace common\components\parsers;
 use common\components\parsers\Parser;
 use common\models\Store;
 use common\models\Item;
+use common\models\Link;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
 
 class Reebok extends Parser {
 
-	public function run()
+	public function parseLink(Link $link)
 	{
 		$start = 0;
 		$step  = 120;
 		$cardsAll = [];
 		
 		do {
-			$markup = self::getHtml($this->url . "?sz=$step&start=$start");
+			$markup = self::getHtml($link->href . "?sz=$step&start=$start");
 			$document = \phpQuery::newDocumentHTML($markup);
 			$cardsOnPage = $document->find(".product-tile");
 

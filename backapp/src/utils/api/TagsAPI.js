@@ -7,7 +7,7 @@ class TagsApi extends BaseApi {
     
     super();
 
-    this.url = "/backend/tag";
+    this.url = "/api/v1/tags";
     this.removeAction = removeTag;
     this.addAction = addTag;
   }

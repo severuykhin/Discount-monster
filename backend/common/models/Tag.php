@@ -58,4 +58,11 @@ class Tag extends \yii\db\ActiveRecord
             'status' => 'Статус',
         ];
     }
+
+    public function setValues($data)
+    {
+        $this->name = $data['name'];
+        $this->status = $data['status'];
+        return $this;
+    }
 }
