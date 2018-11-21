@@ -43,6 +43,8 @@ return [
             'showScriptName' => false,
             'class' => 'common\components\LangUrlManager',
             'rules' => [
+                // V1 Rules
+                'v1/<controller:\w+>/<id>/<relations>' => 'v1/<controller>/<relations>',
                 'v1/<controller:\w+>/<id>' => 'v1/<controller>/index',
                 'v1/<controller:\w+>' => 'v1/<controller>/index',
             ]

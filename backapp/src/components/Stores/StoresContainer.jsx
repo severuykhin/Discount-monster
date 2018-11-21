@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Stores from './Stores';
 import StoresForm from  './StoresForm';
 import StoresHead from './StoresHead';
+import StoresTagDialog from './StoresTagDialog';
 import StoresApi from '../../utils/api/StoresAPI';
 import { addStore } from '../../ducks/Stores';
 
@@ -18,7 +19,10 @@ class StoresContainer extends Component {
 
         this.api = new StoresApi();
 
-        this.state = {}
+        this.state = {
+            tagsDialogOpen: false,
+            tagFormStoreId: null
+        }
     }
 
     componentDidMount() {
@@ -44,8 +48,16 @@ class StoresContainer extends Component {
         this.props.history.push('/stores/create');
     }
 
-    openTagsRedactor = () => {
-        
+    openTagsRedactor = (storeId) => {
+        this.setState({ 
+            tagsDialogOpen: true,
+            tagFormStoreId: storeId 
+        });
+    }
+
+    closeTagsRedactor = (values) => {
+        this.setState({ tagsDialogOpen: false });
+        this.api.updateTagsBindings(values);
     }
 
     renderContent = () => {
@@ -56,10 +68,10 @@ class StoresContainer extends Component {
         }
         else return <Stores 
                         collection={storesCollection} 
+                        openTagsRedactor={this.openTagsRedactor}
                         deleteStoreHandler={this.deleteStore}/>;
 
     }
-
 
     render() {
         return (
@@ -67,6 +79,10 @@ class StoresContainer extends Component {
             <StoresHead 
                 addBtnHandler={this.openEdit}/>
             { this.renderContent() }
+            <StoresTagDialog
+                storeid={this.state.tagFormStoreId}
+                onClose={this.closeTagsRedactor} 
+                open={this.state.tagsDialogOpen} />
         </div>
         )
     }

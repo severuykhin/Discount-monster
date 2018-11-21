@@ -3,21 +3,19 @@ namespace api\controllers\v1;
 
 use Yii;
 use yii\web\Controller;
-use common\models\Tag;
-use common\models\bindings\LinkStore;
+use common\models\Store;
+use common\models\bindings\TagStore;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
-use yii\db\ActiveQuery;
 use common\behaviors\AccessBehavior;
 
-
 /**
- * Контроллер тегов фильтрации
+ * Контроллер категорий
  * @package api\v1\controllers
  */
-class TagsController extends Controller
+class StoresController extends Controller
 {
 
     public $enableCsrfValidation = false;
@@ -67,65 +65,41 @@ class TagsController extends Controller
             return $this->get(Yii::$app->request);
         }
 
-        if (Yii::$app->request->isPatch) {
-            return $this->update(Yii::$app->request);
-        }
-
         if (Yii::$app->request->isDelete) {
             return $this->delete(Yii::$app->request->get('id'));
         }
     }
 
-    private function get($request) 
+    private function get() 
     {
-        $tags = Tag::find();
-
-        $tags = $this->resolveRequestParams($request, $tags);
-
+        $stores = Store::find()->all();
         return [
             'result' => 'ok',
-            'data'   => $tags->asArray()->all()
+            'data'   => $stores
         ];
     }
 
     private function create($request)
     {
 
-        $data = $request->post('Tag');
-        $tagModel = new Tag();
-
-        $tagModel->setValues($data);
-
-        if ($tagModel->save()) {
-
-            return [ 'result' => 'ok', 'data' => $tagModel ];
-
-        } else {
-            return [ 'result' => 'error', 'errors' => $tagModel->errors ];
-        }
-    }
-
-    private function update($request) 
-    {
-        $tagModel = Tag::find()->where(['id' => $request->get('id')])->one();
-        
-        $data = $request->post('Tag');
-
-        $tagModel->setValues($data);
-
-        if ($tagModel->save()) {
-            return [ 
-                'result' => 'ok', 
-                'data' => $tagModel 
+        $model = new Store();
+        $model->load($request->post());
+        if ($model->save()) {
+            return [
+                'result' => 'ok',
+                'data' => $model
             ];
         } else {
-            return [ 'result' => 'error', 'errors' => $linkModel->errors ];
+            return [
+                'result' => 'error',
+                'errors' => $model->errors
+            ];
         }
     }
 
     private function delete($id)
     {
-        $model  = Tag::find()->where(['id' => $id])->one();
+        $model  = Store::find()->where(['id' => $id])->one();
 
         if (!$model) {
             throw new NotFoundHttpException('Page not found');
@@ -138,27 +112,57 @@ class TagsController extends Controller
         } else {
             return [
                 'result'  => 'error',
-                'message' => 'TAG: Could not delete model id-' . $id,
+                'message' => 'CATEGORY: Could not delete model id-' . $id,
                 'errors'  => $model->errors
             ];
         }
     }
 
-    private function resolveRequestParams($request, ActiveQuery $tags): ActiveQuery
+    // Relations actions
+
+    public function actionTags($id)
     {
-        if ($request->get('expand')) {
-            $expandValues = explode(',', $request->get('expand'));
-            $tags->with($expandValues);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isPatch) {
+            return $this->updateTags(Yii::$app->request, $id);
+        }
+    }
+
+    private function updateTags($request, $id) 
+    {
+        $store = Store::find()->where(['id' => $id])->one();
+        if (!$store) {
+            throw new NotFoundHttpException('Page not found');
         }
 
-        if ($request->get('expandShort')) {
-            $expandShortValues = explode(',', $request->get('expandShort'));
-            $expandShortValues = array_map(function ($item) {
-                return $item . 'short';
-            }, $expandShortValues);
-            $tags->with($expandShortValues);
+        TagStore::deleteAll(['store_id' => $store->id]);
+
+        $newBindings = $request->getBodyParams();
+
+        $errors = [];
+
+        foreach($newBindings as $tagId) {
+            $bindingModel = new TagStore();
+            $bindingModel->store_id = $store->id;
+            $bindingModel->tag_id = $tagId;
+
+            if ($bindingModel->save()) {
+
+            } else {
+                $errors[] = $bindingModel->errors;
+            }
         }
 
-        return $tags;
+        if (count($errors) > 0) {
+            return [
+                'result' => 'error',
+                'errors' => $errors
+            ];
+        }
+
+        return [
+            'result' => 'ok'
+        ];
     }
 }

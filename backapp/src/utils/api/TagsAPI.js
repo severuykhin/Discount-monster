@@ -11,8 +11,6 @@ class TagsApi extends BaseApi {
     this.removeAction = removeTag;
     this.addAction = addTag;
   }
-
-  
 }
 
 export default TagsApi;

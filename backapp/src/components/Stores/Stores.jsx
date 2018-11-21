@@ -52,7 +52,7 @@ export default function Stores(props) {
                 <Edit />
               </IconButton>
               <Tooltip title="Редактировать теги фильтрации" placement="top">
-                  <IconButton onClick={ props.openTagsRedactor } aria-label="Manage tags">
+                  <IconButton onClick={() => { props.openTagsRedactor(store.id) }  } aria-label="Manage tags">
                       <FilterList />
                   </IconButton>
               </Tooltip>
