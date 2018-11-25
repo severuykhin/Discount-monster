@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
 use common\models\Item;
 use common\models\Link;
+use common\models\Tag;
 
 
 
@@ -78,5 +79,11 @@ class Store extends \yii\db\ActiveRecord
     public function getActiveLinks()
     {
         return $this->getLinks()->where(['status' => Link::STATUS_ACTIVE])->all();
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
+                ->viaTable('tag_via_store', ['store_id' => 'id']);
     }
 }

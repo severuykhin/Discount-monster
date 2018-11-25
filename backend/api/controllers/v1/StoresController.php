@@ -124,9 +124,23 @@ class StoresController extends Controller
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
+        if (Yii::$app->request->isGet) {
+            return $this->getTags($id);
+        }
+
         if (Yii::$app->request->isPatch) {
             return $this->updateTags(Yii::$app->request, $id);
         }
+    }
+
+    private function getTags($id)
+    {   
+        $store = Store::find()->where(['id' => $id])->with(['tags'])->one();
+
+        return [
+            'result' => 'ok',
+            'data' => $store->tags
+        ];
     }
 
     private function updateTags($request, $id) 

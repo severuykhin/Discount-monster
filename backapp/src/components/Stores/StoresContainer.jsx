@@ -80,6 +80,7 @@ class StoresContainer extends Component {
                 addBtnHandler={this.openEdit}/>
             { this.renderContent() }
             <StoresTagDialog
+                api={this.api}
                 storeid={this.state.tagFormStoreId}
                 onClose={this.closeTagsRedactor} 
                 open={this.state.tagsDialogOpen} />

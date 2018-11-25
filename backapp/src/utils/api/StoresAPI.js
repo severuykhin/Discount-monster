@@ -18,13 +18,25 @@ class StoresApi extends BaseApi {
     });
   }
 
+  getTags(storeId) {
+    return this.request
+            .send("GET", `/api/v1/stores/${storeId}/tags`)
+            .then(response => {
+              let convertedResponse = this.jsonHelper.process(response);
+              if (convertedResponse.result === 'ok') {
+                return convertedResponse;
+              }
+              console.log(`Error:${convertedResponse}`);
+            });
+  }
+
   updateTagsBindings(config) {
     return this.request.as('application/json')
             .send("PATCH", `/api/v1/stores/${config.storeId}/tags`, config.values)
             .then(response => {
               let convertedResponse = this.jsonHelper.process(response);
               if (convertedResponse.result === 'ok') {
-                store.dispatch(updateTagsToStoreBindings(config));
+                // store.dispatch(updateTagsToStoreBindings(config));
               }
               return convertedResponse;
             });

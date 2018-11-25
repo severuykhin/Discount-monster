@@ -9,16 +9,9 @@ const initialState = {
 };
 
 const processTagsToStoreBindings = (state, data) => {
-
-    let collection = state.collection.map(item => {
-        console.log(item.id);
-        console.log(data.values);
-        console.log(data.values.indexOf(item.id));
-        if (data.values.indexOf(Number(item.id)) < 0) return;
-        item.storesshort = data.values.map(storeId => ({ id: storeId }));
-    });
-
-    return {...state, ...collection};
+    return {
+        ...state
+    };
 }
 
 export default (state = initialState, action) => {
