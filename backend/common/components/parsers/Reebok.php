@@ -6,18 +6,20 @@ use common\components\parsers\Parser;
 use common\models\Store;
 use common\models\Item;
 use common\models\Link;
+use common\models\Product;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
 
 class Reebok extends Parser {
 
-	public function parseLink(Link $link, array $tags)
+	public function parseLink(Link $link, Store $store)
 	{
 
 		$start = 0;
-		$step  = 120;
+		$step  = 1000;
 		$cardsAll = [];
+
 		
 		do {
 			$markup = self::getHtml($link->href . "?sz=$step&start=$start");
@@ -32,64 +34,82 @@ class Reebok extends Parser {
 
 		} while ((int)$cardsOnPage->length() > 0);
 
-		$items = [];
+		$product = [];
+		echo count($cardsAll);
 
 		foreach($cardsAll as $key => $card) {
 
 			$cardLink = pq($card);
 			$name = $cardLink->find('span.title')->html();
-			$url  = $cardLink->find('a.plp-image-bg-link');
-			$art  = $url->attr('data-track');
+			$url  = $cardLink->find('a.product-link');
 			$uniqueId = md5($name . $url);
-			
-			if (!self::processFilter($name, $tags)) return;
 
-			// $item = Item::find()->where(['uniqueId' => $uniqueId])->exists();
-			// $new = false;
-			// if (!$item) {
-			// 	$item = new Item();
-			// 	$new = true;
-			// 	echo 'New item! - ' . $name . ' ' . PHP_EOL;
-			// }
+			if (!self::processFilter($name, $store->tags)) continue;
+
+			$product = Product::find()->where(['uniqueId' => $uniqueId])->one();
+			$new = false;
+
+			if (!$product) {
+				$product = new Product();
+				$new = true;
+				echo PHP_EOL;
+				echo 'New item! - ' . $name . ' ' . PHP_EOL;
+				echo PHP_EOL;				
+			}
 
 			$price      = $cardLink->find('span.baseprice');
 			$price_sale = $cardLink->find('span.salesprice');
+			$priceNumeric = str_replace( '.' , '' , trim($price->html()));
+			$priceSaleNumeric = str_replace( '.' , '' , trim($price_sale->html()));
+			
+			if (!$priceNumeric || !$priceSaleNumeric) {
+				echo 'PRICE NOTICE! Model #' . $key . ' with name - ' . $name . ' has no actual price or sale price' . PHP_EOL;
+				continue;
+			}
+
+			$discount = (int) round(($priceNumeric - $priceSaleNumeric) / ($priceNumeric / 100), 0, PHP_ROUND_HALF_DOWN);
 
 			$config = [
-				'title'       => $name,
-				'price'       => str_replace( '.' , '' , trim($price->html())),
-				'price_sale'  => str_replace( '.' , '' , trim($price_sale->html())),
+				'name'       => $name,
+				'price'       => $priceNumeric,
+				'price_sale'  => $priceSaleNumeric,
 				'url'         => 'https://reebok.ru' . $url->attr('href'),
-				// 'store_id'    => (int) $this->store_id,
+				'discount'    => $discount,
+				'store_id'    => $store->id,
 				'gender'      => $link->gender,
 				'uniqueId' => $uniqueId,
-				// 'art'         => $art,
-				// 'category_id' => 1
+				'category_id' => $link->category_id,
+				'source'      => 'parsed'
 			];
 
-			var_dump($config); die;
+			$product->setValues($config);
 
-			// $item->setValues($config);
+			if ($new) {
+				$product->img = $this->getImg($product->url);
+			}
 
-			// if ($new) {
-			// 	$item->img = $this->getImg($item->url);
-			// }
+			$product->save();
+			$product->updateStoreBinding($config);
+			$product->updateCategoryBinding($config);
+			$product->updateGenderBinding($config);
+			$products[] = $product;
 
-			// $item->save();
+			if ($new) {
+				echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
+			} else {
+				echo 'Model #' . $key . ' with name - ' . $name . ' updated ' . PHP_EOL;				
+			}
 
-			// $items[] = $item;
-
-			echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
 		}
 
-		return $items;
+		return $products;
 	}
 
 	protected function getImg(string $url): string
 	{
 		$markup = self::getHtml($url);
 		$document = \phpQuery::newDocumentHTML($markup);
-		$img = $document->find('#main-image img');
+		$img = $document->find('[data-auto-id="images_container"] img');
 		return $img->attr('src');
 	}
 

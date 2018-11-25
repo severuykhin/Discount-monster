@@ -19,13 +19,13 @@ class ParserController extends Controller
         $this->stdout(PHP_EOL, Console::BOLD);
 
         $stores = ParserFactory::getAll();
+        $this->runAll($stores);
 
-        try {
-            $this->runAll($stores);
-        } catch ( Exception $e ) {
-            $this->stdout("Main parser: catch exception\n", Console::BOLD);
-            return 1;
-        }
+        // try {
+        // } catch ( Exception $e ) {
+        //     $this->stdout("Main parser: catch exception\n", Console::BOLD);
+        //     return 1;
+        // }
 
         return 0;
     }

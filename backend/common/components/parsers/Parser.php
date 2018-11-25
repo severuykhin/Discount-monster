@@ -95,7 +95,7 @@ class Parser {
 	private function parseLinks()
 	{
 		foreach($this->links as $link) {
-			$this->parseLink($link, $this->store->tags);
+			$this->parseLink($link, $this->store);
 		}
 	}
 }
