@@ -22,6 +22,10 @@ use common\models\Tag;
  */
 class Store extends \yii\db\ActiveRecord
 {
+
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DISABLED = 'disabled';
+
     /**
      * @inheritdoc
      */

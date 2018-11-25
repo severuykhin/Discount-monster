@@ -4,6 +4,7 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\Tag;
+use common\models\bindings\TagsStore;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -99,6 +100,7 @@ class TagController extends Controller
     private function deleteTag($id)
     {
         $model  = Tag::find()->where(['id' => $id])->one();
+        TagStore::deleteAll(['tag_id' => $tag->id]);
 
         if (!$model) {
             throw new NotFoundHttpException('Page not found');

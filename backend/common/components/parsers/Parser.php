@@ -72,7 +72,10 @@ class Parser {
 
 	private function setStore()
 	{	
-		$store = Store::find()->where(['slug' => $this->getName()])->one();
+		$store = Store::find()
+					->where(['slug' => $this->getName()])
+					->andWhere(['status' => Store::STATUS_ACTIVE])
+					->with(['tags'])->one();
 		if (!$store) {
 			echo PHP_EOL;
 			echo 'WARNING!: ' . $this->getName() . ' : parser. Not find related store';
@@ -92,7 +95,7 @@ class Parser {
 	private function parseLinks()
 	{
 		foreach($this->links as $link) {
-			$this->parseLink($link);
+			$this->parseLink($link, $this->store->tags);
 		}
 	}
 }

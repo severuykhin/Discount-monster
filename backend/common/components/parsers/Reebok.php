@@ -12,8 +12,9 @@ use yii\helpers\VarDumper;
 
 class Reebok extends Parser {
 
-	public function parseLink(Link $link)
+	public function parseLink(Link $link, array $tags)
 	{
+
 		$start = 0;
 		$step  = 120;
 		$cardsAll = [];
@@ -31,7 +32,6 @@ class Reebok extends Parser {
 
 		} while ((int)$cardsOnPage->length() > 0);
 
-		$tags = self::getTags();
 		$items = [];
 
 		foreach($cardsAll as $key => $card) {
@@ -40,54 +40,46 @@ class Reebok extends Parser {
 			$name = $cardLink->find('span.title')->html();
 			$url  = $cardLink->find('a.plp-image-bg-link');
 			$art  = $url->attr('data-track');
+			$uniqueId = md5($name . $url);
 			
-			if (self::processFilter($name, $tags)) {
+			if (!self::processFilter($name, $tags)) return;
 
-				$item = Item::find()->where(['art' => $art])->one();
-				$new = false;
-				if (!$item) {
-					$item = new Item();
-					$new = true;
-					echo 'New item! - ' . $name . ' ' . PHP_EOL;
-				}
+			// $item = Item::find()->where(['uniqueId' => $uniqueId])->exists();
+			// $new = false;
+			// if (!$item) {
+			// 	$item = new Item();
+			// 	$new = true;
+			// 	echo 'New item! - ' . $name . ' ' . PHP_EOL;
+			// }
 
-				$price      = $cardLink->find('span.baseprice');
-				$price_sale = $cardLink->find('span.salesprice');
-				$gender     = mb_strtolower($cardLink->find('a.product-link .subtitle')->html());
-				$ganderVal  = 1; 
+			$price      = $cardLink->find('span.baseprice');
+			$price_sale = $cardLink->find('span.salesprice');
 
-				if (strpos($gender, 'муж') !== false) {
-					$genderVal = 1;
-				} else if (strpos($gender, 'жен') !== false) {
-					$genderVal = 2;
-				} else {
-					$genderVal = 3;
-				}
+			$config = [
+				'title'       => $name,
+				'price'       => str_replace( '.' , '' , trim($price->html())),
+				'price_sale'  => str_replace( '.' , '' , trim($price_sale->html())),
+				'url'         => 'https://reebok.ru' . $url->attr('href'),
+				// 'store_id'    => (int) $this->store_id,
+				'gender'      => $link->gender,
+				'uniqueId' => $uniqueId,
+				// 'art'         => $art,
+				// 'category_id' => 1
+			];
 
-				$config = [
-					'title'       => $name,
-					'price'       => str_replace( '.' , '' , trim($price->html())),
-					'price_sale'  => str_replace( '.' , '' , trim($price_sale->html())),
-					'url'         => 'https://reebok.ru' . $url->attr('href'),
-					'store_id'    => (int) $this->store_id,
-					'gender'      => $genderVal,
-					'art'         => $art,
-					'category_id' => 1
-  				];
+			var_dump($config); die;
 
-				$item->setValues($config);
+			// $item->setValues($config);
 
-				if ($new) {
-					$item->img = $this->getImg($item->url);
-				}
+			// if ($new) {
+			// 	$item->img = $this->getImg($item->url);
+			// }
 
-				$item->save();
+			// $item->save();
 
-				$items[] = $item;
+			// $items[] = $item;
 
-				echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
-
-			}
+			echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
 		}
 
 		return $items;

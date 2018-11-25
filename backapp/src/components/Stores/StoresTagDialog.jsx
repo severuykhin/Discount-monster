@@ -46,6 +46,10 @@ class StoresTagDialog extends Component {
     });
   };
 
+  handleCancel = () => {
+    this.props.onClose();
+  }
+
   handleChange = (event, value) => {
     let isChecked = event.target.checked;
     let values = [...this.state.values];
@@ -96,6 +100,9 @@ class StoresTagDialog extends Component {
           ))}
         </DialogContent>
         <DialogActions>
+          <Button onClick={this.handleCancel} color="primary">
+            Cancel
+          </Button>
           <Button onClick={this.handleOk} color="primary">
             Ok
           </Button>

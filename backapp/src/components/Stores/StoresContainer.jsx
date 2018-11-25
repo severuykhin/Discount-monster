@@ -55,9 +55,10 @@ class StoresContainer extends Component {
         });
     }
 
-    closeTagsRedactor = (values) => {
+    closeTagsRedactor = (values = false) => {
         this.setState({ tagsDialogOpen: false });
-        this.api.updateTagsBindings(values);
+
+        if (values) this.api.updateTagsBindings(values);
     }
 
     renderContent = () => {
