@@ -16,14 +16,11 @@ class Parser {
 
 	protected $links;
 	protected $store;
+	protected $client;
 
-	public function load(Store $store): self
-	{	
-		$this->name     = $store->name;
-		$this->url      = $store->url;
-		$this->store_id = $store->id;
-
-		return $this;
+	public function __construct()
+	{
+		$this->client = new Client();
 	}
 
 	public function getTags(): array
@@ -47,8 +44,7 @@ class Parser {
 
 	protected function getHtml($url = null): string
 	{
-		$client = new Client();
-		$res = $client->request('GET', $url);
+		$res = $this->client->request('GET', $url);
 		$body = $res->getBody();		
 		return $body;
 	}

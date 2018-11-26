@@ -3,6 +3,10 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use common\models\bindings\ProductStore;
+use common\models\bindings\ProductCategory;
+use common\models\bindings\ProductGender;
 
 /**
  * This is the model class for table "product".
@@ -36,6 +40,13 @@ class Product extends \yii\db\ActiveRecord
             [['price', 'price_sale'], 'number'],
             [['discount'], 'integer'],
             [['name', 'uniqueId', 'img', 'url', 'source'], 'string', 'max' => 255],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className()
         ];
     }
 
@@ -78,7 +89,19 @@ class Product extends \yii\db\ActiveRecord
 
     public function updateStoreBinding($config)
     {
+        $model = ProductStore::find()
+                ->where(['product_id'  => $config['product_id']])
+                ->andWhere(['store_id' => $config['store_id']])
+                ->one();
 
+        if(!$model) {
+            $model = new ProductStore();
+        }
+
+        $model->store_id = $config['store_id'];
+        $model->product_id = $config['product_id'];
+
+        $model->save();
     }
     
     public function updateCategoryBinding($config)

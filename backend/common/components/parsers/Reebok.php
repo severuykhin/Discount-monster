@@ -15,6 +15,9 @@ class Reebok extends Parser {
 
 	public function parseLink(Link $link, Store $store)
 	{
+		echo '=======================' . PHP_EOL;
+		echo 'Start parsing link: ' . $link->name . PHP_EOL;
+		echo '=======================' . PHP_EOL;
 
 		$start = 0;
 		$step  = 1000;
@@ -35,7 +38,6 @@ class Reebok extends Parser {
 		} while ((int)$cardsOnPage->length() > 0);
 
 		$product = [];
-		echo count($cardsAll);
 
 		foreach($cardsAll as $key => $card) {
 
@@ -89,6 +91,7 @@ class Reebok extends Parser {
 			}
 
 			$product->save();
+			$config['product_id'] = $product->id;
 			$product->updateStoreBinding($config);
 			$product->updateCategoryBinding($config);
 			$product->updateGenderBinding($config);
