@@ -66,6 +66,7 @@ class Reebok extends Parser {
 			
 			if (!$priceNumeric || !$priceSaleNumeric) {
 				echo 'PRICE NOTICE! Model #' . $key . ' with name - ' . $name . ' has no actual price or sale price' . PHP_EOL;
+				echo PHP_EOL;
 				continue;
 			}
 

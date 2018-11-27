@@ -106,12 +106,39 @@ class Product extends \yii\db\ActiveRecord
     
     public function updateCategoryBinding($config)
     {
-        
+        $model = ProductCategory::find()
+                ->where(['product_id'  => $config['product_id']])
+                ->andWhere(['category_id' => $config['category_id']])
+                ->one();
+
+        if(!$model) {
+            $model = new ProductCategory();
+        }
+
+        $model->category_id = $config['category_id'];
+        $model->product_id = $config['product_id'];
+
+        $model->save();
     }
 
     public function updateGenderBinding($config)
-    
     {
-        
+        $model = ProductGender::find()
+                ->where(['product_id'  => $config['product_id']])
+                ->one();
+
+        if(!$model) {
+            $model = new ProductGender();
+        }
+
+        if ($model->gender && $model->gender !== $config['gender']) {
+            $model->gender = ProductGender::UNI;
+        } else {
+            $model->gender = $config['gender'];
+        }
+
+        $model->product_id = $config['product_id'];
+
+        $model->save();
     }
 }

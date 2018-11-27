@@ -13,6 +13,11 @@ use Yii;
  */
 class ProductGender extends \yii\db\ActiveRecord
 {
+
+    const MALE = 1;
+    const FEMALE = 2;
+    const UNI = 3;
+
     /**
      * {@inheritdoc}
      */
