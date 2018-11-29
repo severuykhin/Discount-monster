@@ -15,7 +15,7 @@ class ParserFactory {
 	private function types() 
 	{
 		return [
-			// 'Nike'   => new Nike(),
+			new Nike(),
 			// new Adidas(),
 			new Reebok(),
 			// 'Asos'   => new Asos()

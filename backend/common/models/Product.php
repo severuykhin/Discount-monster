@@ -39,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'url'], 'required'],
             [['price', 'price_sale'], 'number'],
             [['discount'], 'integer'],
-            [['name', 'uniqueId', 'img', 'url', 'source'], 'string', 'max' => 255],
+            [['name', 'uniqueId', 'img', 'url', 'source'], 'string'],
         ];
     }
 

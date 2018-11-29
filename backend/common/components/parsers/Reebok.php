@@ -3,7 +3,6 @@
 namespace common\components\parsers;
 
 use common\components\parsers\Parser;
-use common\models\Store;
 use common\models\Item;
 use common\models\Link;
 use common\models\Product;
@@ -12,6 +11,8 @@ use yii\helpers\VarDumper;
 
 
 class Reebok extends Parser {
+
+	public $options = [];
 
 	public function parseLink(Link $link, Store $store)
 	{
@@ -25,7 +26,7 @@ class Reebok extends Parser {
 
 		
 		do {
-			$markup = self::getHtml($link->href . "?sz=$step&start=$start");
+			$markup = $this->getHtml($link->href . "?sz=$step&start=$start");
 			$document = \phpQuery::newDocumentHTML($markup);
 			$cardsOnPage = $document->find(".product-tile");
 
@@ -99,7 +100,7 @@ class Reebok extends Parser {
 			$products[] = $product;
 
 			if ($new) {
-				echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
+				echo 'NEW Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
 			} else {
 				echo 'Model #' . $key . ' with name - ' . $name . ' updated ' . PHP_EOL;				
 			}
@@ -111,7 +112,7 @@ class Reebok extends Parser {
 
 	protected function getImg(string $url): string
 	{
-		$markup = self::getHtml($url);
+		$markup = $this->getHtml($url);
 		$document = \phpQuery::newDocumentHTML($markup);
 		$img = $document->find('[data-auto-id="images_container"] img');
 		return $img->attr('src');

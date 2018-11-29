@@ -4,72 +4,98 @@ namespace common\components\parsers;
 
 use common\components\parsers\Parser;
 use common\models\Store;
-use common\models\Item;
+use common\models\Link;
+use common\models\Product;
+use yii\helpers\Json;
+use yii\helpers\VarDumper;
 
 class Nike extends Parser {
 
+	public $options = [];
 
-	public function run(array $config): array
+	public function parseLink(Link $link, Store $store)
 	{	
 
-		$this->url = $config['url'];
-		$this->store_id = 15;
+		echo '=======================' . PHP_EOL;
+		echo 'Start parsing link: ' . $link->name . PHP_EOL;
+		echo '=======================' . PHP_EOL;
 
-		$markup = self::getHtml();
+		$markup = self::getHtml($link->href);
 		$document = \phpQuery::newDocumentHTML($markup);
 		$cards = $document->find(".grid-item");
-		$items = [];
-
-		$tags = self::getTags();
+		$products = [];
 
 		foreach($cards as $key => $card) {
 			$cardLink = pq($card);
 			$name = $cardLink->find('.product-display-name')->html();
 			$url  = $cardLink->attr('data-pdpurl');
-			$art  = $cardLink->attr('data-pdpurl');
+			$uniqueId = md5($name . $url);
 
-			// If no match allowed tag names - just go to next item
-			if (!self::processFilter($name, $tags)) continue;
+			if (!self::processFilter($name, $store->tags)) continue;
 
-			$item = Item::find()->where(['art' => $art])->one();
+			$product = Product::find()->where(['uniqueId' => $uniqueId])->one();
 			$new = false;
 
-			if (!$item) {
-				$item = new Item();
+			if (!$product) {
+				$product = new Product();
 				$new = true;
+				echo PHP_EOL;
 				echo 'New item! - ' . $name . ' ' . PHP_EOL;
+				echo PHP_EOL;				
 			}
 
-			$price      = $cardLink->find('span.overridden');
-			$price_sale = $cardLink->find('span.local');
+			$price      = $cardLink->find('span.overridden')->html();
+			$price_sale = $cardLink->find('span.local')	->html();
+			$priceNumeric = str_replace( [' ', 'pyб.'] , '' , $price);
+			$priceSaleNumeric = str_replace( [' ', 'pyб.'] , '' , trim($price_sale));
+			
+			if (!$priceNumeric || !$priceSaleNumeric) {
+				echo 'PRICE NOTICE! Model #' . $key . ' with name - ' . $name . ' has no actual price or sale price' . PHP_EOL;
+				echo PHP_EOL;
+				continue;
+			}
+
+			$discount = (int) round(($priceNumeric - $priceSaleNumeric) / ($priceNumeric / 100), 0, PHP_ROUND_HALF_DOWN);
 
 			$config = [
-				'title'       => $name,
-				'price'       => str_replace( ['.руб', ' '] , '' , trim($price->html())),
-				'price_sale'  => str_replace( ['.руб', ' '] , '' , trim($price_sale->html())),
+				'name'        => $name,
+				'price'       => $priceNumeric,
+				'price_sale'  => $priceSaleNumeric,
 				'url'         => $url,
-				'store_id'    => 15,
-				// If item already been parsed with another gender group
-				// It probably in each gender group - so its kind a multigender item
-				// 'gender'      => ($item && $item->gender != $config['gender']) ? 3 :$config['gender'], ######### FIX ME
-				'gender'      => $config['gender'],
-				'art'         => $art,
-				'category_id' => 1,
-
+				'discount'    => $discount,
+				'store_id'    => $store->id,
+				'gender'      => $link->gender,
+				'uniqueId'    => $uniqueId,
+				'category_id' => $link->category_id,
+				'source'      => 'parsed'
 			];
 
-			$item->setValues($config);
-			$item->img = $cardLink->find('img')->attr('src');
+			$product->setValues($config);
 
-			$item->save();
+			$product->img = $cardLink->find('img')->attr('src');
 
-			$items[] = $item;
+			if (!$product->save()) {
+				echo PHP_EOL;
+				echo 'Model #' . $key . ' with name - ' . $name . ' has validation errors ' . PHP_EOL;
+				echo PHP_EOL;
+				var_dump($product);
+				var_dump($product->errors); die;
+			}
 
-			echo 'Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
+			$config['product_id'] = $product->id;
+			$product->updateStoreBinding($config);
+			$product->updateCategoryBinding($config);
+			$product->updateGenderBinding($config);
+			$products[] = $product;
 
+			if ($new) {
+				echo 'NEW Model #' . $key . ' with name - ' . $name . ' parsed ' . PHP_EOL;
+			} else {
+				echo 'Model #' . $key . ' with name - ' . $name . ' updated ' . PHP_EOL;				
+			}
 		}
 
-		return $items;
+		return $products;
 	}
 
 }

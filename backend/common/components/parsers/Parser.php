@@ -10,6 +10,7 @@ use common\models\Link;
 use GuzzleHttp\Client;
 use yii\helpers\VarDumper;
 use yii\web\Response;
+use GuzzleHttp\Cookie\CookieJar;
 
 
 class Parser {
@@ -17,6 +18,8 @@ class Parser {
 	protected $links;
 	protected $store;
 	protected $client;
+
+	public $options = [];
 
 	public function __construct()
 	{
@@ -44,8 +47,8 @@ class Parser {
 
 	protected function getHtml($url = null): string
 	{
-		$res = $this->client->request('GET', $url);
-		$body = $res->getBody();		
+		$res = $this->client->request('GET', $url, $this->options);
+		$body = $res->getBody();
 		return $body;
 	}
 

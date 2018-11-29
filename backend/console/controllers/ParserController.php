@@ -33,6 +33,7 @@ class ParserController extends Controller
     private function runAll(array $stores)
     {
         foreach ($stores as $key => $store) {
+            // $pid = pcntl_fork();
             $store->parse();
         }
     }
