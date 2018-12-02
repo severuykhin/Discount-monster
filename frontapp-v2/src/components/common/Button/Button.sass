@@ -1,0 +1,35 @@
+.rcl--button
+    cursor: pointer
+    background: transparent
+    border: none
+    font-family: 'Montserrat', sans-serif
+    cursor: pointer
+    text-decoration: none
+    &:focus
+        outline: none
+    
+    &_accent
+        background: $mainColor
+        color: $white
+        font-size: 16px
+        padding: $buttonPadding-xl
+        &:hover
+            background-color: lighten($mainColor, 5%)
+        &:active
+            background-color: darken($mainColor, 5%)
+    &_transparent
+        font-weight: bold
+        font-size: 16px
+        color: $mainColor
+        text-transform: uppercase
+        padding: $buttonPadding-xl
+        &:hover
+            background-color: rgba(0,0,0, .02)
+        &:active
+            background-color: rgba(0,0,0, .06)
+
+    &_link
+        text-decoration: none
+        font-weight: 500
+        &:hover, &:focus
+            opacity: .7
