@@ -1,0 +1,42 @@
+.rcl--searchbar
+    &__form
+        
+    &__base
+        display: flex
+        align-content: center
+        align-items: center
+    &__input
+        border: none
+        padding: 5px 10px
+        line-height: 24px
+        height: 24px
+        font-size: 15px
+        font-family: "Montserrat", sans-serif
+        color: #666
+        border: 1px solid rgba(0,0,0,.1)
+        border-radius: 2px
+        margin-right: -36px
+        padding-right: 33px
+        width: 500px
+        &:hover
+            border-color: rgba(0,0,0, .2)
+        &:focus
+            border-color: rgba(0,0,0, .4)
+            outline: none
+    &__submit
+        width: 36px
+        height: 32px
+        border: none
+        background: transparent
+        cursor: pointer
+        background: url(images/magnifying-glass-grey.svg) center no-repeat
+        background-size: 16px
+        &:hover
+            opacity: .7
+        &:active, &:focus
+            outline: none
+
+@media(max-width: 990px)
+    .rcl--searchbar
+        &__input
+            width: 300px

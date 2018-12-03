@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\Link;
-
+use common\models\Product;
 
 
 /**
@@ -53,6 +53,12 @@ class Category extends \yii\db\ActiveRecord
 
     public function getLinks()
     {
-        return $this->hasMany(Link::className, ['id' => 'category_id']);
+        return $this->hasMany(Link::className(), ['id' => 'category_id']);
+    }
+
+    public function getProductcount()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])
+            ->viaTable('product_category', ['category_id' => 'id']);
     }
 }

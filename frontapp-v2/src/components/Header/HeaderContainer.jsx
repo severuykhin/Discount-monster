@@ -19,27 +19,12 @@ export default function HeaderContainer() {
                 Button link
               </ButtonLink>
             </HeaderItem>
-            <HeaderItem>
-              <ButtonLink to="/alala">
-                Button link
-              </ButtonLink>
-            </HeaderItem>
           </HeaderSection>
           <HeaderSection>
             <HeaderItem>
               <ButtonLink to="/alala">
                   Button link
                 </ButtonLink>
-            </HeaderItem>
-            <HeaderItem>
-              <ButtonLink to="tel:+79229600644">
-                +7 922 960 06 44
-              </ButtonLink>
-            </HeaderItem>
-            <HeaderItem>
-              <ButtonLink to="mailto:severuykhin.igor@gmail.com">
-                severuykhin.igor@gmail.com
-              </ButtonLink>
             </HeaderItem>
           </HeaderSection>
         </Header>

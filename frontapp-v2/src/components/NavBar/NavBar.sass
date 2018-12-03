@@ -1,0 +1,84 @@
+.rcl--navbar
+    padding: 10px 30px
+    background-color: #fff
+    box-shadow: 0px 0px 3px 0px #999
+    position: relative
+    z-index: 1 
+    display: flex
+    justify-content: space-between
+    align-items: center
+    align-content: center
+    &__list
+        position: absolute
+        top: 100%
+        left: 0
+        width: 100%
+        padding: 30px
+        background-color: $backSecond
+        z-index: -1
+        box-sizing: border-box
+        &-items
+            padding: 0
+            margin: 0
+            list-style: none
+            text-transform: uppercase
+        &-item
+            margin-bottom: 20px
+            
+        &-link
+            font-weight: 600
+            color: #000
+            text-decoration: none
+            &:hover
+                opacity: .7
+        &-wrap
+            display: flex
+        &-row
+            width: 20%
+        &-title
+            color: #999
+            font-size: 14px
+            font-weight: 600
+            text-transform: uppercase
+            margin-bottom: 30px
+
+        // opacity: 0
+    &__row
+        display: flex
+        align-items: center
+        align-content: center
+    &__button
+        font-size: 16px
+        font-weight: 600
+        color: $mainColor
+        padding: 10px 5px 10px 32px
+        background: url(images/menu.svg) left center no-repeat
+        background-size: 21px
+        &:hover
+            opacity: .8
+        &:active
+            opacity: .6
+    &__link
+        font-size: 16px
+        font-weight: 600
+        color: $mainColor
+        text-decoration: none
+        &:hover
+            opacity: .8
+        &:active, &:focus
+            opacity: .6
+    &__item
+        &:not(:last-child)
+            margin-right: 30px
+
+
+@media(max-width: 990px)
+    .rcl--navbar
+
+@media(max-width: 768px)
+    .rcl--navbar
+        &__button
+            background-size: 29px
+            padding: 18px 5px 18px 32px
+            span
+                display: none
