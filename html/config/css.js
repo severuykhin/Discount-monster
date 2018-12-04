@@ -14,6 +14,7 @@ module.exports = () =>
         .pipe($.plumber())
         .pipe($.clean())
         .pipe($.sass.sync())
+        .pipe($.gcmq())
         .pipe($.url({
             replace:  ["../",""],
             prepend: "images/"

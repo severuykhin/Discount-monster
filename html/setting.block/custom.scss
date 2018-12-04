@@ -101,6 +101,7 @@
   background-color: #f4f4f4;
   z-index: -1;
   box-sizing: border-box;
+  display: none;
 }
 .rcl--navbar__list-items {
   padding: 0;
@@ -281,6 +282,11 @@ code {
 
 .rcl--visible-md-down {
   display: none;
+}
+
+.content {
+  padding: 20px 30px;
+  background: #F7F8FA;
 }
 
 @media (max-width: 768px) {

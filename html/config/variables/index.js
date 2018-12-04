@@ -12,7 +12,13 @@ module.exports = {
         blocksName : [
             "header",
             "nav",
-            "button"
+            "button",
+            "breadcrumbs",
+            "filters",
+            "title",
+            "catalog",
+            "filters",
+            "card"
         ],
         js: [],
         json: "blocks/**/*.json",
@@ -39,6 +45,7 @@ module.exports = {
         autoprefixer : require("autoprefixer"),
         postcss      : require("gulp-postcss"),
         pug          : require("gulp-pug"),
+        gcmq         : require('gulp-group-css-media-queries'),
         babel        : require("gulp-babel"),
         jshint       : require("gulp-jshint"),
         plumber      : require("gulp-plumber"),
