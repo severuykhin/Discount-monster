@@ -17,6 +17,7 @@ module.exports = {
         js: [],
         json: "blocks/**/*.json",
         css: [],
+        reactEntry: "./reactModules/reactindex.js",
         sass: [
             "setting.block/bootstrap.scss",
             "setting.block/custom.scss"

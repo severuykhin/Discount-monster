@@ -18,6 +18,7 @@ const tasks = [
     [ "css", ["preCss"] ],
     [ "images" ],
     [ "js" ],
+    [ "reactModules" ],
     [ "jquery" ],
     [ "createFirstLevelBlocks" ],
     [ "createBlocks" ]
@@ -25,7 +26,7 @@ const tasks = [
 
 gulp.task("default", ["server", "build"]);
 
-gulp.task("build", ["html", "css", "images", "js", "jquery"]);
+gulp.task("build", ["html", "css", "images", "js", "reactModules", "jquery"]);
 
 for( let taskName of tasks ) {
     createTask(...taskName);

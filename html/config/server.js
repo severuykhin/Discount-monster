@@ -11,5 +11,8 @@ module.exports = function () {
     $.gulp.watch(params.html, ["htmlReload"]);
     $.gulp.watch([params.type.sass, "./setting.block/*.scss"], ["css"]);
     $.gulp.watch(params.type.images, ["images"]);
+    $.gulp.watch(['reactModules/**/*.jsx', 'reactModules/**/*.js'], ["reactModules"]);
+    $.gulp.watch(params.type.js, ["js"]);
+    $.gulp.watch(params.type.js, ["js"]);
     $.gulp.watch(params.type.js, ["js"]);
 };

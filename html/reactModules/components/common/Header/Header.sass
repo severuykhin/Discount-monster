@@ -1,0 +1,21 @@
+.rcl--header
+    display: flex
+    justify-content: space-between
+    padding: 20px 30px
+    align-content: center
+    align-items: center
+    position: relative
+    z-index: 2
+    &_main
+        background-color: $mainColor
+        & *
+            color: $white
+
+    &__item
+        &:not(:last-child)
+            margin-right: 20px
+    &__section
+        display: flex
+        justify-content: space-between
+        align-content: center
+        align-items: center
