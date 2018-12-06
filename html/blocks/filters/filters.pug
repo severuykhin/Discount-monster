@@ -1,10 +1,38 @@
 .filters
     .filters__container
         .filters__block
-            | block
+            .filters__block-title Категория:
+            .filters__wrap
+                .filters__item.filters__item_checkbox
+                    input(id="1" type="checkbox" name="Filter[category]")
+                    label(for="1") Мужские кроссовки
+                .filters__item.filters__item_checkbox
+                    input(id="2" type="checkbox" name="Filter[category]")
+                    label(for="2") Женские кроссовки
+                .filters__item.filters__item_checkbox
+                    input(id="3" type="checkbox" name="Filter[category]")
+                    label(for="3") Худи
+                .filters__item.filters__item_checkbox
+                    input(id="4" type="checkbox" name="Filter[category]")
+                    label(for="4") Толстовки
+                .filters__item.filters__item_checkbox
+                    input(id="5" type="checkbox" name="Filter[category]")
+                    label(for="5") Пуховики
+
         .filters__block
-            | block
+            .filters__block-title Магазин:
+            .filter__wrap
+                each i in ['Adidas', 'Reebok', 'Nike', 'Asics']
+                    .filters__item.filters__item_checkbox
+                        input(id=`${i}` type="checkbox" name="Filter[category]")
+                        label(for=`${i}`)= i
         .filters__block
-            | block
+            .filters__block-title Пол:
+            .filter__wrap
+                each i in ['Мужской', 'Женский', 'Унисекс']
+                    .filters__item.filters__item_checkbox
+                        input(id=`${i}` type="checkbox" name="Filter[category]")
+                        label(for=`${i}`)= i        
         .filters__block
-            | block
+            .filters__block-title Цена:
+            

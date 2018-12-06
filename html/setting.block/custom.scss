@@ -1,3 +1,88 @@
+.rcl--favoriteWidget {
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.329);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 30px 100px 30px;
+    transition: opacity 200ms ease;
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+  }
+
+  &__modal {
+    width: 1024px;
+    min-height: 500px;
+    padding: 30px;
+    overflow: hidden;
+    position: relative;
+
+    &-content {
+      position: relative;
+      z-index: 2;
+      transition: opacity 300ms ease;
+      opacity: 0;
+      animation-name: fadeIn;
+      animation-duration: 300ms;
+      animation-fill-mode: forwards;
+      animation-iteration-count: 1;
+      animation-delay: 500ms;
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      width: 2000px;
+      height: 2000px;
+      background-color: #fff;
+      top: -158px;
+      right: -496px;
+      border-radius: 50%;
+      transition: transform 500ms ease, opacity 300ms ease;
+      transform: scale(0);
+      transform-origin: 100% 0%;
+      animation-name: modalShow;
+      animation-duration: 400ms;
+      animation-fill-mode: forwards;
+      animation-iteration-count: 1;
+      animation-delay: 200ms;
+      z-index: 1;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes modalShow {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 .rcl--button {
   cursor: pointer;
   background: transparent;
@@ -63,7 +148,7 @@
   align-content: center;
   align-items: center;
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 .rcl--header_main {
   background-color: #003fcd;
@@ -188,8 +273,8 @@
 .rcl--searchbar__input {
   border: none;
   padding: 5px 10px;
-  line-height: 24px;
-  height: 24px;
+  line-height: 40px;
+  height: 40px;
   font-size: 15px;
   font-family: "Montserrat", sans-serif;
   color: #666;
@@ -253,16 +338,16 @@
   padding: 5px;
   border-radius: 50%;
   z-index: 2;
-  width: 17px;
-  height: 17px;
+  width: 26px;
+  height: 26px;
   transition: box-shadow 200ms ease;
 }
 
-.rcl--favoriteWidget:hover .rcl--favoriteWidget__button svg {
+.rcl--favoriteWidget__button:hover svg {
   opacity: 0.5;
 }
 
-.rcl--favoriteWidget:hover .rcl--favoriteWidget__counter {
+.rcl--favoriteWidget__button:hover .rcl--favoriteWidget__counter {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -273,6 +358,16 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &.fixed {
+    overflow: hidden;
+  }
+}
+
+*, *::after, *::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 code {

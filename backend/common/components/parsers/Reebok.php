@@ -6,6 +6,7 @@ use common\components\parsers\Parser;
 use common\models\Item;
 use common\models\Link;
 use common\models\Product;
+use common\models\Store;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 
