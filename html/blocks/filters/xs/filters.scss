@@ -1,4 +1,14 @@
 .filters {
+
+  input[type='number'] {
+    -moz-appearance:textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
   &__block {
     background-color: #fff;
     padding: 20px;
@@ -69,4 +79,126 @@
       }
     }
   }
+
+  &__cancel {
+    display: block;
+    padding: 12px 24px;
+    background-color: #EFF0F4;
+    color: rgb(144, 144, 144);
+    font-weight: 500;
+    text-decoration: none;
+    &:hover {
+      background-color: rgb(228, 228, 228);
+      color: rgb(121, 121, 121);
+    }
+    span {
+      display: inline-block;
+      padding-right: 14px;
+      position: relative;
+      &::after, &::before {
+        position: absolute;
+        content: '';
+        height: 10px;
+        width: 2px;
+        background-color: #E05C5A;
+        right: 0;
+        top: 5px;
+      }
+
+      &::before {
+        transform: rotate(45deg);
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &__actions {
+    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    &-row {
+      .rcl--button {
+        width: 100%;
+        font-weight: 500;
+      }
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  .range {
+    &__line {
+      margin-bottom: 30px;
+    }
+    &__inputs {
+      display: flex;
+      align-items: center;
+      input {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 2px;
+        border: 1px solid rgb(223, 223, 223);
+        font-family: "Montserrat", sans-serif;
+        &:hover {
+          border-color: rgb(177, 177, 177);
+        }
+
+        &:focus {
+          border-color: #0047ec;
+          outline: none;
+        }
+      }
+
+      &-divide {
+        margin: 0 10px;
+      }
+    }
+
+    .noUi-connect {
+      background-color: #003fcd;
+      box-shadow: none;
+      border: none;
+    }
+
+    .noUi-handle {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      border-radius: 50%;
+      top: -10px;
+      &::before {
+        display: none;
+      }
+
+      &::after {
+        width: 8px;
+        height: 8px;
+        background-color: #003fcd;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        margin-top: -4px;
+        margin-left: -4px;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .noUi-horizontal {
+      height: 3px;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      background-color: #efefef;
+    }
+
+  }
+
 }

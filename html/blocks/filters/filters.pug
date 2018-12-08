@@ -1,38 +1,55 @@
 .filters
-    .filters__container
-        .filters__block
-            .filters__block-title Категория:
-            .filters__wrap
-                .filters__item.filters__item_checkbox
-                    input(id="1" type="checkbox" name="Filter[category]")
-                    label(for="1") Мужские кроссовки
-                .filters__item.filters__item_checkbox
-                    input(id="2" type="checkbox" name="Filter[category]")
-                    label(for="2") Женские кроссовки
-                .filters__item.filters__item_checkbox
-                    input(id="3" type="checkbox" name="Filter[category]")
-                    label(for="3") Худи
-                .filters__item.filters__item_checkbox
-                    input(id="4" type="checkbox" name="Filter[category]")
-                    label(for="4") Толстовки
-                .filters__item.filters__item_checkbox
-                    input(id="5" type="checkbox" name="Filter[category]")
-                    label(for="5") Пуховики
+    form
+        .filters__container
+            .filters__block
+                .filters__block-title Цена:
+                .filters__wrap
+                    .range(data-role="range" data-minrange="100" data-maxrange="5000" data-step="10")
+                            .range__line(data-role="range-line")
+                            .range__inputs
+                                .range__inputs-wrap
+                                    input(name="price_min" type="number" data-role="range-min-value" value="847")
+                                span.range__inputs-divide -
+                                .range__inputs-wrap
+                                    input(name="price_max" type="number" data-role="range-max-value" value="3572")
+            .filters__block
+                .filters__block-title Категория:
+                .filters__wrap
+                    .filters__item.filters__item_checkbox
+                        input(id="1" type="checkbox" name="Filter[category]")
+                        label(for="1") Мужские кроссовки
+                    .filters__item.filters__item_checkbox
+                        input(id="2" type="checkbox" name="Filter[category]")
+                        label(for="2") Женские кроссовки
+                    .filters__item.filters__item_checkbox
+                        input(id="3" type="checkbox" name="Filter[category]")
+                        label(for="3") Худи
+                    .filters__item.filters__item_checkbox
+                        input(id="4" type="checkbox" name="Filter[category]")
+                        label(for="4") Толстовки
+                    .filters__item.filters__item_checkbox
+                        input(id="5" type="checkbox" name="Filter[category]")
+                        label(for="5") Пуховики
 
-        .filters__block
-            .filters__block-title Магазин:
-            .filter__wrap
-                each i in ['Adidas', 'Reebok', 'Nike', 'Asics']
-                    .filters__item.filters__item_checkbox
-                        input(id=`${i}` type="checkbox" name="Filter[category]")
-                        label(for=`${i}`)= i
-        .filters__block
-            .filters__block-title Пол:
-            .filter__wrap
-                each i in ['Мужской', 'Женский', 'Унисекс']
-                    .filters__item.filters__item_checkbox
-                        input(id=`${i}` type="checkbox" name="Filter[category]")
-                        label(for=`${i}`)= i        
-        .filters__block
-            .filters__block-title Цена:
+            .filters__block
+                .filters__block-title Магазин:
+                .filter__wrap
+                    each i in ['Adidas', 'Reebok', 'Nike', 'Asics']
+                        .filters__item.filters__item_checkbox
+                            input(id=`${i}` type="checkbox" name="Filter[category]")
+                            label(for=`${i}`)= i
+            .filters__block
+                .filters__block-title Пол:
+                .filter__wrap
+                    each i in ['Мужской', 'Женский', 'Унисекс']
+                        .filters__item.filters__item_checkbox
+                            input(id=`${i}` type="checkbox" name="Filter[category]")
+                            label(for=`${i}`)= i  
+                .filters__actions
+                    .filters__actions-row
+                        button(type="submit").rcl--button.rcl--button_accent  Подобрать
+                    .filters__actions-row
+                        a(href="/").filters__cancel 
+                            span Сбросить    
+        
             

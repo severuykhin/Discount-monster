@@ -4,7 +4,11 @@ include ../blocks/breadcrumbs/breadcrumbs
         .catalog__header-item
             h1.title.title_h1 Кроссовки Nike со скидкой
         .catalog__header-item
-            | фильтры
+            .catalog__sort
+                span Сортировать:
+                select(data-role="sort-select")
+                    each i in [1,2,3,4]
+                        option= `option ${i}`
     .catalog__content
         .catalog__filters
             include ../blocks/filters/filters
@@ -37,3 +41,5 @@ include ../blocks/breadcrumbs/breadcrumbs
                         .card__price_now 4 000 р.
                 each i in [1,2,3,4,5,6,7,8,9]
                     include ../blocks/card/card
+            .catalog__pagination
+                include ../blocks/pagination/pagination

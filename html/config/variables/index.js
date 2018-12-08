@@ -18,15 +18,22 @@ module.exports = {
             "title",
             "catalog",
             "filters",
-            "card"
+            "card",
+            "pagination"
         ],
         js: [],
+        jsLibs: [
+            "node_modules/nouislider/distribute/nouislider.min.js",
+            "node_modules/jquery-nice-select/js/jquery.nice-select.min.js",
+        ],
         json: "blocks/**/*.json",
         css: [],
         reactEntry: "./reactModules/reactindex.js",
         sass: [
             "setting.block/bootstrap.scss",
-            "setting.block/custom.scss"
+            "setting.block/custom.scss",
+            "node_modules/nouislider/distribute/nouislider.min.css",
+            "node_modules/jquery-nice-select/css/nice-select.css",
         ],
         images: [],
         type: {
