@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use common\models\bindings\ProductStore;
 use common\models\bindings\ProductCategory;
 use common\models\bindings\ProductGender;
+use common\models\Category;
 
 /**
  * This is the model class for table "product".
@@ -140,5 +141,35 @@ class Product extends \yii\db\ActiveRecord
         $model->product_id = $config['product_id'];
 
         $model->save();
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id'])
+            ->viaTable('product_category', ['product_id' => 'id']);
+    }
+
+    public function isNew()
+    {
+        return (time() - $this->created_at) > 86000 * 7;
+    }
+
+    public function getDiscountHexColor()
+    {
+        switch($this->discount) {
+            case $this->discount >= 50:
+                return '#EB4841';
+            case $this->discount >= 40:
+                return '#F48847';
+            case $this->discount >= 30:
+                return '##FFC84A';
+            case $this->discount >= 20:
+                return '#A6C34C';
+            case $this->discount >= 10:
+                return '#4EC04E';
+            default:
+                return '#4EC04E';
+
+        }
     }
 }

@@ -1,9 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 
+let MODE = process.argv[process.argv.length - 1].substr(1) === 'prod' ? 'production' : 'development';
+
 const config = {
     entry  : path.resolve(__dirname, './reactmodules/index.js'),
-    mode   : 'development',
+    mode   : MODE,
     output : {
       filename: 'bundle.js',
       path: path.resolve(__dirname, '../public')

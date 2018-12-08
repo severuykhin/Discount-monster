@@ -24,4 +24,5 @@ module.exports = () =>
         .pipe($.replace(/("use\sstrict";\s+)?\$\(function\s\(\)\s\{\}\);/g, ""))
         .pipe($.uglify())
         .pipe($.gulp.dest(params.prod))
+        .pipe($.gulp.dest(params.site))
         .pipe($.reload({ stream: true }));

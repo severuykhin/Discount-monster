@@ -6,6 +6,7 @@ module.exports = {
     params : {
         out: "public",
         prod: "public/prod",
+        site: "../backend/web/statics",
         htmlSrc: "pug/index.pug",
         levels: ["xs", "sm", "md", "lg", "xl"],
         html: ["pug/*.pug", "blocks/**/*.pug"],

@@ -23,4 +23,5 @@ module.exports = () =>
         .pipe($.rename("styles.css"))
         .pipe($.gulp.dest(params.out))
         .pipe($.gulp.dest(params.prod))
+        .pipe($.gulp.dest(params.site))
         .pipe($.reload({ stream: true }));

@@ -9,4 +9,5 @@ module.exports = () =>
         .pipe($.rename( {dirname: ""} ))
         .pipe($.gulp.dest(`${params.out}/images`))
         .pipe($.gulp.dest(`${params.prod}/images`))
+        .pipe($.gulp.dest(`${params.site}/images`))
         .pipe($.reload({stream: true}));

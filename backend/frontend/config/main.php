@@ -27,14 +27,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'site/index',
-                '/catalog' => 'site/index',
-                '/catalog/<page>' => 'site/index',
-                '/catalog/store/<slug>' => 'site/index',
-                '/catalog/store/<slug>/<page>' => 'site/index',
-                'store/<action>' => 'store/<action>',
-                'items' => 'items/index',
-                'items/like/<id>' => 'items/like',
-                'items/<action>' => 'items/<action>'
+                'store/<slug>' => 'catalog/store',
+                'category/<slug>' => 'catalog/category'
             ]
         ],
         'errorHandler' => [
