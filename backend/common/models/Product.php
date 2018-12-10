@@ -8,6 +8,8 @@ use common\models\bindings\ProductStore;
 use common\models\bindings\ProductCategory;
 use common\models\bindings\ProductGender;
 use common\models\Category;
+use common\models\Store;
+use common\model\Gender;
 
 /**
  * This is the model class for table "product".
@@ -107,14 +109,9 @@ class Product extends \yii\db\ActiveRecord
     
     public function updateCategoryBinding($config)
     {
-        $model = ProductCategory::find()
-                ->where(['product_id'  => $config['product_id']])
-                ->andWhere(['category_id' => $config['category_id']])
-                ->one();
+        ProductCategory::deleteAll(['product_id' => $config['product_id']]);
 
-        if(!$model) {
-            $model = new ProductCategory();
-        }
+        $model = new ProductCategory();
 
         $model->category_id = $config['category_id'];
         $model->product_id = $config['product_id'];
@@ -149,6 +146,11 @@ class Product extends \yii\db\ActiveRecord
             ->viaTable('product_category', ['product_id' => 'id']);
     }
 
+    public function getGenders()
+    {
+        return $this->hasOne(ProductGender::className(), ['product_id' => 'id']);
+    }
+
     public function isNew()
     {
         return (time() - $this->created_at) > 86000 * 7;
@@ -162,7 +164,7 @@ class Product extends \yii\db\ActiveRecord
             case $this->discount >= 40:
                 return '#F48847';
             case $this->discount >= 30:
-                return '##FFC84A';
+                return '#FFC84A';
             case $this->discount >= 20:
                 return '#A6C34C';
             case $this->discount >= 10:

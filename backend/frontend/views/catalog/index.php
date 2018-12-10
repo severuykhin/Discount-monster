@@ -1,6 +1,7 @@
 <?php 
 
 use yii\helpers\Url;
+use frontend\components\Pager;
 
 
 $h1 = '';
@@ -53,22 +54,25 @@ $this->registerMetaTag([
               <h1 class="title title_h1"><?= $h1 ?></h1>
             </div>
             <div class="catalog__header-item">
-              <div class="catalog__sort"><span>Сортировать:</span>
-                <select data-role="sort-select">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
+              <div class="catalog__sort"><span><b>Сортировать:</b></span>
+                <select data-role="sort-select" value="">
+                  <option selected disabled>По умолчанию</option>
+                  <?php foreach($searchModel->getSortTypes() as $key => $type): ?>
+                    <option value="<?= $key ?>"><?= $type ?></option>
+                  <?php endforeach; ?>
                 </select>
               </div>
             </div>
           </div>
           <div class="catalog__content">
+            
             <div class="catalog__filters">
               <?= $this->render('_form', [
-                  'catalogType' => $catalogType
+                  'catalogType' => $catalogType,
+                  'model' => $searchModel
               ]) ?>
             </div>
+
             <div class="catalog__items">
 
               <?= $this->render('_grid', [
@@ -77,14 +81,24 @@ $this->registerMetaTag([
 
 
               <div class="catalog__pagination">
-                <ul class="pagination">
-                  <li class="pagination__item"><a href="">1</a></li>
-                  <li class="pagination__item pagination__item_active"><span>2</span></li>
-                  <li class="pagination__item"><a href="">3</a></li>
-                  <li class="pagination__item"><a href="">...</a></li>
-                  <li class="pagination__item"><a href="">4</a></li>
-                  <li class="pagination__item"><a href="">5</a></li>
-                </ul>
+                <?= Pager::widget([
+                    'pagination' => $dataProvider->pagination,
+                    'maxButtonCount' => 10,
+                    'nextPageLabel' => '',
+                    'prevPageLabel' => '',
+                    'firstPageLabel' => '',
+                    'lastPageLabel' => '',
+                    'hideOnSinglePage' => true,
+                    'registerLinkTags' => true,
+                    'pageCssClass' => 'pagination__item',
+                    'firstPageCssClass' => 'pagination__next',
+                    'lastPageCssClass' => 'pagination__prev',
+                    'prevPageCssClass' => 'pagination__prev',
+                    'nextPageCssClass' => 'pagination__next',
+                    'activePageCssClass' => 'pagination__item_active',
+                    'disabledPageCssClass' => 'pagination-disable',
+                ]); ?>
+
               </div>
             </div>
           </div>

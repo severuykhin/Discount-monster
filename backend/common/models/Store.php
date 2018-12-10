@@ -8,6 +8,7 @@ use yii\behaviors\SluggableBehavior;
 use common\models\Item;
 use common\models\Link;
 use common\models\Tag;
+use common\models\Product;
 
 
 
@@ -89,5 +90,11 @@ class Store extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
                 ->viaTable('tag_via_store', ['store_id' => 'id']);
+    }
+
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])
+                ->viaTable('product_store', ['store_id' => 'id']);
     }
 }

@@ -1,8 +1,13 @@
 <?php
 
+use yii\helpers\VarDumper;
+
 ?>
 
 <li class="card">
+
+    <!-- <?php VarDumper::dump($model, 10, true); ?> -->
+
     <div class="card__top">
         <div class="card__labels">
             <div 
@@ -39,4 +44,5 @@
         <div class="card__price_old"><?= Yii::$app->formatter->asDecimal($model->price) ?> р.</div>
         <div class="card__price_now"><?= Yii::$app->formatter->asDecimal($model->price_sale) ?> р.</div>
     </div>
+    <a href="<?= $model->url ?>">url</a>
 </li>

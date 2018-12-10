@@ -68,12 +68,14 @@ class CatalogController extends Controller
         }
 
         $productsSearch = new ProductSearch();
-        $dataProvider = $productsSearch->search(Yii::$app->request->get());
+        // VarDumper::dump(Yii::$app->request->get(), 10, true); die;
+        $dataProvider = $productsSearch->search(array_merge(Yii::$app->request->get(), ['type' => 'store']), $store);
 
         return $this->render('index', [
-            'baseEntity' => $store,
-            'dataProvider' => $dataProvider,
-            'catalogType' => 'store'
+            'baseEntity'     => $store,
+            'dataProvider'   => $dataProvider,
+            'catalogType'    => 'store',
+            'searchModel'    => $productsSearch
         ]);
     }
 

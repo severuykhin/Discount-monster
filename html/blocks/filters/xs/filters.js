@@ -152,5 +152,20 @@ $(function () {
 
 // Sort
 $(function () {
-    $('[data-role="sort-select"]').niceSelect();
+
+    let sortSelect = $('[data-role="sort-select"]'),
+        sortInput = $('[data-role="filters-sort"]');
+
+    if (!sortSelect) return;
+
+    sortSelect.niceSelect();
+
+    sortSelect.on('change', function () {
+        sortInput.val(this.value);
+        sortInput[0].removeAttribute('disabled');
+        $('[data-role="catalog-search"]').submit();
+    });
+
+    
+
 })
