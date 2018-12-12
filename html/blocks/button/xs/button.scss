@@ -1,8 +1,14 @@
-@include media-breakpoint-up(xs) {
-  .button {
+.button {
+  &_link {
+    &_l {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #003fcd;
+    }
+    &_muted {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #5a5a5a;
+    }
   }
-}
-
-@include media-breakpoint-down(xs) {
-
 }

@@ -15,8 +15,8 @@ use yii\helpers\Url;
             <div 
                 class="range" 
                 data-role="range" 
-                data-minrange="<?= $model->minPrice ?>" 
-                data-maxrange="<?= $model->maxPrice ?>" 
+                data-minrange="<?= (int) $model->minPrice ?>" 
+                data-maxrange="<?= (int) $model->maxPrice ?>" 
                 data-step="10">
 
                 <div class="range__line" data-role="range-line"></div>
@@ -26,20 +26,20 @@ use yii\helpers\Url;
                         name="minPrice" 
                         type="number" 
                         data-role="range-min-value" 
-                        value="<?= $model->minPriceFilter ? $model->minPriceFilter : $model->minPrice ?>">
+                        value="<?= $model->minPriceFilter ? (int) $model->minPriceFilter : (int) $model->minPrice ?>">
                 </div><span class="range__inputs-divide">-</span>
                 <div class="range__inputs-wrap">
                     <input 
                         name="maxPrice" 
                         type="number" 
                         data-role="range-max-value" 
-                        value="<?= $model->maxPriceFilter ? $model->maxPriceFilter : $model->maxPrice ?>">
+                        value="<?= $model->maxPriceFilter ? (int) $model->maxPriceFilter : (int) $model->maxPrice ?>">
                 </div>
                 </div>
             </div>
             </div>
         </div>
-        <?php if($catalogType === 'store'): ?>
+        <?php if($catalogType !== 'category'): ?>
             <div class="filters__block">
                 <div class="filters__block-title">Категория:</div>
                 <div class="filters__wrap">
@@ -58,7 +58,7 @@ use yii\helpers\Url;
             </div>
         <?php endif; ?>
 
-        <?php if($catalogType === 'category'): ?>
+        <?php if($catalogType !== 'store'): ?>
             <div class="filters__block">
                 <div class="filters__block-title">Магазин:</div>
                 <div class="filter__wrap">

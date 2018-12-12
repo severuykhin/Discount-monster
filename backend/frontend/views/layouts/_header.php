@@ -1,3 +1,10 @@
+<?php
+
+use frontend\widgets\Navigation;
+use yii\helpers\Url;
+
+?>
+
 <header>
     <div class="rcl--header rcl--header_main">
         <div class="rcl--header__section">
@@ -12,7 +19,7 @@
 <nav class="rcl--navbar">
     <div class="rcl--navbar__row">
         <div class="rcl--navbar__item">
-        <button data-role="open-nav" class="rcl--navbar__button rcl--button"><span>&Kcy;&acy;&tcy;&acy;&lcy;&ocy;&gcy;</span></button>
+        <a href="<?= Url::to(['/catalog']); ?>" data-role="open-nav" class="rcl--navbar__button rcl--button"><span>Каталог</span></a>
         </div>
         <div class="rcl--navbar__item rcl--visible-md-down">
         <button class="rcl--button rcl--button_icon rcl--button_search">
@@ -31,23 +38,5 @@
         <div id="favorite-widget"></div>
         </div>
     </div>
-    <div class="rcl--navbar__list">
-        <div class="rcl--navbar__list-wrap">
-        <div class="rcl--navbar__list-row">
-            <div class="rcl--navbar__list-title">&Mcy;&acy;&gcy;&acy;&zcy;&icy;&ncy;&ycy;</div>
-            <ul class="rcl--navbar__list-items">
-            <li class="rcl--navbar__list-item"><a class="rcl--navbar__list-link" href="/stores/nike">Nike</a></li>
-            <li class="rcl--navbar__list-item"><a class="rcl--navbar__list-link" href="/stores/adidas">Adidas</a></li>
-            <li class="rcl--navbar__list-item"><a class="rcl--navbar__list-link" href="/stores/reebok">Reebok</a></li>
-            </ul>
-        </div>
-        <div class="rcl--navbar__list-row">
-            <div class="rcl--navbar__list-title">&Kcy;&acy;&tcy;&iecy;&gcy;&ocy;&rcy;&icy;&icy;</div>
-            <ul class="rcl--navbar__list-items">
-            <li class="rcl--navbar__list-item"><a class="rcl--navbar__list-link" href="/categories/muzhskie-krossovki">&Mcy;&ucy;&zhcy;&scy;&kcy;&icy;&iecy; &kcy;&rcy;&ocy;&scy;&scy;&ocy;&vcy;&kcy;&icy;</a></li>
-            <li class="rcl--navbar__list-item"><a class="rcl--navbar__list-link" href="/categories/zhenskie-krossovki">&ZHcy;&iecy;&ncy;&scy;&kcy;&icy;&iecy; &kcy;&rcy;&ocy;&scy;&scy;&ocy;&vcy;&kcy;&icy;</a></li>
-            </ul>
-        </div>
-        </div>
-    </div>
+    <?= Navigation::widget(); ?>
 </nav>

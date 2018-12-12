@@ -58,7 +58,7 @@ class ProductSearch
 
         $this->setPrices(clone $query);
 
-        $query = $query->joinWith(['genders', 'category']);
+        $query = $query->joinWith(['genders', 'category', 'store']);
 
         if (isset($this->minPriceFilter)) {
             $query->andFilterWhere(['>=', 'price_sale', $this->minPriceFilter]);
@@ -70,6 +70,10 @@ class ProductSearch
 
         if (!empty($this->category)) {
             $query->andFilterWhere(['IN', Category::tableName() . '.id' , $this->category]);
+        }
+
+        if (!empty($this->store)) {
+            $query->andFilterWhere(['IN', Store::tableName() . '.id' , $this->store]);
         }
 
         if (!empty($this->gender)) {

@@ -10,6 +10,7 @@ use common\models\bindings\ProductGender;
 use common\models\Category;
 use common\models\Store;
 use common\model\Gender;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "product".
@@ -49,7 +50,11 @@ class Product extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className()
+            TimestampBehavior::className(),
+            [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+            ]
         ];
     }
 
@@ -117,6 +122,7 @@ class Product extends \yii\db\ActiveRecord
         $model->product_id = $config['product_id'];
 
         $model->save();
+        var_dump($model->errors);
     }
 
     public function updateGenderBinding($config)
@@ -144,6 +150,12 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id'])
             ->viaTable('product_category', ['product_id' => 'id']);
+    }
+
+    public function getStore()
+    {
+        return $this->hasOne(Store::className(), ['id' => 'store_id'])
+            ->viaTable('product_store', ['product_id' => 'id']);
     }
 
     public function getGenders()

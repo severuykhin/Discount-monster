@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\VarDumper;
+use yii\helpers\Url;
 
 ?>
 
@@ -8,41 +9,54 @@ use yii\helpers\VarDumper;
 
     <!-- <?php VarDumper::dump($model, 10, true); ?> -->
 
-    <div class="card__top">
-        <div class="card__labels">
-            <div 
-                style="background: <?= $model->getDiscountHexColor(); ?>;"
-                class="card__label card__label_discount">
-                -<?= $model->discount ?>%
+    <a href="<?= Url::to(['product/index', 'slug' => $model->slug]) ?>">
+        <div class="card__top">
+            <div class="card__labels">
+                <div 
+                    style="background: <?= $model->getDiscountHexColor(); ?>;"
+                    class="card__label card__label_discount">
+                    -<?= $model->discount ?>%
+                </div>
+
+                <?php if($model->isNew()): ?>
+                    <div class="card__label card__label_new">новинка</div>
+                <?php endif; ?>
+
             </div>
-
-            <?php if($model->isNew()): ?>
-                <div class="card__label card__label_new">новинка</div>
-            <?php endif; ?>
-
+            <div class="card__like">
+                <button 
+                    data-role="card-like-product"
+                    data-id="<?= $model->id ?>" 
+                    class="card__like active card__like_active">
+                    <svg id="Capa_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 471.701 471.701" style="enable-background:new 0 0 471.701 471.701;" xml:space="preserve">
+                        <g>
+                            <path d="M433.601,67.001c-24.7-24.7-57.4-38.2-92.3-38.2s-67.7,13.6-92.4,38.3l-12.9,12.9l-13.1-13.1                                        c-24.7-24.7-57.6-38.4-92.5-38.4c-34.8,0-67.6,13.6-92.2,38.2c-24.7,24.7-38.3,57.5-38.2,92.4c0,34.9,13.7,67.6,38.4,92.3                                        l187.8,187.8c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-3.9l188.2-187.5c24.7-24.7,38.3-57.5,38.3-92.4                                        C471.801,124.501,458.301,91.701,433.601,67.001z M414.401,232.701l-178.7,178l-178.3-178.3c-19.6-19.6-30.4-45.6-30.4-73.3                                        s10.7-53.7,30.3-73.2c19.5-19.5,45.5-30.3,73.1-30.3c27.7,0,53.8,10.8,73.4,30.4l22.6,22.6c5.3,5.3,13.8,5.3,19.1,0l22.4-22.4                                        c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3                                        C444.801,187.101,434.001,213.101,414.401,232.701z"></path>
+                        </g>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="card__like">
-            <button class="card__like active card__like_active">
-                <svg id="Capa_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 471.701 471.701" style="enable-background:new 0 0 471.701 471.701;" xml:space="preserve">
-                    <g>
-                        <path d="M433.601,67.001c-24.7-24.7-57.4-38.2-92.3-38.2s-67.7,13.6-92.4,38.3l-12.9,12.9l-13.1-13.1                                        c-24.7-24.7-57.6-38.4-92.5-38.4c-34.8,0-67.6,13.6-92.2,38.2c-24.7,24.7-38.3,57.5-38.2,92.4c0,34.9,13.7,67.6,38.4,92.3                                        l187.8,187.8c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-3.9l188.2-187.5c24.7-24.7,38.3-57.5,38.3-92.4                                        C471.801,124.501,458.301,91.701,433.601,67.001z M414.401,232.701l-178.7,178l-178.3-178.3c-19.6-19.6-30.4-45.6-30.4-73.3                                        s10.7-53.7,30.3-73.2c19.5-19.5,45.5-30.3,73.1-30.3c27.7,0,53.8,10.8,73.4,30.4l22.6,22.6c5.3,5.3,13.8,5.3,19.1,0l22.4-22.4                                        c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3                                        C444.801,187.101,434.001,213.101,414.401,232.701z"></path>
-                    </g>
-                </svg>
-            </button>
+        <div class="card__image">
+            <img 
+                src="<?= $model->img ?>" 
+                alt="<?= $model->name ?> со скидкой">
         </div>
-    </div>
-    <div class="card__image">
-        <img 
-            src="<?= $model->img ?>" 
-            alt="<?= $model->name ?> со скидкой">
-    </div>
-    <div class="card__meta">
-        <div class="card__category"><?= $model->category->name ?></div>
-        <div class="card__name"><?= $model->name ?></div>
-    </div>
+        <div class="card__meta">
+            <div class="card__category"><?= $model->category->name ?></div>
+            <div class="card__name"><?= $model->name ?></div>
+        </div>
+    </a>
     <div class="card__price">
         <div class="card__price_old"><?= Yii::$app->formatter->asDecimal($model->price) ?> р.</div>
         <div class="card__price_now"><?= Yii::$app->formatter->asDecimal($model->price_sale) ?> р.</div>
+        <div class="card__actions">
+            <a 
+                href="<?= Url::to(['product/index', 'slug' => $model->slug]) ?>" 
+                class="button_link_l card__actions-item card__action-more">Подробнее</a>
+            <a 
+                href="<?= $model->url ?>" 
+                target="_blank"
+                class="button_link_muted card__actions-item card__action-more">В магазин</a>        
+        </div>
     </div>
-    <a href="<?= $model->url ?>">url</a>
 </li>

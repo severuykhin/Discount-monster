@@ -14,7 +14,6 @@ use yii\widgets\Breadcrumbs;
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800&amp;subset=cyrillic-ext" rel="stylesheet">
-	<meta name="description" content="Скидки на одежду в интернет магазинах, каталог скидок на одежду в интернет-магазинах">
 	<!--!styles--><link href="/statics/styles.css" rel="stylesheet" type="text/css"><!--/styles-->
 	<!-- Yandex.Metrika counter -->
 <script type="text/javascript" >

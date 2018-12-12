@@ -28,7 +28,9 @@ return [
             'rules' => [
                 '' => 'site/index',
                 'store/<slug>' => 'catalog/store',
-                'category/<slug>' => 'catalog/category'
+                'category/<slug>' => 'catalog/category',
+                'catalog' => 'catalog/index',
+                'product/<slug>' => 'product/index'
             ]
         ],
         'errorHandler' => [

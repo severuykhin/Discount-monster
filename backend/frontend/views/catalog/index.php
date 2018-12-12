@@ -12,7 +12,7 @@ if ($catalogType === 'store') {
 } else if ($catalogType === 'category') {
   $h1 = 'Скидки на ' . $baseEntity->name . ' в интернет магазинах';
 } else {
-  $h1 = 'Скидки на одежду и обувь в интернет магазинах популярных брендов';
+  $h1 = 'Скидки на одежду и обувь в интернет магазинах <br> популярных брендов';
 }
 
 $this->title = $h1;
@@ -22,6 +22,8 @@ $this->registerMetaTag([
   'content' => $description
 ]);
 
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+
 ?>
 
 
@@ -30,9 +32,13 @@ $this->registerMetaTag([
         <a class="breadcrumbs__link" href="<?= Url::to(['site/index']); ?>">Главная</a>
     </li>
     <li class="breadcrumbs__item">
-        <a class="breadcrumbs__link" href="<?= Url::to(['catalog/index']); ?>">Каталог</a>
+        <?php if($catalogType === 'all'): ?>
+          <span class="breadcrumbs__link">Каталог</span>
+        <?php else: ?>
+          <a class="breadcrumbs__link" href="<?= Url::to(['catalog/index']); ?>">Каталог</a>
+        <?php endif; ?>
     </li>
-    <?php if($catalogType === 'store'): ?>
+    <!-- <?php if($catalogType === 'store'): ?>
         <li class="breadcrumbs__item">
             <a class="breadcrumbs__link" href="#">Магазины</a>
         </li>
@@ -40,12 +46,14 @@ $this->registerMetaTag([
         <li class="breadcrumbs__item">
             <a class="breadcrumbs__link" href="#">Категории</a>
         </li>
+    <?php endif; ?> -->
+    <?php if($baseEntity): ?>
+      <li class="breadcrumbs__item">
+          <span class="breadcrumbs__link breadcrumbs__link_active" href="#">
+            <?= $baseEntity->name ?>
+          </span>
+      </li>
     <?php endif; ?>
-    <li class="breadcrumbs__item">
-        <span class="breadcrumbs__link breadcrumbs__link_active" href="#">
-          <?= $baseEntity->name ?>
-        </span>
-    </li>
 </ul>
 
 <div class="catalog">
@@ -58,7 +66,11 @@ $this->registerMetaTag([
                 <select data-role="sort-select" value="">
                   <option selected disabled>По умолчанию</option>
                   <?php foreach($searchModel->getSortTypes() as $key => $type): ?>
-                    <option value="<?= $key ?>"><?= $type ?></option>
+                    <option
+                      <?= $searchModel->sort == $key ? 'selected' : '' ?> 
+                      value="<?= $key ?>">
+                      <?= $type ?>
+                    </option>
                   <?php endforeach; ?>
                 </select>
               </div>

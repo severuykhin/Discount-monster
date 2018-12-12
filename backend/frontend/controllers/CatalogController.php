@@ -50,8 +50,13 @@ class CatalogController extends Controller
     
     public function actionIndex()
     {
+        $productsSearch = new ProductSearch();
+        $dataProvider = $productsSearch->search(array_merge(Yii::$app->request->get(), ['type' => 'store']), $store);
+
         return $this->render('index', [
-            'catalogType' => 'all'
+            'catalogType'  => 'all',
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $productsSearch
         ]);
     }
 
@@ -68,7 +73,6 @@ class CatalogController extends Controller
         }
 
         $productsSearch = new ProductSearch();
-        // VarDumper::dump(Yii::$app->request->get(), 10, true); die;
         $dataProvider = $productsSearch->search(array_merge(Yii::$app->request->get(), ['type' => 'store']), $store);
 
         return $this->render('index', [
@@ -79,11 +83,32 @@ class CatalogController extends Controller
         ]);
     }
 
+    // TO DO - refactor in one method
+
     public function actionCategory($slug) 
     {
+        $category = Category::find()
+                    ->where(['slug' => $slug])
+                    ->andWhere(['status' => Category::STATUS_ACTIVE])
+                    ->one();
+
+        if (!$category) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $productsSearch = new ProductSearch();
+        $dataProvider = $productsSearch->search(
+            array_merge(
+                Yii::$app->request->get(), 
+                ['type' => 'category']
+            ), 
+                $category);
 
         return $this->render('index', [
-            'catalogType' => 'category'
+            'baseEntity'     => $category,
+            'dataProvider'   => $dataProvider,
+            'catalogType'    => 'category',
+            'searchModel'    => $productsSearch
         ]);
     }
 
